@@ -1,0 +1,1224 @@
+<meta name="robots" content="noindex,nofollow">
+<title>Préparation Sélection Défense</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Concept : carnet de vol. Fond de carte bleu-gris, encre marine, magenta des cartes aéronautiques pour ce qui compte. */
+:root{
+  --bg:#EDF0F5; --surface:#FFFFFF; --ink:#16233A; --muted:#56637B; --line:#D2D9E4; --soft:#F5F7FA;
+  --accent:#A8266A; --accent-ink:#FFFFFF;
+  --c-admin:#B8372B; --c-sport:#2A7A4B; --c-langue:#245FA6; --c-cognitif:#6648B0; --c-resume:#A86B10; --c-entretien:#A8266A; --c-culture:#0E7580;
+  --ok:#2A7A4B; --warn:#A86B10; --bad:#B8372B;
+  --f-display:'Barlow Condensed','Arial Narrow',sans-serif;
+  --f-body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1524; --surface:#152037; --ink:#E5EBF5; --muted:#9BA9C2; --line:#27344F; --soft:#101A2D;
+    --accent:#E2699F; --accent-ink:#1A0A12;
+    --c-admin:#EE7D70; --c-sport:#5CC48B; --c-langue:#6CA7EA; --c-cognitif:#A98FEA; --c-resume:#E3B25A; --c-entretien:#E2699F; --c-culture:#4DC2CB;
+    --ok:#5CC48B; --warn:#E3B25A; --bad:#EE7D70;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1524; --surface:#152037; --ink:#E5EBF5; --muted:#9BA9C2; --line:#27344F; --soft:#101A2D;
+  --accent:#E2699F; --accent-ink:#1A0A12;
+  --c-admin:#EE7D70; --c-sport:#5CC48B; --c-langue:#6CA7EA; --c-cognitif:#A98FEA; --c-resume:#E3B25A; --c-entretien:#E2699F; --c-culture:#4DC2CB;
+  --ok:#5CC48B; --warn:#E3B25A; --bad:#EE7D70;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 56px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.wrap{max-width:900px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.05;margin:0;text-wrap:balance;letter-spacing:.01em}
+h1{font-size:clamp(34px,7vw,52px)}
+h2{font-size:28px;margin-bottom:12px}
+h3{font-size:21px;margin-bottom:6px}
+p{margin:0 0 10px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.kicker{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.muted{color:var(--muted)}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.top{display:grid;gap:14px;padding-bottom:18px}
+.count{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.big{font-family:var(--f-display);font-weight:700;font-size:64px;line-height:.9;color:var(--accent)}
+.count .t{color:var(--muted);min-width:0}
+.prog{display:flex;align-items:center;gap:12px}
+.bar{flex:1;height:8px;background:var(--line);border-radius:4px;overflow:hidden;min-width:0}
+.bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .3s}
+.prog .mono{font-size:12px;color:var(--muted);white-space:nowrap}
+
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);display:flex;gap:6px;overflow-x:auto;padding:8px 0;border-bottom:1px solid var(--line);margin-bottom:20px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;text-decoration:none;color:var(--muted);font-family:var(--f-display);font-weight:600;font-size:19px;letter-spacing:.03em;padding:6px 14px;border-radius:6px}
+.tabs a[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+
+.panel{display:grid;gap:22px}
+
+.bd{display:inline-block;font-family:var(--f-mono);font-size:11px;padding:1px 7px;border-radius:10px;border:1px solid var(--line);white-space:nowrap;vertical-align:middle}
+.bd.o{color:var(--ok);border-color:var(--ok)}.bd.s{color:var(--c-langue);border-color:var(--c-langue)}.bd.u{color:var(--warn);border-color:var(--warn)}.bd.n{color:var(--bad);border-color:var(--bad)}
+details.ep{margin:0 0 8px}details.ep>summary{cursor:pointer;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:8px;font-weight:600;min-height:44px}
+details.ep[open]>summary{border-bottom-left-radius:0;border-bottom-right-radius:0}details.ep>.card{border-top:0;border-top-left-radius:0;border-top-right-radius:0}
+.nls{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:8px}.nls.ok{opacity:.6}
+.nlh{display:flex;gap:12px;align-items:flex-start;cursor:pointer;min-height:44px}.nlh input{width:22px;height:22px;margin-top:4px;flex:none;accent-color:var(--ok)}
+.nqg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.nqb{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 14px;min-height:44px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.nqb:hover{border-color:var(--accent)}.nqq{font-size:19px;font-weight:600;margin:6px 0 12px}.nqo{display:grid;gap:8px}
+.nqopt.good{border-color:var(--ok);background:var(--soft)}.nqopt.bad{border-color:var(--bad)}.nqfb{min-height:24px;font-family:var(--f-mono);margin:12px 0 8px}
+.nqnext{display:inline-flex;background:var(--ink);color:var(--bg);margin-top:4px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px}
+.alert{border-color:var(--c-admin);background:color-mix(in srgb,var(--c-admin) 9%,var(--surface))}
+.alert strong{color:var(--c-admin)}
+
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--muted);margin-top:10px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--c);display:inline-block}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.cal .h{font-family:var(--f-mono);font-size:11px;color:var(--muted);text-align:center;padding-bottom:2px;text-transform:uppercase}
+.cell{appearance:none;font:inherit;color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:6px;min-height:62px;padding:5px 4px;display:flex;flex-direction:column;gap:5px;align-items:flex-start;cursor:pointer;text-align:left}
+.cell[disabled]{opacity:.38;cursor:default;background:transparent}
+.cell .n{font-family:var(--f-mono);font-size:13px;font-weight:500}
+.cell .dots{display:flex;flex-wrap:wrap;gap:3px}
+.cell .dots i{width:7px;height:7px;border-radius:50%;background:var(--c)}
+.cell.today{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.cell.j1{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.cell.j1 .dots i{background:var(--accent-ink)}
+.cell.done{background:color-mix(in srgb,var(--ok) 16%,var(--surface))}
+.cell .flag{font-family:var(--f-mono);font-size:9.5px;line-height:1.1;text-transform:uppercase;letter-spacing:.03em}
+
+.days{display:grid;gap:12px}
+.day{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;scroll-margin-top:70px}
+.day.hl{border-color:var(--accent)}
+.dh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.dh h3{margin:0}
+.dh .j{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.dh .tot{margin-left:auto;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.badge{font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;background:var(--accent);color:var(--accent-ink);padding:2px 8px;border-radius:4px}
+.task{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:10px;align-items:start;padding:8px 0;border-top:1px solid var(--line)}
+.task:first-of-type{border-top:0}
+.task input{appearance:none;width:20px;height:20px;margin:2px 0 0;border:2px solid var(--muted);border-radius:5px;background:var(--surface);cursor:pointer;display:grid;place-content:center}
+.task input:checked{background:var(--ok);border-color:var(--ok)}
+.task input:checked::after{content:"";width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.task .tx{min-width:0}
+.task .tg{display:inline-block;font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--c);margin-right:8px}
+.task .tm{font-family:var(--f-mono);font-size:12px;color:var(--muted);white-space:nowrap;padding-top:2px}
+.task input:checked ~ .tx{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
+
+.tl{display:grid;gap:0;margin:0;padding:0;list-style:none}
+.tl li{display:grid;grid-template-columns:118px minmax(0,1fr);gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.tl li:first-child{border-top:0}
+.tl .dt{font-family:var(--f-mono);font-size:12.5px;color:var(--accent)}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-top:1px solid var(--line)}
+thead th{border-top:0;font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:var(--soft);white-space:nowrap}
+td:first-child{font-weight:600}
+td.nw{white-space:nowrap}
+.v{font-family:var(--f-mono);font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--warn);border:1px solid var(--warn);border-radius:3px;padding:0 5px;margin-left:6px;white-space:nowrap}
+ul.l{margin:0 0 10px;padding-left:20px}
+ul.l li{margin:3px 0}
+.sec{display:grid;gap:10px}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:640px){.two{grid-template-columns:minmax(0,1fr)}.tl li{grid-template-columns:minmax(0,1fr);gap:2px}}
+blockquote{margin:0;padding:12px 14px;background:var(--soft);border-left:3px solid var(--accent);border-radius:0 6px 6px 0}
+
+.btn{appearance:none;font:inherit;font-weight:600;font-size:14px;background:var(--ink);color:var(--bg);border:0;border-radius:6px;padding:9px 14px;cursor:pointer}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.sel{background:var(--accent);color:var(--accent-ink)}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.timer{display:grid;gap:12px}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.step{border:1px solid var(--line);border-radius:6px;padding:6px 8px;font-size:12.5px;color:var(--muted)}
+.step b{display:block;font-family:var(--f-mono);font-weight:500;font-size:12px}
+.step.on{border-color:var(--accent);color:var(--ink);background:color-mix(in srgb,var(--accent) 10%,var(--surface))}
+.step.past{opacity:.55}
+.clock{font-family:var(--f-display);font-weight:700;font-size:72px;line-height:1;font-variant-numeric:tabular-nums}
+.clock.end{color:var(--accent)}
+.article{max-width:68ch}
+.article h3{font-size:26px;margin-bottom:12px}
+.article p{margin-bottom:12px}
+textarea{width:100%;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px;resize:vertical;min-height:120px}
+textarea.big-t{min-height:300px}
+.wc{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-family:var(--f-mono);font-size:13px}
+.pill{padding:2px 8px;border-radius:4px;font-size:12px;background:var(--line);color:var(--ink)}
+.pill.ok{background:var(--ok);color:#fff}
+.pill.bad{background:var(--bad);color:#fff}
+details{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 16px}
+summary{cursor:pointer;font-weight:600}
+details[open] summary{margin-bottom:10px}
+.q{font-family:var(--f-display);font-weight:600;font-size:26px;line-height:1.15;min-height:60px}
+.lk{display:block;margin-top:4px;font-size:13px}
+.lk a{margin-right:14px;display:inline-block}
+.hud{display:flex;justify-content:space-between;gap:10px;font-family:var(--f-mono);font-size:12.5px;color:var(--muted);margin-bottom:10px}
+.stage{min-height:170px;display:grid;place-items:center;align-content:center;text-align:center;gap:8px;background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:12px}
+.expr{font-family:var(--f-mono);font-size:26px;line-height:1.35}
+.expr small{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.mem{font-family:var(--f-display);font-weight:600;font-size:32px;line-height:1.2}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+.opt{appearance:none;font:inherit;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 8px;cursor:pointer;display:flex;align-items:center;justify-content:center;min-height:52px}
+.opt:disabled{cursor:default}
+.opt.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.no{background:var(--bad);border-color:var(--bad);color:#fff}
+.fig{display:flex;align-items:center;justify-content:center;gap:2px}
+.fig.col{flex-direction:column}
+.ul{margin:0;padding-left:20px}
+.hl2{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <p class="kicker">Officier · ingénieur technicien avion · Composante Air</p>
+  <h1>Préparation sélection Défense</h1>
+  <div class="count"><span id="dn" class="big">J-16</span><span class="t" id="dtxt">avant le jour 1, vendredi 6 novembre à 7h30</span></div>
+  <div class="prog"><div class="bar" aria-hidden="true"><i id="fill"></i></div><span class="mono" id="progtxt">0 / 0 tâches</span></div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Sections">
+  <a href="#planning" role="tab" data-tab="planning">Planning</a>
+  <a href="#fiches" role="tab" data-tab="fiches">Fiches</a>
+  <a href="#epreuves" role="tab" data-tab="epreuves">Épreuves</a>
+  <a href="#neerlandais" role="tab" data-tab="neerlandais">Néerlandais</a>
+  <a href="#entrainer" role="tab" data-tab="entrainer">Entraîner</a>
+  <a href="#resume" role="tab" data-tab="resume">Résumé</a>
+  <a href="#entretien" role="tab" data-tab="entretien">Entretien</a>
+  <a href="#sport" role="tab" data-tab="sport">Sport</a>
+  <a href="#liens" role="tab" data-tab="liens">Liens</a>
+</nav>
+
+<main>
+<!-- ===================== PLANNING ===================== -->
+<section id="planning" class="panel" data-panel="planning">
+  <div class="card alert">
+    <p><strong>Inscriptions : clôture le jeudi 22 octobre 2026.</strong> Date lue sur le calendrier projeté en séance, ligne Recr Latéral / Spécial / BDL. Confirme que ton dossier est validé avant cette date.</p>
+    <p class="muted" style="margin:0">Centre d'information de Mons, 16 rue des Passages : 02/44 27 627. Contact Center : 0800 333 48. Numéros lus sur une photo, à revérifier sur mil.be.</p>
+  </div>
+
+  <div>
+    <h2>Calendrier</h2>
+    <div class="card">
+      <div class="cal" id="cal"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+  </div>
+
+  <div>
+    <h2>Jour par jour</h2>
+    <div class="days" id="days"></div>
+  </div>
+
+  <div>
+    <h2>Après le jour 1</h2>
+    <div class="card">
+      <ul class="tl">
+        <li><span class="dt">Jour 2 · 6h30</span><span>Médical 2, tests PC 2 (anglais, leadership, cognitif), entretien d'embauche, orientation. Date à confirmer sur ta convocation : tes notes disent « 2 jours consécutifs ».</span></li>
+        <li><span class="dt">Jour 3</span><span>Entretien de connaissance professionnelle, examen de français (niveau A). ECS 5 (épreuves de connaissances scolaires) en jour supplémentaire à l'ERSO : demande si cela te concerne.</span></li>
+        <li><span class="dt">7 → 17 nov.</span><span>Un résumé de plus par semaine (texte C, D sur demande). Fiche technique avion relue. Entretiens blancs 3 et 4.</span></li>
+        <li><span class="dt">12/11 → 04/12</span><span>Fenêtre de l'interview structurée (Recr Latéral / Spécial), selon le calendrier projeté.</span></li>
+        <li><span class="dt">18/11/2026</span><span>Examens de langues 1L à l'ERM. Probablement le résumé de français.</span></li>
+        <li><span class="dt">15/12/2026</span><span>Commission de recrutement.</span></li>
+        <li><span class="dt">25/01/2027</span><span>Incorporation FR (CIBE), ligne entourée sur le calendrier.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FICHES ===================== -->
+<section id="fiches" class="panel" data-panel="fiches" hidden>
+  <div class="sec">
+    <h2>Cadre général</h2>
+    <div class="card">
+      <ul class="l">
+        <li><b>5 forces</b> (pas 4 composantes) : Terre, Air, Marine, Médicale, Cyber.</li>
+        <li>Autour d'un pilote : 30 métiers. Autour d'un avion : 70 métiers.</li>
+        <li><b>Métiers d'appui</b> cités en séance : CBRN, météorologues et prévisionnistes, pompiers, création du plan de vol des pilotes, drones (aussi en appui de la police), ATC, ADC, AMS (Air Mission Support), Force Prot (unité qui sécurise et défend les bases aériennes).</li>
+        <li><b>CRC Beauvechain</b> : Control Reporting Center, lié à la QRA (Quick Reaction Alert).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>Composante Air : bases et unités</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Base</th><th>Unité (slide)</th><th>Appareils</th><th>Rôle</th></tr></thead>
+      <tbody>
+        <tr><td>Koksijde</td><td>BKOKS</td><td>NH90 NFH</td><td>Hélicoptères navals, recherche et sauvetage en mer</td></tr>
+        <tr><td>Florennes</td><td>2W Tac</td><td>F-16 / F-35, MQ-9B</td><td>Chasse tactique, drones</td></tr>
+        <tr><td>Kleine-Brogel</td><td>10W Tac</td><td>F-16 / F-35</td><td>Chasse tactique</td></tr>
+        <tr><td>Melsbroek</td><td>15W Air Tpt</td><td>A400M, ERJ, Falcon 900, A321</td><td>Transport aérien et de personnalités</td></tr>
+        <tr><td>Beauvechain</td><td>1W</td><td>A109 (HC145), NH90 TTH, Marchetti</td><td>Hélicoptères, formation de base, CRC, météo (Meteo W), ASD, CC Air</td></tr>
+        <tr><td>Steenokkerzeel</td><td>ATCC</td><td>–</td><td>Contrôle du trafic aérien<span class="v">à valider</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="sec">
+    <h2>Appareils</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Appareil</th><th>Type</th><th>À retenir</th></tr></thead>
+      <tbody>
+        <tr><td>F-16</td><td>Chasseur multirôle monoréacteur</td><td>Flotte historique, remplacée progressivement par le F-35.</td></tr>
+        <tr><td>F-35A</td><td>Chasseur de 5e génération</td><td>Remplaçant du F-16, basé à Florennes et Kleine-Brogel.</td></tr>
+        <tr><td>A400M</td><td>Transport, 4 turbopropulseurs</td><td>Transport tactique et stratégique, évacuations, Melsbroek.</td></tr>
+        <tr><td>NH90 TTH / NFH</td><td>Hélicoptère</td><td>TTH : transport tactique (Beauvechain). NFH : version marine (Koksijde).</td></tr>
+        <tr><td>A109</td><td>Hélicoptère léger</td><td>Reconnaissance et appui, Beauvechain.</td></tr>
+        <tr><td>MQ-9B</td><td>Drone MALE</td><td>Renseignement et surveillance, Florennes.<span class="v">à valider</span></td></tr>
+        <tr><td>Marchetti SF-260</td><td>Avion d'entraînement</td><td>Formation de base, Beauvechain.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="sec">
+    <h2>Missions : un exemple par cadre</h2>
+    <p class="muted">Tes notes demandent de citer un exemple de chaque mission (ONU, OTAN, Belgique) et de savoir où les soldats sont déployés. Ces lignes viennent de connaissances générales : valide chacune sur mil.be avant le jour J.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Cadre</th><th>Exemple</th><th>Appareils / acteurs</th></tr></thead>
+      <tbody>
+        <tr><td>Belgique : espace aérien</td><td>QRA, surveillance et intervention sur aéronef suspect (CRC Beauvechain, avions d'alerte)</td><td>F-16 / F-35, CRC</td></tr>
+        <tr><td>Belgique : mer</td><td>Recherche et sauvetage en mer depuis Koksijde</td><td>NH90 NFH</td></tr>
+        <tr><td>Belgique : appui à la nation</td><td>Aide lors des inondations de 2021, sécurité du territoire<span class="v">à valider</span></td><td>Terre, Air, Médicale</td></tr>
+        <tr><td>OTAN</td><td>Air policing dans les pays baltes, détachements F-16 belges<span class="v">période en cours à valider</span></td><td>F-16, personnel de soutien</td></tr>
+        <tr><td>UE</td><td>Opération navale en mer Rouge (Aspides)<span class="v">participation actuelle à valider</span></td><td>Marine</td></tr>
+        <tr><td>ONU</td><td>Contribution en observateurs et en officiers d'état-major<span class="v">choisir une mission actuelle</span></td><td>Terre, état-major</td></tr>
+        <tr><td>Humanitaire</td><td>Évacuations par avion (Kaboul, août 2021)<span class="v">à valider</span></td><td>A400M, A321</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="sec">
+    <h2>Armes de dotation</h2>
+    <div class="card">
+      <p>Tes notes disent « Scar L » et « 57 ». Je les lis comme deux armes de FN Herstal :</p>
+      <ul class="l">
+        <li><b>FN SCAR-L</b> : fusil d'assaut, calibre 5,56 × 45 mm OTAN.</li>
+        <li><b>FN Five-seveN</b> : pistolet, calibre 5,7 × 28 mm.</li>
+      </ul>
+      <p class="muted" style="margin:0">Interprétation à confirmer auprès du centre d'information.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>Technique avion</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Sujet</th><th>À savoir</th></tr></thead>
+      <tbody>
+        <tr><td>Licences</td><td>EASA Part-66 : B1 (mécanique), B2 (avionique). Part-145 : organismes de maintenance. Part-M : maintien de navigabilité. Côté militaire, des référentiels propres existent<span class="v">à valider</span></td></tr>
+        <tr><td>Niveaux de maintenance</td><td>Organique (ligne, avant et après vol), intermédiaire, dépôt (révisions lourdes).</td></tr>
+        <tr><td>Fiabilité</td><td>MTBF, MTTR, disponibilité = MTBF / (MTBF + MTTR). Maintenance préventive, corrective, prédictive. LRU, BIT/BITE, AMDEC (FMECA), retour d'expérience.</td></tr>
+        <tr><td>Bus avioniques</td><td>MIL-STD-1553B (bus militaire redondant, 1 Mbit/s, contrôleur de bus, terminaux distants). ARINC 429 (unidirectionnel, 100 ou 12,5 kbit/s). AFDX / ARINC 664 (Ethernet déterministe). ARINC 653 (partitionnement, avionique modulaire). CAN en auxiliaire.</td></tr>
+        <tr><td>Certification</td><td>DO-178C (logiciel), DO-254 (matériel programmable), DO-160 (environnement), ARP4754A et ARP4761 (sécurité système).</td></tr>
+        <tr><td>Sécurité des vols</td><td>Double inspection, FOD (corps étrangers), facteurs humains (« Dirty Dozen »), traçabilité des pièces et des interventions.</td></tr>
+        <tr><td>Ton profil</td><td>Prépare deux exemples précis : intégration d'un capteur LiDAR ou ToF sur un système autonome (protocole, temps réel), et conception d'une carte (contraintes CEM, validation). Relie-les à la fiabilité et à la traçabilité.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="sec">
+    <h2>À confirmer avant le jour J</h2>
+    <div class="card"><ul class="l">
+      <li>Lien des oefentests Cebir (néerlandais) : auprès du Centre d'info de Mons.</li>
+      <li>Épreuves supplémentaires de ta fonction : section « Tests supplémentaires » de l'offre d'emploi.</li>
+      <li>Date du jour 2 et du jour 3, lieu du jour 1 (convocation).</li>
+      <li>ECS 5 à l'ERSO : concerne-t-il un titulaire de master ?</li>
+      <li>Formation d'officier recruté sur diplôme : durée et contenu (mil.be).</li>
+      <li>Missions et déploiements en cours (mil.be, actualités de la Défense).</li>
+    </ul></div>
+  </div>
+</section>
+
+<section id="epreuves" class="panel" data-panel="epreuves" hidden>
+  <div class="sec">
+    <h2>Modalités des épreuves</h2>
+    <p class="muted">Fiabilité : <span class="bd o">Officiel</span> mil.be · <span class="bd s">Séance</span> tes slides/notes · <span class="bd u">Non officiel</span> sites tiers · <span class="bd n">Inconnu</span> à demander au Centre d'info de Mons (02/44 27 627) ou dans la convocation. La Défense ne publie pas durée, nombre d'items ni seuils pour la plupart des tests.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Jour</th><th>Épreuve</th><th>Durée</th><th>Format</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>A-Form</td><td>?</td><td>Formulaire</td><td><span class="bd s">Séance</span></td></tr>
+        <tr><td>1</td><td>Médical 1</td><td>?</td><td>Examens cliniques</td><td><span class="bd o">Officiel</span></td></tr>
+        <tr><td>1</td><td>BTCA / GCTB</td><td>50 min</td><td>5 modules, écran</td><td><span class="bd s">Séance</span></td></tr>
+        <tr><td>1</td><td>Caractère (NEO)</td><td>40 min</td><td>Questionnaire, écran</td><td><span class="bd s">Séance</span></td></tr>
+        <tr><td>1</td><td>Sport</td><td>≈ 15 min + 2×≤2 min</td><td>Tapis + gainage latéral</td><td><span class="bd o">Officiel</span></td></tr>
+        <tr><td>1</td><td>Néerlandais (CBT)</td><td>?</td><td>Écran, adaptatif, CECR</td><td><span class="bd s">Séance</span></td></tr>
+        <tr><td>2</td><td>Médical 2</td><td>?</td><td>Clinique, yeux, ouïe, ORL, dents</td><td><span class="bd o">Officiel</span></td></tr>
+        <tr><td>2</td><td>Anglais, leadership, cognitif</td><td>?</td><td>Tests PC</td><td><span class="bd s">Séance</span></td></tr>
+        <tr><td>2</td><td>Entretien d'embauche</td><td>?</td><td>Oral structuré</td><td><span class="bd s">Séance</span></td></tr>
+        <tr><td>2</td><td>Orientation</td><td>?</td><td>Entretien</td><td><span class="bd s">Séance</span></td></tr>
+        <tr><td>3</td><td>Connaissance professionnelle</td><td>?</td><td>Entretien</td><td><span class="bd s">Séance</span></td></tr>
+        <tr><td>3</td><td>Français (niveau A)</td><td>15 + 5 + 90 min</td><td>Résumé 350 mots</td><td><span class="bd s">Séance</span></td></tr>
+        <tr><td>3</td><td>ECS 5 (ERSO)</td><td>1 h 15</td><td>36 questions calcul-technique</td><td><span class="bd u">Non officiel</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="sec">
+    <h2>Test de néerlandais (jour 1)</h2>
+    <div class="card">
+      <p><b>Ce que tu sais (slide).</b> Test de langue seconde (néerlandais, français ou allemand), sur ordinateur (CBT), calibré sur le CECR. Niveau minimum visé : <b>A2</b>. Compétences : compréhension à l'audition, lecture, grammaire, vocabulaire. Test <b>adaptatif</b> : la difficulté suit tes réponses, fiabilité élevée. Des oefentests (Oefentest 1 et 2) existent chez Cebir.</p>
+      <p><b>Déroulement probable.</b></p>
+      <ul class="l">
+        <li>Salle informatique, casque audio, identification puis consigne à l'écran.</li>
+        <li>Blocs enchaînés : écoute (courts dialogues, annonces), lecture (textes courts), grammaire et vocabulaire (QCM, phrases à compléter).</li>
+        <li>Adaptatif : bonne réponse, item plus difficile ; erreur, item plus facile. Un test qui paraît dur après un bon début est normal, ce n'est pas un signe d'échec.</li>
+        <li>Résultat : niveau CECR (A1, A2, B1…) calculé automatiquement.</li>
+      </ul>
+      <p><b>Analogue Cebir (non confirmé pour la Défense).</b> Le test de langue « FLT » du catalogue Cebir dure 38 min, adaptatif, avec niveau CECR en sortie (lecture, écoute, vocabulaire, grammaire). Prends 40 min comme ordre de grandeur, pas comme information.</p>
+      <p><b>Inconnu.</b> Durée exacte, nombre d'items, poids du résultat dans le classement, possibilité de repasser. À demander à Mons, avec le lien des oefentests.</p>
+      <p><b>Tactique.</b> Réponds à chaque item (probablement obligatoire pour avancer), écoute les audios avec attention car la lecture de la question avant l'audio aide, ne bloque pas plus de 30 s sur un item.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>Jour 1</h2>
+
+    <details class="ep"><summary>A-Form <span class="bd s">Séance</span></summary><div class="card">
+      <ul class="l"><li>Formulaire administratif et biographique rempli au début de la journée (identité, cursus, parcours, motivation).</li>
+      <li>Format et durée non communiqués.</li>
+      <li>Les réponses servent de base aux entretiens : reste cohérent avec ton CV.</li>
+      <li>Apporte la convocation, la carte d'identité, les diplômes, le certificat du médecin généraliste.</li></ul></div></details>
+
+    <details class="ep"><summary>Médical 1 <span class="bd o">Officiel</span></summary><div class="card">
+      <ul class="l"><li>Radio du thorax, ECG, analyse d'urine, dépistage de drogues (tolérance zéro).</li>
+      <li>IMC entre 17 et 30, taille minimale 1,52 m, règles sur les tatouages.</li>
+      <li>Certificat de ton médecin généraliste à apporter (aptitude à l'effort).</li>
+      <li>Conseils : pas d'alcool la veille, bonne nuit, pas de cannabis dans les semaines avant (détection prolongée).</li></ul></div></details>
+
+    <details class="ep"><summary>BTCA / GCTB (aptitudes cognitives) <span class="bd s">Séance</span> <span class="bd u">Non officiel</span></summary><div class="card">
+      <ul class="l"><li><b>50 min</b> au total, 5 modules : aisance numérique (12 items), orientation spatiale (6), mémoire des mots (8), raisonnement (8), détection d'erreurs (8).</li>
+      <li>Sur écran, ni stylo, ni papier, ni calculatrice.</li>
+      <li>Notation sur précision et vitesse, scores étalonnés (non officiel).</li>
+      <li>Aucun seuil publié. Un résultat insuffisant peut interrompre le parcours, et les scores influencent les spécialités accessibles (non officiel).</li>
+      <li>Durée par module et barème : non publiés.</li>
+      <li>Entraînement : onglet « Entraîner » et livret d'exercices officiel (onglet Liens).</li></ul></div></details>
+
+    <details class="ep"><summary>Caractère (NEO) <span class="bd s">Séance</span> <span class="bd u">Non officiel</span></summary><div class="card">
+      <ul class="l"><li><b>40 min</b>, questionnaire de personnalité sur ordinateur, commun à tous les candidats.</li>
+      <li>La Défense ne publie ni le modèle ni le nombre de questions. Aucun seuil ni critère d'élimination connu.</li>
+      <li>Lié à l'entretien du jour 2 : le profil déclaré est confronté à tes exemples concrets.</li>
+      <li>Conseils : réponds sincèrement, évite les extrêmes systématiques, première réaction, pas de personnage. Prépare 4 à 5 exemples vécus (rigueur, travail d'équipe, gestion de pression, respect des règles).</li></ul></div></details>
+
+    <details class="ep"><summary>Sport <span class="bd o">Officiel</span></summary><div class="card">
+      <ul class="l"><li><b>Tapis</b> : échauffement 1 min, départ à 6 km/h, +0,3 km/h toutes les 30 s, pente 2 %, arrêt automatique au maximum. Points max (hommes) : 14 min 30 s, soit 14,4 km/h. Le tapis rapporte la plus grande part des points.</li>
+      <li><b>Gainage latéral</b> : chaque côté, 5 min de repos entre les deux, maximum 2 min 00 (hommes).</li>
+      <li>Pompes et tractions seulement pour les fonctions les plus exigeantes.</li>
+      <li>Barème par âge, seuils minimaux et pondération : non publiés dans la brochure, à demander à Mons.</li>
+      <li>Conseils : ne pars pas trop vite, hydrate-toi, tenue de course adaptée. Si tu cours 5 km sans t'arrêter, la base est bonne. Voir l'onglet Sport.</li></ul></div></details>
+  </div>
+
+  <div class="sec">
+    <h2>Jour 2</h2>
+
+    <details class="ep"><summary>Médical 2 <span class="bd o">Officiel</span></summary><div class="card">
+      <ul class="l"><li>Examen clinique, vue, ouïe, ORL, dentaire.</li>
+      <li>Fais contrôler vue, audition et dents avant (soins à faire d'ici le 6/11 si besoin).</li>
+      <li>Les exigences varient selon la fonction : vérifie les critères de vision et de couleurs pour un technicien avion.</li></ul></div></details>
+
+    <details class="ep"><summary>Tests PC 2 : anglais, leadership, cognitif <span class="bd s">Séance</span></summary><div class="card">
+      <ul class="l"><li>Trois tests sur ordinateur. Durées, nombre d'items, barèmes : non communiqués.</li>
+      <li><b>Anglais</b> : niveau probable lecture et grammaire techniques. Ton master en électronique te met à l'aise, prépare surtout le vocabulaire aéronautique et militaire.</li>
+      <li><b>Leadership</b> : probablement un questionnaire de mises en situation, à traiter comme le test de caractère : cohérence et sincérité.</li>
+      <li><b>Cognitif</b> : à rapprocher des modules BTCA, entraîne-toi au même rythme.</li></ul></div></details>
+
+    <details class="ep"><summary>Entretien d'embauche et orientation <span class="bd s">Séance</span> <span class="bd u">Non officiel</span></summary><div class="card">
+      <ul class="l"><li>Entretien structuré mené par des psychologues de la sélection (SAO). Durée non communiquée.</li>
+      <li>Fenêtre des entretiens structurés : 12/11 au 04/12.</li>
+      <li>Sujets : motivation pour la Défense et pour la fonction, expériences, travail en équipe, gestion du stress, cohérence avec les tests du jour 1.</li>
+      <li>Méthode : format STAR (situation, tâche, action, résultat) sur 4 à 5 exemples de tes projets (drone, PCB, stages). Voir l'onglet Entretien.</li>
+      <li>Orientation : discussion sur les fonctions possibles selon tes résultats et préférences. Aie un choix principal et une alternative argumentés.</li></ul></div></details>
+  </div>
+
+  <div class="sec">
+    <h2>Jour 3</h2>
+
+    <details class="ep"><summary>Entretien de connaissance professionnelle <span class="bd s">Séance</span></summary><div class="card">
+      <ul class="l"><li>Entretien technique sur ta fonction (technicien avion) : connaissances et projets.</li>
+      <li>Durée et jury non précisés.</li>
+      <li>Prépare : électronique embarquée, bus avioniques, maintenance, sécurité, avions de la composante Air (F-16, F-35, A400M, NH90), sans prétendre à ce que tu ne sais pas.</li>
+      <li>Voir les fiches (Appareils, Technique avion) et l'onglet Entretien.</li></ul></div></details>
+
+    <details class="ep"><summary>Examen de français (niveau A) <span class="bd s">Séance</span></summary><div class="card">
+      <ul class="l"><li>Résumé de <b>350 mots</b> (±10 %, soit 315 à 385) d'un texte d'environ 1000 mots.</li>
+      <li>Temps : 15 + 5 + 90 min (interprétation : lecture, préparation, rédaction).</li>
+      <li>Critères probables : fidélité aux idées, concision, orthographe et grammaire, structure, respect de la longueur.</li>
+      <li>Entraînement avec chronomètre et compteur dans l'onglet Résumé.</li></ul></div></details>
+
+    <details class="ep"><summary>ECS 5 à l'ERSO <span class="bd u">Non officiel</span></summary><div class="card">
+      <ul class="l"><li>36 questions calcul-technique en 1 h 15, sans calculatrice (selon soldat.be).</li>
+      <li>Pas confirmé pour un titulaire de master : à vérifier à Mons.</li>
+      <li>Entraînement : calcul mental, proportions, conversions d'unités, mécanique de base, schémas.</li></ul></div></details>
+  </div>
+
+  <div class="sec">
+    <h2>À demander à Mons</h2>
+    <div class="card"><ul class="l">
+      <li>Durée et format du test de néerlandais, lien des oefentests Cebir.</li>
+      <li>Barème sportif par âge, seuils éliminatoires, pondération.</li>
+      <li>Durée par module du BTCA et seuils.</li>
+      <li>Tests supplémentaires de la fonction et dates des jours 2 et 3.</li>
+      <li>Possibilité de repasser un test en cas d'échec.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section id="neerlandais" class="panel" data-panel="neerlandais" hidden>
+  <div class="sec">
+    <h2>Néerlandais : parcours A2</h2>
+    <div class="card">
+      <p>Parcours construit sur les cours de <a href="https://www.nlfacile.com/guide/index.php?niv=1" target="_blank" rel="noopener">NLFacile</a> (niveau 1 « débutants » et une sélection du niveau 2 « intermédiaire »). Les leçons restent sur leur site, ici tu as l'ordre, les liens et le suivi.</p>
+      <ul class="l">
+        <li><b>Ce que le site couvre</b> : grammaire seulement (48 leçons par niveau, avec exercices). Pas d'écoute ni de vocabulaire structuré : garde l'écoute quotidienne et le vocabulaire du planning (onglet Liens).</li>
+        <li><b>Sélection</b> : le niveau 2 contient des points au-delà de l'A2 (passif, plus-que-parfait, futur antérieur, discours indirect, relatives, participe présent, génitif, concordance des temps). Je les ai écartés. Le classement A2 est mon jugement, pas une grille officielle.</li>
+        <li><b>Personnalisation</b> : la séance 1 est un diagnostic. Tes scores décident ce que tu sautes.</li>
+        <li><b>Rythme</b> : 2 à 4 leçons par jour, environ 30 à 45 min, 21/10 → 05/11.</li>
+      </ul>
+    </div>
+    <div class="prog" style="margin:14px 0"><div class="bar"><i id="nlbar"></i></div><span class="mono" id="nlcnt"></span></div>
+    <div id="nllist"></div>
+    <h2 style="margin-top:28px">Quiz A2 (contenu original)</h2>
+    <p class="muted">Questions écrites pour ce parcours, hors du site NLFacile. Un rappel de règle par thème, puis des questions à choix. Les erreurs te montrent la bonne réponse.</p>
+    <div id="nqhome"></div>
+    <div id="nqrun" hidden></div>
+  </div>
+</section>
+
+<!-- ===================== ENTRAINER ===================== -->
+<section id="entrainer" class="panel" data-panel="entrainer" hidden>
+  <div class="card">
+    <h3>Test de base : les 5 modules</h3>
+    <p>Format repris des livrets officiels : aisance numérique (12 paires), orientation spatiale (6), mémoire des mots (8), raisonnement (8), détection d'erreurs (8). Ici, les items sont générés au hasard : même mécanique que les exemples officiels, ce ne sont pas les vrais items. Vise la précision d'abord, puis la vitesse. Pas de stylo, de papier ni de calculatrice.</p>
+    <p class="muted" style="margin:0">Le livret officiel complet est dans l'onglet Liens. Fais-en une lecture avant la première série.</p>
+  </div>
+  <div class="row" id="modsel"></div>
+  <div class="card">
+    <div class="hud"><span id="hmod">Choisis un module</span><span id="hprog"></span></div>
+    <div class="stage" id="tstage"><div class="muted">Les consignes s'affichent ici.</div></div>
+    <div class="opts" id="topts"></div>
+    <p id="tfb" class="muted" style="margin:10px 0 0;min-height:22px"></p>
+  </div>
+  <div class="card" id="tres" hidden></div>
+  <div class="card">
+    <h3>Conseils du livret officiel</h3>
+    <ul class="l">
+      <li>Cache les solutions pendant les exercices, refais ceux que tu rates jusqu'à les réussir.</li>
+      <li>Aisance numérique : révise les multiplications et les divisions, aucun support écrit en vrai.</li>
+      <li>Orientation spatiale : imagine la bonne figure avant de regarder les six propositions.</li>
+      <li>Mémoire des mots : retiens les règles une par une, compare les mots mentalement.</li>
+      <li>Raisonnement : ne saute aucune question, travaille vite et juste.</li>
+      <li>Détection d'erreurs : compare caractère par caractère, de gauche à droite.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== RESUME ===================== -->
+<section id="resume" class="panel" data-panel="resume" hidden>
+  <div class="card">
+    <h3>Le format (slide 57)</h3>
+    <ul class="l">
+      <li>Objectif : retenir les candidats qui ont la synthèse et l'expression écrite attendues d'un officier.</li>
+      <li>Résumé écrit en <b>350 mots</b> d'un texte de <b>1000 mots</b>.</li>
+      <li>15 min de lecture sans notes, 5 min de mots-clés (le texte reste disponible), 90 min de rédaction (environ 40 lignes, moins de 2 pages).</li>
+      <li>Sanction si l'écart dépasse 10 % : vise <b>315 à 385 mots</b>.</li>
+    </ul>
+  </div>
+
+  <div class="row" id="textsel"></div>
+
+  <div class="card timer">
+    <div class="steps" id="steps"></div>
+    <div class="clock" id="clock">15:00</div>
+    <div class="row">
+      <button class="btn" id="tgo" type="button">Démarrer</button>
+      <button class="btn alt" id="tnext" type="button">Phase suivante</button>
+      <button class="btn alt" id="treset" type="button">Réinitialiser</button>
+    </div>
+  </div>
+
+  <article class="card article" id="article"></article>
+
+  <div class="sec">
+    <h3>Mots-clés</h3>
+    <textarea id="notes" aria-label="Mots-clés" placeholder="5 minutes : idées principales, connecteurs, plan."></textarea>
+    <h3>Ton résumé</h3>
+    <textarea id="draft" class="big-t" aria-label="Ton résumé" placeholder="Rédige ici ton résumé. Un seul bloc, sans ton personnel, avec tes mots."></textarea>
+    <div class="wc"><span id="wc">0 mot</span><span class="pill" id="wcp">cible 315 à 385</span></div>
+  </div>
+
+  <details>
+    <summary>Corrigé de référence</summary>
+    <div class="article" id="corr"></div>
+    <p class="muted" id="corrwc"></p>
+  </details>
+
+  <div class="card">
+    <h3>Grille de correction</h3>
+    <ul class="l">
+      <li><b>Fidélité</b> : les idées principales sont présentes, sans ajout ni opinion.</li>
+      <li><b>Hiérarchie</b> : idées principales distinguées des exemples, qui sont réduits ou supprimés.</li>
+      <li><b>Reformulation</b> : phrases construites avec tes mots, pas de copier-coller.</li>
+      <li><b>Structure</b> : introduction courte, enchaînement logique, conclusion fidèle au texte.</li>
+      <li><b>Langue</b> : orthographe, accords, ponctuation, connecteurs variés.</li>
+      <li><b>Longueur</b> : entre 315 et 385 mots.</li>
+    </ul>
+    <p class="muted" style="margin:0">Colle ton résumé dans le chat : je le corrige avec cette grille et je te rends une version annotée.</p>
+  </div>
+</section>
+
+<!-- ===================== ENTRETIEN ===================== -->
+<section id="entretien" class="panel" data-panel="entretien" hidden>
+  <div class="card">
+    <h3>Ce que le slide annonce</h3>
+    <ul class="l">
+      <li>« C'est à vous de nous convaincre que vous êtes le collaborateur que nous recherchons. »</li>
+      <li>Courte présentation (environ 1 min), motivations pour la Défense (formation, carrière, connaissances générales), expériences vécues, leadership, Job Day et journées découvertes, les 6 valeurs de base.</li>
+      <li>Trois blocs à préparer : <b>moi</b> (école et travail, cadre de vie, loisirs), <b>la Défense</b> (contenu du job, formation, missions).</li>
+      <li>Tes notes : 3 qualités et 3 défauts, questions sur le poste visé, réponses assurées, directes.</li>
+    </ul>
+  </div>
+
+  <div class="sec">
+    <h2>Pitch d'1 minute</h2>
+    <blockquote>
+      <p>Je m'appelle Foudil. Je viens de terminer un master en ingénierie industrielle, orientation électronique, à la HELHA à Mons, avec une spécialisation en systèmes embarqués et en intégration matériel et logiciel.</p>
+      <p>J'ai conçu des cartes électroniques sous KiCad et je travaille sur des systèmes de drones autonomes : intégration de capteurs LiDAR et Time-of-Flight, ArduPilot, protocoles de communication.</p>
+      <p>Je travaille aussi à l'aéroport de Charleroi, dans un environnement où les procédures et la sécurité structurent chaque tâche.</p>
+      <p>Le poste d'ingénieur technicien avion me permet d'appliquer ma formation à des systèmes qui doivent fonctionner de façon fiable, et de prendre la responsabilité d'une équipe en tant qu'officier.</p>
+    </blockquote>
+    <p class="muted">Brouillon à vérifier phrase par phrase : retire ce qui n'est pas exact et ajoute un fait chiffré. Environ 135 mots, soit une minute à voix posée.</p>
+  </div>
+
+  <div class="sec">
+    <h2>Les 6 valeurs</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Valeur</th><th>En pratique</th><th>Question pour trouver ton exemple</th></tr></thead>
+      <tbody>
+        <tr><td>Collaboration</td><td>Travailler avec d'autres vers un objectif commun, partager l'information.</td><td>Quel projet de groupe a avancé grâce à ton rôle ?</td></tr>
+        <tr><td>Flexibilité</td><td>S'adapter aux changements de plan, d'horaires, de lieu.</td><td>Quand un plan a changé au dernier moment, qu'as-tu fait ?</td></tr>
+        <tr><td>Loyauté</td><td>Envers l'équipe, la hiérarchie et l'institution, tenir ses engagements.</td><td>Quand as-tu tenu un engagement qui te coûtait quelque chose ?</td></tr>
+        <tr><td>Intégrité</td><td>Honnêteté et respect des règles, même sans contrôle.</td><td>Quand as-tu signalé une erreur ou refusé un raccourci ?</td></tr>
+        <tr><td>Respect de tous</td><td>Dignité, diversité, courtoisie, y compris en désaccord.</td><td>Quel désaccord as-tu géré en restant respectueux ?</td></tr>
+        <tr><td>Courage</td><td>Courage physique et moral : dire non, assumer, agir malgré la peur.</td><td>Quand as-tu dit quelque chose d'impopulaire parce que c'était juste ?</td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted">Écris chaque exemple en STAR : Situation (1 phrase), Tâche (1 phrase), Action (le plus long, avec « je »), Résultat (chiffré si possible). Durée : 60 à 90 secondes.</p>
+  </div>
+
+  <div class="sec">
+    <h2>3 qualités, 3 défauts : propositions</h2>
+    <div class="two">
+      <div class="card">
+        <h3>Qualités</h3>
+        <ul class="l">
+          <li><b>Rigueur</b> : je documente, je teste, je vérifie avant de valider. Exemple : débogage d'une chaîne capteur.</li>
+          <li><b>Persévérance</b> : je cherche la cause racine plutôt qu'un contournement.</li>
+          <li><b>Vision système</b> : je pense matériel, logiciel et contraintes ensemble.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Défauts, avec correctif</h3>
+        <ul class="l">
+          <li><b>Perfectionnisme technique</b> : je fixe désormais un critère d'arrêt et une durée.</li>
+          <li><b>Déléguer</b> : je répartis par points de contrôle plutôt que de tout reprendre.</li>
+          <li><b>Réserve en début de groupe</b> : je prends la parole plus tôt.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="muted">Garde uniquement ce qui est vrai pour toi, chaque trait avec un exemple vécu. Un défaut crédible vient toujours avec ce que tu fais pour le corriger.</p>
+  </div>
+
+  <div class="sec">
+    <h2>Questions probables</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Question</th><th>Axes de réponse</th></tr></thead>
+      <tbody>
+        <tr><td>Pourquoi la Défense ?</td><td>Un motif précis, lié à ton parcours et au service. Une phrase, puis un fait.</td></tr>
+        <tr><td>Pourquoi officier et pas ingénieur civil ?</td><td>Responsabilité d'équipe, rotation des fonctions tous les 3 à 4 ans, leadership.</td></tr>
+        <tr><td>Pourquoi la Composante Air, ce poste ?</td><td>Ta formation en systèmes embarqués appliquée à l'avionique et à la fiabilité.</td></tr>
+        <tr><td>Que sais-tu du poste ?</td><td>Missions, bases, appareils, rôle de la maintenance dans la disponibilité des avions.</td></tr>
+        <tr><td>Que sais-tu de la formation et de la carrière ?</td><td>Lis la rubrique officier recruté sur diplôme sur mil.be, cite un point précis.</td></tr>
+        <tr><td>Décris une situation où tu as dirigé.</td><td>STAR, avec une décision difficile et son résultat.</td></tr>
+        <tr><td>Un échec, et ce que tu en as appris.</td><td>Échec réel, responsabilité assumée, changement concret.</td></tr>
+        <tr><td>Un ordre que tu juges mauvais ?</td><td>J'exécute et je fais remonter mon désaccord par la voie hiérarchique. Un ordre illégal, je le refuse.</td></tr>
+        <tr><td>Mobilité, missions à l'étranger, horaires ?</td><td>Oui ou non franc, avec le fait qui le prouve.</td></tr>
+        <tr><td>Comment gères-tu le stress et la fatigue ?</td><td>Méthode concrète : préparation, sport, priorisation. Un exemple d'examen ou de TFE.</td></tr>
+        <tr><td>Pourquoi te choisir toi ?</td><td>Trois arguments : compétence technique, fiabilité, motivation pour l'équipe.</td></tr>
+        <tr><td>Tes loisirs, ton cadre de vie ?</td><td>Deux ou trois faits courts, qui montrent régularité et équilibre.</td></tr>
+        <tr><td>Une actualité de la Défense qui t'a marqué ?</td><td>Prépare-en une seule, avec ton avis en une phrase.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <h3>Entraînement</h3>
+    <div class="q" id="qtext">Appuie sur le bouton pour tirer une question.</div>
+    <div class="row"><button class="btn" id="qgo" type="button">Tirer une question</button></div>
+    <p class="muted" style="margin:10px 0 0">Réponds à voix haute en 60 à 90 secondes. Pour un entretien blanc complet avec retours, écris « entretien blanc » dans le chat.</p>
+  </div>
+</section>
+
+<!-- ===================== SPORT ===================== -->
+<section id="sport" class="panel" data-panel="sport" hidden>
+  <div class="card">
+    <h3>Les épreuves (slide)</h3>
+    <ul class="l">
+      <li><b>Course sur tapis, pente 2 % constante</b>. Protocole officiel : 1 min d'échauffement, départ à 6 km/h, puis +0,3 km/h toutes les 30 s. L'épreuve s'arrête quand le score maximum est atteint. Maximum de points : homme 14'30" et 14,4 km/h, femme 11'30" et 12,6 km/h.</li>
+      <li><b>Gainage latéral (side bridge)</b>. Tenir le plus longtemps possible sur chaque côté, avec 5 min de pause entre les deux côtés. Maximum de points : homme 2'00", femme 1'50".</li>
+      <li>Course et gainage sont pour tous. Pompes (1 min) et tractions ne s'ajoutent que pour les fonctions les plus exigeantes : vérifie dans ton offre.</li>
+      <li>Une <b>attestation médicale</b> de ton généraliste est obligatoire avant ces épreuves (lien dans l'onglet Liens).</li>
+    </ul>
+  </div>
+
+  <div class="sec">
+    <h2>Semaine type</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Séance</th><th>Contenu</th><th>Intensité</th></tr></thead>
+      <tbody>
+        <tr><td>Intervalles</td><td>Tapis à 2 %. 6 puis 8 × (2 min rapide / 1 min lent), ensuite 5 × (90 s / 90 s).</td><td>Rapide : allure que tu tiens 2 min en finissant fatigué.</td></tr>
+        <tr><td>Seuil</td><td>2 × 10 min à allure soutenue, 3 min de récupération.</td><td>Respiration contrôlée, phrases courtes possibles.</td></tr>
+        <tr><td>Sortie longue</td><td>40 min à allure régulière, pente 2 %.</td><td>Confortable.</td></tr>
+        <tr><td>Gainage latéral</td><td>3 séries par côté à 80 % de ton maximum, 3 à 4 fois par semaine. Progression A à D de la brochure officielle si tu ne tiens pas encore la position.</td><td>Coude sous l'épaule, hanches hautes, corps aligné, respiration libre.</td></tr>
+        <tr><td>Simulation du test</td><td>Reproduis le protocole officiel une fois par semaine : 6 km/h, +0,3 km/h toutes les 30 s, pente 2 %, jusqu'à l'épuisement. Note la vitesse atteinte.</td><td>Maximum de points à 14,4 km/h (homme).</td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted">Allures à ajuster avec le test du 24/10 : ta vitesse atteinte donne ton niveau. Avant le jour 1, tu réduis : la semaine du 2 novembre est une décharge.</p>
+  </div>
+
+  <div class="card">
+    <h3>Le jour J</h3>
+    <ul class="l">
+      <li>Dernier repas riche en glucides la veille, petit-déjeuner léger, rien de nouveau.</li>
+      <li>Au tapis : pars sous ton allure cible, laisse monter le rythme avec le palier.</li>
+      <li>Prends lunettes ou lentilles, tenue de sport, chaussures déjà portées.</li>
+      <li>Médical : réponds honnêtement aux questions sur tes antécédents.</li>
+    </ul>
+  </div>
+</section>
+<!-- ===================== LIENS ===================== -->
+<section id="liens" class="panel" data-panel="liens" hidden>
+  <div class="sec">
+    <h2>Documents officiels de la Défense</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Document</th><th>À quoi il sert</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://www.mil.be/media/lvpong3l/livret-d-exercice-test-de-base.pdf" target="_blank" rel="noopener">Livret d'exercices du test de base (FR)</a></td><td>Les 5 modules cognitifs avec exemples, consignes et conseils. Les solutions du dernier module ne sont pas incluses.</td></tr>
+        <tr><td><a href="https://www.mil.be/media/ouenjz3s/oefenboekje-basistest.pdf" target="_blank" rel="noopener">Oefenboekje basistest (NL)</a></td><td>Même contenu en néerlandais, utile pour apprivoiser le vocabulaire des consignes.</td></tr>
+        <tr><td><a href="https://www.mil.be/media/bnrky223/sport-brochure-nl.pdf" target="_blank" rel="noopener">Brochure sport (NL)</a></td><td>Protocole du tapis et du side bridge, exercices A à D de gainage, conseils.</td></tr>
+        <tr><td><a href="https://www.mil.be/media/kv1miv2n/certificat-attestation-g%C3%A9n%C3%A9raliste-aptitude-m%C3%A9dicale-pour-tests-physiques-de-s%C3%A9lection-v07jun2025.pdf" target="_blank" rel="noopener">Attestation médicale sport (FR)</a></td><td>À faire remplir, signer et tamponner par ton généraliste avant les épreuves.</td></tr>
+        <tr><td><a href="https://www.mil.be/media/4ftdvqyr/medische-vragenlijst-2026.pdf" target="_blank" rel="noopener">Questionnaire médical 2026 (NL)</a></td><td>À remplir et à apporter le premier jour.</td></tr>
+        <tr><td><a href="https://www.mil.be/media/ghqfizkx/militair-worden-administratieve-voorwaarden-2026.pdf" target="_blank" rel="noopener">Conditions administratives 2026 (NL)</a></td><td>À remplir et à apporter le premier jour.</td></tr>
+        <tr><td><a href="https://www.mil.be/nl/extra-info-diensten/documenten-voor-jouw-selectietraject/" target="_blank" rel="noopener">Page « documents de sélection »</a></td><td>Liste complète, avec les versions en français à repérer sur le site.</td></tr>
+        <tr><td><a href="https://www.mil.be/media/cghn5kep/selectiebrochure_fr.pdf" target="_blank" rel="noopener">Brochure de sélection (FR)</a></td><td>Déroulement des jours, examens médicaux, conseils d'entretien.</td></tr>
+        <tr><td><a href="https://www.hopitalmilitaire.be/smb_start_nl.php" target="_blank" rel="noopener">Hôpital militaire : FAQ médicale</a></td><td>Exigences médicales détaillées, rubrique « basisselectie ».</td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted">Ces documents sont rédigés pour la sélection de militaires en général. Ta fonction d'officier peut ajouter des épreuves : la section « Tests supplémentaires » de ton offre d'emploi fait foi.</p>
+  </div>
+
+  <div class="sec">
+    <h2>Néerlandais, niveau A2</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Ressource</th><th>Ce que c'est</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://www.learndutch.org/dutch-listening-exercises/" target="_blank" rel="noopener">learndutch.org : écoute</a></td><td>Exercices d'écoute en vidéo, niveaux A2 et B1, gratuits (version bêta).</td></tr>
+        <tr><td><a href="https://www.easy-languages.org/easy-dutch" target="_blank" rel="noopener">Easy Dutch</a></td><td>Interviews de rue sous-titrées en néerlandais et en anglais. La série « Super Easy Dutch » vise les débutants. Sur YouTube.</td></tr>
+        <tr><td><a href="https://www.dutchready.com/free-materials/a1-a2-dutch-e-learning-free-demo/" target="_blank" rel="noopener">Dutch Ready : démo gratuite</a></td><td>4 leçons de grammaire (A1-A2) avec exercices, inscription par e-mail. Le cours complet (33 leçons) est payant.</td></tr>
+        <tr><td><a href="https://www.dutchexam.xyz/" target="_blank" rel="noopener">dutchexam.xyz</a></td><td>Exercices gratuits de lecture, d'écoute, d'expression, sans compte. Calés sur l'examen néerlandais d'intégration : bon pour le réflexe, pas identique au test de la Défense.</td></tr>
+        <tr><td><a href="https://www.busuu.com/en/course/learn-dutch-online" target="_blank" rel="noopener">Busuu</a></td><td>Cours complet de néerlandais A1 à B2. Je n'ai pas pu vérifier ce qui est gratuit ni la langue d'instruction.</td></tr>
+        <tr><td><a href="https://www.colanguage.com/learning-materials/nl/a2" target="_blank" rel="noopener">coLanguage A2</a></td><td>Cours structuré de 43 leçons (60 à 80 h), avec édition en français. Payant et long pour 16 jours.</td></tr>
+        <tr><td><a href="https://www.patati.be/fr/" target="_blank" rel="noopener">Patati Patata</a></td><td>Conversation avec des partenaires, initiative du Huis van het Nederlands, ouverte à tous. Utile pour parler, moins pour le test.</td></tr>
+        <tr><td><a href="https://www.vrt.be/vrtnws/nl/" target="_blank" rel="noopener">VRT NWS</a></td><td>Actualité belge en néerlandais. Trop difficile pour un A2 en lecture complète : lis titres et premiers paragraphes.</td></tr>
+        <tr><td>Oefentests Cebir</td><td>Les tests montrés sur ton slide (Oefentest 1 et 2). Lien non public : demande-le au Centre d'info de Mons ou dans la section « Tests de langue » de l'offre.</td></tr>
+        <tr><td>Quiz et mini-cours avec Claude</td><td>Écris « mini-cours néerlandais A2 » ou « quiz néerlandais A2 » dans le chat : vocabulaire, grammaire en français, correction.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="card">
+      <h3>À éviter ou à savoir</h3>
+      <ul class="l">
+        <li><b>Brulingua</b> est gratuit mais réservé aux Bruxellois. <b>Wallangues</b> a fermé le 1er janvier 2026.</li>
+        <li><b>Le Forem</b> propose des modules de néerlandais (A1 à B1) avec un test de niveau, mais le circuit est trop lent pour le 6 novembre. Son questionnaire d'auto-évaluation est gratuit si tu veux situer ton niveau.</li>
+        <li>Le test est adaptatif, sur ordinateur : écoute, lecture, grammaire, vocabulaire. Le minimum demandé est A2 (CECR). Pour un officier, le niveau de seconde langue exigé est élémentaire.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>Tests cognitifs</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Ressource</th><th>Usage</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#entrainer">Entraîneur intégré</a></td><td>Les 5 modules, avec séries chronométrées et score. C'est ton outil principal.</td></tr>
+        <tr><td><a href="https://open-exam-prep.com/practice/be-defensie-selectie" target="_blank" rel="noopener">OpenExamPrep</a></td><td>101 questions gratuites en anglais sur les 5 modules. Site indépendant, non lié à la Défense.</td></tr>
+        <tr><td>Calcul mental</td><td>Tables de 2 à 12, divisions exactes, additions et soustractions à deux chiffres. 10 min par jour suffisent.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="sec">
+    <h2>Sport</h2>
+    <div class="card"><ul class="l">
+      <li>Brochure officielle : exercices de gainage A à D et conseils de course (lien plus haut).</li>
+      <li>Si tu cours 5 km sans t'arrêter, la base est solide. Sinon, la brochure renvoie à un plan d'entraînement via le centre d'information.</li>
+    </ul></div>
+  </div>
+</section>
+</main>
+</div>
+
+<script type="application/json" id="plan-data">[{"d": "2026-10-21", "badge": "Départ", "tasks": [{"t": "admin", "m": 10, "x": "Vérifier ton inscription (clôture le 22/10) : Centre d'info de Mons ou jobs.defence.be. Garde la référence ou la confirmation."}, {"t": "admin", "m": 15, "x": "Ouvrir les documents officiels à fournir le jour 1 : attestation médicale pour les épreuves sportives (à faire signer et tamponner par ton généraliste), questionnaire médical 2026, conditions administratives 2026. Appelle ton médecin pour un rendez-vous cette semaine.", "l": [["Attestation médicale sport (FR)", "https://www.mil.be/media/kv1miv2n/certificat-attestation-g%C3%A9n%C3%A9raliste-aptitude-m%C3%A9dicale-pour-tests-physiques-de-s%C3%A9lection-v07jun2025.pdf"], ["Questionnaire médical 2026 (NL)", "https://www.mil.be/media/4ftdvqyr/medische-vragenlijst-2026.pdf"], ["Conditions administratives 2026 (NL)", "https://www.mil.be/media/ghqfizkx/militair-worden-administratieve-voorwaarden-2026.pdf"], ["Page des documents de sélection (mil.be)", "https://www.mil.be/nl/extra-info-diensten/documenten-voor-jouw-selectietraject/"]]}, {"t": "cognitif", "m": 30, "x": "Lire le livret officiel du test de base, puis une série de chaque module dans l'entraîneur : aisance numérique, orientation spatiale, mémoire des mots, raisonnement, détection d'erreurs. Pas de stylo, de papier ni de calculatrice.", "l": [["Livret officiel du test de base (FR)", "https://www.mil.be/media/lvpong3l/livret-d-exercice-test-de-base.pdf"], ["Entraîneur intégré (onglet Entraîner)", "#entrainer"]]}, {"t": "langue", "m": 30, "x": "Oefentest Cebir 1 en conditions réelles (diagnostic). Le lien n'est pas public : demande-le au Centre d'info de Mons (02/44 27 627) ou dans la section « Tests de langue » de l'offre d'emploi."}, {"t": "culture", "m": 20, "x": "Fiches « Cadre général » et « Composante Air » : les 5 forces, les bases, les unités."}, {"t": "entretien", "m": 20, "x": "Écrire ton pitch d'1 minute (brouillon dans l'onglet Entretien), le dire à voix haute 3 fois."}, {"t": "sport", "m": 10, "x": "Gainage latéral (side bridge) : test maximum de chaque côté, avec 5 min de pause entre les deux côtés, comme à la sélection. Note les temps."}]}, {"d": "2026-10-22", "badge": "Clôture inscriptions", "tasks": [{"t": "admin", "m": 5, "x": "Dernier jour pour s'inscrire : vérifie que le dossier est validé aujourd'hui."}, {"t": "admin", "m": 10, "x": "Rendez-vous chez le généraliste fixé ? Il doit remplir l'attestation médicale sportive avant le 6 novembre.", "l": [["Attestation médicale sport (FR)", "https://www.mil.be/media/kv1miv2n/certificat-attestation-g%C3%A9n%C3%A9raliste-aptitude-m%C3%A9dicale-pour-tests-physiques-de-s%C3%A9lection-v07jun2025.pdf"]]}, {"t": "sport", "m": 40, "x": "Intervalles sur tapis à 2 % : échauffement 8 min, puis 6 × (2 min rapide / 1 min lent), retour au calme."}, {"t": "langue", "m": 35, "x": "Néerlandais, routine A2 : 15 min d'écoute (exercices vidéo de learndutch.org, puis un épisode de Super Easy Dutch avec sous-titres) + 20 min de grammaire (leçon de la démo gratuite Dutch Ready, ou demande-moi un mini-cours A2 dans le chat). Note 10 mots.", "l": [["learndutch.org : écoute A2/B1 (gratuit)", "https://www.learndutch.org/dutch-listening-exercises/"], ["Super Easy Dutch (sous-titres NL/EN)", "https://www.easy-languages.org/easy-dutch"], ["Dutch Ready : démo gratuite A1-A2", "https://www.dutchready.com/free-materials/a1-a2-dutch-e-learning-free-demo/"]]}, {"t": "cognitif", "m": 20, "x": "Entraîneur : aisance numérique (2 séries de 12) et détection d'erreurs (2 séries de 8). Révise les tables de multiplication et de division.", "l": [["Entraîneur intégré (onglet Entraîner)", "#entrainer"]]}, {"t": "culture", "m": 20, "x": "Fiche « Missions » : nationales, OTAN, UE, ONU. Un exemple par cadre."}]}, {"d": "2026-10-23", "tasks": [{"t": "resume", "m": 110, "x": "Résumé du texte A en conditions réelles : 15 min de lecture sans notes, 5 min de mots-clés, 90 min de rédaction. Cible : 315 à 385 mots."}, {"t": "resume", "m": 20, "x": "Comparer ton résumé au corrigé, puis colle-le dans le chat pour une correction détaillée."}, {"t": "langue", "m": 20, "x": "Néerlandais : exercices de lecture et d'écoute sur dutchexam.xyz (format proche de l'A2), ou demande-moi un quiz A2 dans le chat.", "l": [["dutchexam.xyz : exercices gratuits", "https://www.dutchexam.xyz/"]]}]}, {"d": "2026-10-24", "tasks": [{"t": "sport", "m": 25, "x": "Test course sur tapis, protocole officiel : 1 min d'échauffement, départ à 6 km/h, +0,3 km/h toutes les 30 s, pente 2 %, jusqu'à l'épuisement. Note la vitesse atteinte (maximum de points : 14,4 km/h chez l'homme).", "l": [["Brochure officielle sport (NL)", "https://www.mil.be/media/bnrky223/sport-brochure-nl.pdf"]]}, {"t": "sport", "m": 25, "x": "Footing lent sur tapis, pente 2 %, 25 min en récupération active."}, {"t": "cognitif", "m": 20, "x": "Entraîneur : orientation spatiale (3 séries de 6) et mémoire des mots (2 séries de 8).", "l": [["Entraîneur intégré (onglet Entraîner)", "#entrainer"]]}, {"t": "culture", "m": 25, "x": "Fiche « Appareils » : rôle de chaque appareil et base associée."}]}, {"d": "2026-10-25", "badge": "Récup", "tasks": [{"t": "culture", "m": 30, "x": "Relire les fiches : forces, bases, appareils, missions."}, {"t": "sport", "m": 10, "x": "Gainage latéral léger : exercices A à D de la brochure officielle, 2 séries par côté.", "l": [["Brochure officielle sport (NL)", "https://www.mil.be/media/bnrky223/sport-brochure-nl.pdf"]]}, {"t": "langue", "m": 20, "x": "Néerlandais : réécouter un épisode de Super Easy Dutch sans les sous-titres NL, et noter 10 mots nouveaux.", "l": [["Super Easy Dutch (sous-titres NL/EN)", "https://www.easy-languages.org/easy-dutch"]]}]}, {"d": "2026-10-26", "tasks": [{"t": "cognitif", "m": 20, "x": "Entraîneur : raisonnement (3 séries de 8) et aisance numérique (1 série de 12).", "l": [["Entraîneur intégré (onglet Entraîner)", "#entrainer"]]}, {"t": "langue", "m": 30, "x": "Oefentest Cebir 2 en conditions réelles, puis revoir chaque erreur."}, {"t": "entretien", "m": 30, "x": "Valeurs, méthode STAR : un exemple vécu pour collaboration, flexibilité et loyauté."}, {"t": "admin", "m": 15, "x": "Remplir le questionnaire médical 2026 et les conditions administratives 2026. Attestation sportive signée par le médecin ?", "l": [["Questionnaire médical 2026 (NL)", "https://www.mil.be/media/4ftdvqyr/medische-vragenlijst-2026.pdf"], ["Conditions administratives 2026 (NL)", "https://www.mil.be/media/ghqfizkx/militair-worden-administratieve-voorwaarden-2026.pdf"]]}, {"t": "sport", "m": 10, "x": "Gainage latéral : 3 séries par côté, exercices A à D selon ton niveau.", "l": [["Brochure officielle sport (NL)", "https://www.mil.be/media/bnrky223/sport-brochure-nl.pdf"]]}]}, {"d": "2026-10-27", "tasks": [{"t": "sport", "m": 40, "x": "Seuil sur tapis à 2 % : 2 × 10 min à allure soutenue, 3 min de récupération entre les deux."}, {"t": "langue", "m": 30, "x": "Néerlandais : lecture d'un court article de VRT NWS (titre et premiers paragraphes) et résumé oral en 3 phrases.", "l": [["VRT NWS (Het Journaal)", "https://www.vrt.be/vrtnws/nl/"]]}, {"t": "culture", "m": 30, "x": "Fiche « Technique avion » : maintenance, certification, avionique, fiabilité."}]}, {"d": "2026-10-28", "tasks": [{"t": "resume", "m": 110, "x": "Résumé du texte B en conditions réelles (15 + 5 + 90 min). Cible : 315 à 385 mots."}, {"t": "resume", "m": 15, "x": "Comparer au corrigé, noter 3 points à améliorer (structure, concision, reformulation)."}, {"t": "cognitif", "m": 20, "x": "Entraîneur : détection d'erreurs (2 séries) et orientation spatiale (2 séries).", "l": [["Entraîneur intégré (onglet Entraîner)", "#entrainer"]]}]}, {"d": "2026-10-29", "tasks": [{"t": "sport", "m": 40, "x": "Intervalles sur tapis à 2 % : 8 × (90 s rapide / 60 s lent)."}, {"t": "langue", "m": 30, "x": "Néerlandais : compréhension orale (learndutch.org) + vocabulaire militaire et aéronautique de base. Demande-moi une liste et un quiz dans le chat.", "l": [["learndutch.org : écoute A2/B1 (gratuit)", "https://www.learndutch.org/dutch-listening-exercises/"]]}, {"t": "entretien", "m": 30, "x": "Valeurs, méthode STAR : un exemple pour intégrité, respect de tous et courage."}, {"t": "sport", "m": 10, "x": "Gainage latéral : 3 séries par côté.", "l": [["Brochure officielle sport (NL)", "https://www.mil.be/media/bnrky223/sport-brochure-nl.pdf"]]}]}, {"d": "2026-10-30", "tasks": [{"t": "entretien", "m": 45, "x": "Entretien blanc n°1 avec Claude : motivations, présentation, valeurs. Écris « entretien blanc » dans le chat."}, {"t": "cognitif", "m": 25, "x": "Entraîneur : une série de chacun des 5 modules à la suite, comme le jour J (environ 50 min en vrai : vise la précision d'abord).", "l": [["Entraîneur intégré (onglet Entraîner)", "#entrainer"]]}, {"t": "langue", "m": 30, "x": "Cebir : reprise des types d'exercices où tu perds le plus de points."}]}, {"d": "2026-10-31", "tasks": [{"t": "sport", "m": 45, "x": "Sortie longue sur tapis, pente 2 %, 40 min."}, {"t": "resume", "m": 110, "x": "Optionnel : résumé d'un nouveau texte (demande-moi un texte C dans le chat)."}, {"t": "culture", "m": 25, "x": "Quiz Défense : demande-moi un quiz de 20 questions sur les forces, les bases, les appareils, les missions."}]}, {"d": "2026-11-01", "badge": "Récup", "tasks": [{"t": "culture", "m": 30, "x": "Relire les fiches, surtout les missions et la technique avion."}, {"t": "entretien", "m": 20, "x": "Finaliser tes 3 qualités et 3 défauts, chacun avec un exemple concret."}, {"t": "sport", "m": 10, "x": "Gainage latéral léger."}]}, {"d": "2026-11-02", "tasks": [{"t": "sport", "m": 30, "x": "Dernière séance dure : 5 × (90 s rapide / 90 s lent), pente 2 %."}, {"t": "langue", "m": 30, "x": "Cebir : un test complet, puis relecture des erreurs."}, {"t": "entretien", "m": 45, "x": "Entretien blanc n°2 avec Claude : qualités et défauts, leadership, questions pièges."}]}, {"d": "2026-11-03", "tasks": [{"t": "sport", "m": 20, "x": "Course légère de 20 min, sans forcer."}, {"t": "cognitif", "m": 20, "x": "Entraîneur : une dernière série mixte, sans chercher la performance.", "l": [["Entraîneur intégré (onglet Entraîner)", "#entrainer"]]}, {"t": "langue", "m": 20, "x": "Néerlandais : relecture du vocabulaire et des erreurs fréquentes."}, {"t": "culture", "m": 20, "x": "Révision éclair : forces, bases, appareils, missions, armes."}, {"t": "sport", "m": 10, "x": "Gainage latéral : test final de chaque côté."}]}, {"d": "2026-11-04", "tasks": [{"t": "admin", "m": 25, "x": "Préparer le jour J : convocation, pièce d'identité, attestation médicale sportive signée, questionnaire médical et conditions administratives remplis, lunettes ou lentilles, tenue et chaussures de sport, itinéraire, transport pour être là avant 7h30, réveil."}, {"t": "sport", "m": 20, "x": "Footing de 20 min très facile."}, {"t": "langue", "m": 20, "x": "Néerlandais : relecture légère, aucune nouveauté."}, {"t": "entretien", "m": 15, "x": "Relire le pitch et les exemples de valeurs."}]}, {"d": "2026-11-05", "badge": "Veille", "tasks": [{"t": "admin", "m": 10, "x": "Sac prêt, vêtements posés, trajet vérifié."}, {"t": "langue", "m": 15, "x": "Néerlandais : relecture de 15 min, puis stop."}, {"t": "admin", "m": 0, "x": "Dîner normal, hydratation, au lit avant 22h30."}]}, {"d": "2026-11-06", "badge": "Jour 1 · 7h30", "tasks": [{"t": "admin", "m": 0, "x": "Petit-déjeuner léger, arriver avec de la marge. Documents dans le sac."}, {"t": "cognitif", "m": 0, "x": "Au programme : A-Form, médical 1, BTCA (5 modules, 50 min), NEO (40 min), épreuves sportives, test de néerlandais."}, {"t": "entretien", "m": 0, "x": "Rappel : réponses directes, assurées, sans tourner autour du pot."}]}]</script>
+<script type="application/json" id="texts-data">[{"id": "A", "title": "Adapter les villes à la chaleur", "body": "Pendant longtemps, la chaleur estivale fut, dans nos régions tempérées, un agrément plus qu'une menace. Les étés de 2003, 2018 et 2022 ont changé la perception. Dans les villes, où vit désormais la majorité des Européens, les vagues de chaleur provoquent une surmortalité mesurable, fragilisent les réseaux électriques et ralentissent l'activité économique. Les urbanistes parlent d'îlot de chaleur urbain pour désigner l'écart de température, parfois supérieur à cinq degrés la nuit, entre un centre densément bâti et la campagne environnante. Face à ce phénomène, les responsables locaux disposent de leviers nombreux, mais leur efficacité, leur coût et leur acceptabilité divergent fortement. La question n'est plus de savoir s'il faut adapter les villes, mais comment le faire sans creuser les inégalités ni reproduire les erreurs du passé.\n\nLe phénomène a des causes simples. Les matériaux sombres, comme l'asphalte, le béton et les toitures en zinc, absorbent le rayonnement solaire le jour et le restituent la nuit, ce qui empêche les habitants de récupérer. La disparition des sols perméables supprime l'évaporation qui rafraîchit naturellement l'air. Les rues étroites, enfin, piègent la chaleur et freinent la circulation du vent. À cela s'ajoutent les rejets des climatiseurs, des véhicules et des industries, qui alimentent une boucle perverse : plus il fait chaud, plus on climatise, et plus la ville se réchauffe à l'extérieur.\n\nLa première réponse qui vient à l'esprit consiste à planter. Les arbres d'alignement procurent de l'ombre et rafraîchissent l'air par évapotranspiration ; un parc de taille suffisante peut abaisser la température de plusieurs degrés dans son voisinage. Mais cette solution a des limites. Un arbre met des décennies à atteindre sa pleine efficacité, il exige de l'eau précisément quand elle manque, et les essences choisies hier risquent de ne pas supporter le climat de demain. Les toitures et les façades végétalisées séduisent, mais leur entretien est coûteux et leur bilan hydrique parfois décevant. La végétation est un outil précieux, pas une panacée. Planter exige donc d'anticiper, de diversifier les essences et de prévoir l'arrosage dès la conception.\n\nLe second levier concerne le bâti. Peindre les toitures en clair, choisir des revêtements qui réfléchissent la lumière, rendre les sols perméables, orienter les rues selon les vents dominants : ces mesures, peu spectaculaires, offrent souvent le meilleur rapport entre coût et résultat. Elles se heurtent pourtant à des obstacles ordinaires. Un revêtement clair éblouit et peut réchauffer les passants au niveau du sol ; la désimperméabilisation d'une place suppose de reprendre des réseaux enterrés ; les règles de protection du patrimoine limitent les interventions sur les toitures des centres historiques. L'efficacité technique ne suffit donc pas : il faut encore franchir des étapes administratives et patrimoniales.\n\nReste la climatisation, que beaucoup perçoivent comme la solution évidente. À court terme, elle protège effectivement les personnes vulnérables, et dans les hôpitaux ou les maisons de repos elle est indispensable. Mais généralisée, elle pose trois problèmes. Elle consomme beaucoup d'électricité aux heures où le réseau est déjà sous tension, elle rejette de la chaleur dans la rue, et elle reste inégalement accessible, puisque les ménages modestes, souvent logés dans les immeubles les moins bien isolés, sont ceux qui peuvent le moins se l'offrir. Les solutions passives, comme l'isolation, les volets extérieurs ou la ventilation nocturne, sont moins visibles mais plus durables. Une politique cohérente réserve la climatisation aux situations où elle est vitale et mise sur l'enveloppe du bâtiment pour le reste.\n\nLa question sociale est au cœur du sujet. Les quartiers les plus chauds sont rarement les plus riches : ils comptent moins d'espaces verts, plus de surfaces minérales et des logements plus petits, parfois situés sous les toits. Les personnes âgées isolées, les jeunes enfants et les travailleurs en plein air sont les plus exposés. Une stratégie qui commencerait par embellir les quartiers favorisés, au motif que les résultats y seraient plus rapides, renforcerait l'injustice. Plusieurs villes ont donc adopté des cartes de vulnérabilité croisant température de surface, densité de population et indicateurs socio-économiques pour hiérarchiser les chantiers. Cette approche a un coût : elle impose de mesurer, de publier et d'assumer des priorités, ce que les élus n'aiment pas toujours faire.\n\nLe financement et la gouvernance constituent un autre défi. Les bénéfices d'un arbre ou d'un toit clair sont diffus : ils profitent à tous, mais ne rapportent directement à personne. Un propriétaire n'a guère intérêt à investir seul, alors que la collectivité gagne à ce que tous le fassent. Les subventions, les obligations réglementaires pour les constructions neuves ou les contrats de long terme avec des gestionnaires d'espaces verts permettent de dépasser cette difficulté, mais ils reposent sur des budgets communaux souvent contraints. De plus, les compétences sont dispersées entre communes, régions et gestionnaires de réseaux, ce qui retarde des projets qui exigeraient une coordination à l'échelle d'une agglomération.\n\nEnfin, l'adaptation ne se limite pas aux aménagements durables. Les plans canicule, qui recensent les personnes fragiles, ouvrent des salles rafraîchies et diffusent des alertes précoces, sauvent des vies à faible coût. Leur efficacité dépend toutefois de la qualité des fichiers, de la mobilisation des services sociaux et de la confiance des habitants. Les retours d'expérience montrent que les alertes sont mieux suivies lorsqu'elles émanent de relais de proximité, comme les médecins généralistes, les associations ou les voisins, que lorsqu'elles viennent d'une administration lointaine. Les canicules étant appelées à durer, ces dispositifs gagneraient à devenir permanents plutôt qu'à être improvisés chaque été.\n\nAucune mesure ne suffira seule. La végétation rafraîchit mais exige du temps et de l'eau, les matériaux clairs agissent vite mais ont des effets secondaires, la climatisation protège mais aggrave le problème qu'elle résout. Les villes qui avancent le plus vite combinent ces outils, les adaptent à chaque quartier et acceptent d'évaluer leurs résultats. Surtout, elles traitent la chaleur comme une question de justice autant que d'urbanisme, car le risque ne frappe pas tout le monde de la même manière. Adapter la ville à la chaleur est moins un chantier technique qu'un choix collectif, qui oblige à décider qui protéger en premier, avec quels moyens et à quel rythme.", "corr": "Face aux vagues de chaleur de plus en plus fréquentes, les villes européennes, où vit la majorité de la population, subissent l'effet d'îlot de chaleur urbain : matériaux sombres, sols imperméables, rues étroites et rejets des climatiseurs retiennent la chaleur et empêchent le rafraîchissement nocturne. La question est désormais de savoir comment adapter les villes sans accentuer les inégalités.\n\nTrois leviers existent, tous imparfaits. La végétalisation apporte ombre et fraîcheur, mais les arbres demandent des décennies pour être efficaces, consomment de l'eau en période de pénurie et risquent de ne pas résister au climat futur ; les toits et façades végétalisés coûtent cher à entretenir. Les interventions sur le bâti (toitures claires, sols perméables, orientation des rues) offrent le meilleur rapport coût-efficacité, mais elles se heurtent à l'éblouissement, aux travaux sur les réseaux enterrés et aux règles de protection du patrimoine. La climatisation protège les personnes vulnérables et reste indispensable dans les hôpitaux ; généralisée, elle surcharge le réseau électrique, rejette de la chaleur dehors et reste hors de portée des ménages modestes. L'isolation, les volets extérieurs et la ventilation nocturne sont plus durables.\n\nLa dimension sociale est centrale : les quartiers les plus chauds sont souvent les plus modestes et abritent les publics les plus exposés, comme les personnes âgées isolées, les enfants et les travailleurs extérieurs. Des cartes de vulnérabilité permettent de hiérarchiser les chantiers, mais obligent les élus à assumer des priorités.\n\nLe financement et la gouvernance posent aussi problème : les bénéfices sont collectifs alors que les coûts sont individuels, et les compétences sont éclatées entre communes, régions et gestionnaires de réseaux. Subventions, obligations réglementaires pour le neuf et contrats de long terme peuvent aider, dans des budgets contraints. Les plans canicule (recensement des personnes fragiles, salles rafraîchies, alertes précoces) sauvent des vies à faible coût, surtout lorsque l'alerte passe par des relais de proximité.\n\nEn conclusion, aucune mesure n'est suffisante seule : il faut les combiner, les adapter à chaque quartier et évaluer les résultats. Adapter la ville à la chaleur relève autant de la justice que de l'urbanisme : c'est un choix collectif sur les personnes à protéger en priorité, avec quels moyens et à quel rythme."}, {"id": "B", "title": "L'intelligence artificielle au travail : qui décide ?", "body": "Les outils d'intelligence artificielle générative se sont diffusés dans les entreprises et les administrations à une vitesse inhabituelle. En quelques années, la rédaction d'un courrier, la synthèse d'un dossier, le classement de milliers de demandes ou la détection d'anomalies dans un flux de données ont été confiés, en tout ou en partie, à des systèmes que peu d'utilisateurs comprennent vraiment. Les promesses sont nombreuses : gain de temps, réduction des erreurs répétitives, accès élargi à l'expertise. Les inquiétudes le sont tout autant : perte de compétences, opacité des décisions, responsabilité diluée. Derrière ces débats se cache une question simple : lorsqu'un système propose et qu'un humain valide, qui décide réellement ?\n\nIl serait malhonnête de nier les gains. Dans les services d'urgence, des algorithmes aident à trier les appels et à repérer plus tôt des signes de gravité. Dans l'industrie, la maintenance prédictive réduit les arrêts de production en détectant les vibrations anormales d'une machine avant la panne. Dans l'administration, l'automatisation des tâches de saisie libère du temps pour les situations complexes. Ces usages ont un point commun : la machine traite un grand volume d'informations, tandis que l'humain conserve le jugement final et l'écoute du cas particulier. Lorsque cette répartition est claire, l'outil renforce le travail au lieu de le remplacer.\n\nLe premier risque est ce que les psychologues appellent le biais d'automatisation : la tendance à accorder une confiance excessive à la recommandation d'un système, surtout lorsque celui-ci s'est montré exact dans la plupart des cas. Un opérateur qui valide cent propositions correctes finit par ne plus vérifier la cent unième. Le contrôle humain devient alors une formalité, et la décision appartient, en pratique, à la machine, sans que personne l'ait choisi. Ce phénomène est bien documenté dans l'aviation, où les pilotes doivent s'entraîner à reprendre les commandes lorsque le pilote automatique se déconnecte, précisément parce que l'habitude d'être assisté fait perdre des réflexes.\n\nLe deuxième risque tient à l'opacité. Beaucoup de systèmes d'apprentissage produisent des résultats sans pouvoir expliquer clairement pourquoi. Pour un outil de suggestion de texte, cela importe peu. Pour un système qui classe des candidatures, évalue un risque de fraude ou propose un diagnostic, cela change tout : la personne concernée a le droit de comprendre et de contester la décision, et le professionnel qui s'appuie sur la recommandation doit pouvoir la justifier. Des méthodes d'explicabilité existent, mais elles fournissent surtout des approximations, et elles ajoutent un coût que les organisations hésitent à supporter. Faute de pouvoir expliquer, certaines entreprises préfèrent s'en remettre à la performance statistique globale, ce qui ne répond pas à la question de l'individu mal classé.\n\nLa responsabilité juridique complète le tableau. Quand une erreur survient, qui répond : le fournisseur du système, l'organisation qui l'a déployé, ou l'employé qui a cliqué sur « valider » ? Les textes européens récents tentent d'encadrer les usages à haut risque en imposant documentation, supervision humaine et traçabilité. Ces exigences sont utiles, mais elles ne résolvent pas le problème pratique : un salarié soumis à des objectifs de productivité n'a ni le temps ni l'incitation de contester une recommandation qui lui est présentée comme fiable. La supervision humaine n'a de valeur que si les conditions de travail la rendent possible.\n\nÀ ces questions s'ajoute celle des données. Pour fonctionner, ces outils exigent souvent que des informations sensibles soient transmises à des serveurs extérieurs : dossiers clients, plans industriels, échanges internes. Les entreprises qui interdisent ces pratiques constatent que leurs employés les contournent avec des outils personnels, faute d'alternative interne. Une interdiction sans solution de remplacement déplace donc le risque plutôt qu'elle ne le supprime ; une offre interne, sécurisée et suffisamment performante est souvent la meilleure forme de prévention.\n\nL'effet sur les compétences est plus discret mais durable. Les tâches routinières que l'outil absorbe étaient aussi celles par lesquelles les débutants apprenaient leur métier. Un jeune juriste qui ne rédige plus de premières versions, un technicien qui ne diagnostique plus lui-même les pannes simples risquent de ne jamais acquérir l'intuition nécessaire pour détecter l'erreur d'un système sur un cas difficile. Les organisations qui déploient l'IA sans repenser la formation s'exposent à un paradoxe : elles auront besoin d'experts capables de corriger la machine au moment même où elles auront cessé d'en former.\n\nLa confiance du public constitue un dernier enjeu. Un citoyen qui apprend, après coup, qu'une décision le concernant a été préparée par un algorithme se sent facilement dépossédé, même si le résultat était juste. Informer clairement les usagers du recours à ces outils, leur indiquer comment demander un réexamen par une personne et publier des indicateurs d'erreur coûte peu comparé au discrédit qu'entraîne une affaire révélée par la presse. La transparence n'est pas seulement une obligation éthique : elle protège aussi l'institution qui déploie la technologie.\n\nPlusieurs pistes permettent de réduire ces risques. La première consiste à définir précisément, pour chaque usage, ce que le système peut faire seul, ce qu'il peut seulement proposer et ce qui reste exclusivement humain. La deuxième est de mesurer régulièrement la qualité de la supervision, par exemple en glissant volontairement des erreurs connues pour vérifier si elles sont détectées. La troisième est de maintenir des exercices sans assistance, comme le font les pilotes, afin de préserver les compétences. La quatrième est d'associer les utilisateurs et les représentants des travailleurs à la conception et à l'évaluation des outils, car ce sont eux qui connaissent les situations où les recommandations dérapent.\n\nL'intelligence artificielle n'est ni une menace en soi ni une solution miracle. Sa valeur dépend de la manière dont elle s'insère dans une organisation : des responsabilités clairement attribuées, des utilisateurs formés et suffisamment libres pour contester, des erreurs repérées et corrigées. La technique progresse plus vite que les règles et les habitudes de travail, et c'est cet écart qui crée le risque. Répondre à la question « qui décide ? » exige de la rendre explicite à chaque étape, plutôt que de la laisser se résoudre par défaut en faveur de la machine.", "corr": "La diffusion rapide de l'intelligence artificielle dans les organisations promet des gains de temps, moins d'erreurs répétitives et un accès élargi à l'expertise, mais soulève une question centrale : quand un système propose et qu'un humain valide, qui décide réellement ?\n\nLes bénéfices sont réels : tri des appels d'urgence, maintenance prédictive, automatisation de la saisie. Ils sont maximaux lorsque la machine traite le volume et que l'humain garde le jugement final.\n\nPlusieurs risques menacent cet équilibre. Le biais d'automatisation conduit à faire excessivement confiance au système, si bien que le contrôle humain devient une formalité ; l'aviation l'a montré, d'où l'entraînement des pilotes à reprendre les commandes. L'opacité des modèles empêche d'expliquer et de contester une décision individuelle, car l'explicabilité reste approximative et coûteuse. La responsabilité juridique demeure floue entre fournisseur, organisation et employé, et la supervision humaine perd son sens si les objectifs de productivité ne laissent ni temps ni incitation pour contester. La question des données s'y ajoute : interdire les outils externes sans alternative interne pousse les employés à les contourner. Enfin, l'IA absorbe les tâches routinières par lesquelles les débutants apprenaient leur métier, ce qui menace la formation des futurs experts censés corriger la machine.\n\nLa confiance du public suppose aussi d'informer les usagers du recours à ces outils et de leur offrir un réexamen par une personne, ce qui protège également l'institution. Des pistes existent : définir pour chaque usage ce que le système fait seul, propose seulement ou laisse à l'humain ; mesurer la qualité de la supervision en introduisant des erreurs connues ; maintenir des exercices sans assistance ; associer utilisateurs et représentants des travailleurs à la conception et à l'évaluation.\n\nEn conclusion, l'IA n'est ni une menace en soi ni une solution miracle : sa valeur dépend de son insertion dans l'organisation, avec des responsabilités claires, des utilisateurs formés et libres de contester, et des erreurs corrigées. La technique allant plus vite que les règles, il faut rendre explicite à chaque étape la réponse à la question « qui décide ? »."}]</script>
+<script>
+(function(){
+'use strict';
+var PLAN=JSON.parse(document.getElementById('plan-data').textContent);
+var TEXTS=JSON.parse(document.getElementById('texts-data').textContent);
+var TAGS={admin:'Admin',sport:'Sport',langue:'Néerlandais',cognitif:'Cognitif',resume:'Résumé',entretien:'Entretien',culture:'Culture Défense'};
+var DN=['dim.','lun.','mar.','mer.','jeu.','ven.','sam.'], MN=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+var J1=new Date(2026,10,6);
+var KEY='defprep-v1', state={};
+try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){state={};}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+function pd(s){var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
+function day0(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate());}
+function dd(a,b){return Math.round((day0(a)-day0(b))/864e5);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function hm(m){var h=Math.floor(m/60),r=m%60;return h?(h+' h'+(r?(' '+(r<10?'0':'')+r):'')):(r+' min');}
+var today=new Date();
+
+/* countdown */
+(function(){
+  var n=dd(J1,today), el=document.getElementById('dn'), t=document.getElementById('dtxt');
+  if(n>0){el.textContent='J-'+n;}
+  else if(n===0){el.textContent='Jour J';t.textContent='Bonne chance, 7h30.';}
+  else{el.textContent='J+'+(-n);t.textContent='depuis le jour 1 de sélection';}
+})();
+
+/* legend */
+var lg='';Object.keys(TAGS).forEach(function(k){lg+='<span><i class="dot" style="--c:var(--c-'+k+')"></i>'+TAGS[k]+'</span>';});
+document.getElementById('legend').innerHTML=lg;
+
+function lk(l){
+  if(!l||!l.length)return '';
+  return '<span class="lk">'+l.map(function(a){var ext=a[1].charAt(0)!=='#';return '<a href="'+esc(a[1])+'"'+(ext?' target="_blank" rel="noopener"':'')+'>'+esc(a[0])+'</a>';}).join('')+'</span>';
+}
+/* day cards */
+var daysEl=document.getElementById('days'), html='';
+PLAN.forEach(function(D){
+  var d=pd(D.d), n=dd(J1,d), tot=0, rows='';
+  D.tasks.forEach(function(t,i){
+    tot+=t.m;
+    var id=D.d+'#'+i;
+    rows+='<div class="task"><input type="checkbox" id="c-'+D.d+'-'+i+'" data-k="'+id+'"'+(state[id]?' checked':'')+' aria-label="Fait"><label class="tx" for="c-'+D.d+'-'+i+'"><span class="tg" style="--c:var(--c-'+t.t+')">'+TAGS[t.t]+'</span>'+esc(t.x)+lk(t.l)+'</label><span class="tm">'+(t.m?hm(t.m):'')+'</span></div>';
+  });
+  html+='<article class="day" id="d-'+D.d+'"><div class="dh"><h3>'+DN[d.getDay()]+' '+d.getDate()+' '+MN[d.getMonth()]+'</h3><span class="j">'+(n>0?'J-'+n:'Jour 1')+'</span>'+(D.badge?'<span class="badge">'+esc(D.badge)+'</span>':'')+'<span class="tot">'+(tot?hm(tot):'')+'</span></div>'+rows+'</article>';
+});
+daysEl.innerHTML=html;
+
+/* calendar */
+var cal=document.getElementById('cal'), ch='';
+['lun','mar','mer','jeu','ven','sam','dim'].forEach(function(x){ch+='<div class="h">'+x+'</div>';});
+var start=new Date(2026,9,19), byDate={};
+PLAN.forEach(function(D){byDate[D.d]=D;});
+function iso(d){var m=d.getMonth()+1,x=d.getDate();return d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(x<10?'0':'')+x;}
+for(var i=0;i<21;i++){
+  var d=new Date(start.getFullYear(),start.getMonth(),start.getDate()+i), key=iso(d), D=byDate[key];
+  if(!D){ch+='<button class="cell" disabled type="button"><span class="n">'+d.getDate()+'</span></button>';continue;}
+  var seen={},dots='';D.tasks.forEach(function(t){if(!seen[t.t]){seen[t.t]=1;dots+='<i style="--c:var(--c-'+t.t+')"></i>';}});
+  var cls='cell'+(dd(d,today)===0?' today':'')+(key==='2026-11-06'?' j1':'');
+  var flag=key==='2026-11-06'?'<span class="flag">Jour 1</span>':(key==='2026-10-22'?'<span class="flag">Clôture</span>':'');
+  ch+='<button class="'+cls+'" type="button" data-go="'+key+'" id="cell-'+key+'"><span class="n">'+d.getDate()+'</span><span class="dots">'+dots+'</span>'+flag+'</button>';
+}
+cal.innerHTML=ch;
+cal.addEventListener('click',function(e){
+  var b=e.target.closest('[data-go]');if(!b)return;
+  var el=document.getElementById('d-'+b.getAttribute('data-go'));if(!el)return;
+  el.scrollIntoView({behavior:'smooth',block:'start'});el.classList.add('hl');setTimeout(function(){el.classList.remove('hl');},1600);
+});
+
+/* progress */
+function refresh(){
+  var total=0,done=0;
+  PLAN.forEach(function(D){
+    var all=true;
+    D.tasks.forEach(function(t,i){total++;if(state[D.d+'#'+i])done++;else all=false;});
+    var c=document.getElementById('cell-'+D.d);if(c&&D.d!=='2026-11-06')c.classList.toggle('done',all);
+  });
+  document.getElementById('fill').style.width=(total?100*done/total:0)+'%';
+  document.getElementById('progtxt').textContent=done+' / '+total+' tâches';
+}
+daysEl.addEventListener('change',function(e){
+  var k=e.target.getAttribute('data-k');if(!k)return;
+  if(e.target.checked)state[k]=1;else delete state[k];
+  save();refresh();
+});
+refresh();
+
+/* néerlandais */
+(function(){
+  var NL=[{"d": "21/10", "t": "Diagnostic", "n": "Fais les trois révisions sans regarder le cours. Note ton score par page. Bloc ≥ 80 % : coche les séances correspondantes (2 à 15) et passe.", "l": [["Révision cours débutants (1)", "https://www.nlfacile.com/revision-cours-debutants-1ere-partie-neerlandais_2_43925.htm?guide=1"], ["Révision cours débutants (2)", "https://www.nlfacile.com/revision-cours-debutants-2eme-partie-neerlandais_2_44138.htm?guide=1"], ["Révision cours débutants (3)", "https://www.nlfacile.com/revision-cours-debutants-3eme-partie-neerlandais_2_44199.htm?guide=1"]]}, {"d": "22/10", "t": "Bases", "n": "", "l": [["Articles définis, genre des noms", "https://www.nlfacile.com/articles-definis-genre-des-noms-neerlandais_2_21586.htm?guide=1"], ["Verbe être + pronoms personnels", "https://www.nlfacile.com/verbe-etre-pronoms-personnels-neerlandais_2_21625.htm?guide=1"], ["Présent : avoir", "https://www.nlfacile.com/present-avoir-neerlandais_2_21812.htm?guide=1"]]}, {"d": "23/10", "t": "Verbes réguliers, orthographe", "n": "", "l": [["Présent et radical des verbes", "https://www.nlfacile.com/present-et-radical-des-verbes-neerlandais_2_21831.htm?guide=1"], ["Règles d'orthographe (1)", "https://www.nlfacile.com/regles-d-orthographe-1-neerlandais_2_21785.htm?guide=1"], ["Règles d'orthographe (2)", "https://www.nlfacile.com/regles-d-orthographe-2-neerlandais_2_21978.htm?guide=1"]]}, {"d": "24/10", "t": "Négation, ordre des mots", "n": "", "l": [["Négation : geen", "https://www.nlfacile.com/negation-emploi-de-geen-neerlandais_2_22277.htm?guide=1"], ["Négation : niet", "https://www.nlfacile.com/negation-emploi-de-niet-neerlandais_2_22290.htm?guide=1"], ["Phrase principale affirmative", "https://www.nlfacile.com/phrase-principale-affirmative-aux-temps-simples-neerlandais_2_22608.htm?guide=1"]]}, {"d": "25/10", "t": "Nombres, heure", "n": "", "l": [["Nombres de 1 à 20", "https://www.nlfacile.com/nombres-de-1-a-20-neerlandais_2_21687.htm?guide=1"], ["Nombres de 20 à 99", "https://www.nlfacile.com/nombres-de-20-a-99-neerlandais_2_22147.htm?guide=1"], ["Nombres au-delà de 100", "https://www.nlfacile.com/nombres-au-dela-de-100-neerlandais_2_24643.htm?guide=2"], ["Heure", "https://www.nlfacile.com/heure-neerlandais_2_23403.htm?guide=1"]]}, {"d": "26/10", "t": "Passé", "n": "", "l": [["Temps primitifs", "https://www.nlfacile.com/temps-primitifs-neerlandais_2_22052.htm?guide=1"], ["Imparfait", "https://www.nlfacile.com/imparfait-neerlandais_2_22097.htm?guide=1"], ["Temps composés : auxiliaires", "https://www.nlfacile.com/temps-composes-auxiliaires-neerlandais_2_24183.htm?guide=1"]]}, {"d": "27/10", "t": "Passé composé", "n": "Les deux dernières servent de tables de référence, pas à étudier en entier.", "l": [["Passé composé", "https://www.nlfacile.com/passe-compose-neerlandais_2_24197.htm?guide=2"], ["Verbe régulier, tous les temps (référence)", "https://www.nlfacile.com/verbe-regulier-tous-les-temps-neerlandais_2_42270.htm?guide=2"], ["Verbe irrégulier, tous les temps (référence)", "https://www.nlfacile.com/verbe-irregulier-tous-les-temps-neerlandais_2_42290.htm?guide=2"]]}, {"d": "28/10", "t": "Verbes de modalité", "n": "", "l": [["Auxiliaires de mode (1)", "https://www.nlfacile.com/auxiliaires-de-mode-1-neerlandais_2_23522.htm?guide=1"], ["Auxiliaires de mode (2)", "https://www.nlfacile.com/auxiliaires-de-mode-2-neerlandais_2_23698.htm?guide=1"], ["Auxiliaires de mode (3)", "https://www.nlfacile.com/auxiliaires-de-mode-3-neerlandais_2_23699.htm?guide=1"]]}, {"d": "29/10", "t": "Verbes à particules", "n": "", "l": [["Verbes à particules", "https://www.nlfacile.com/verbes-a-particules-neerlandais_2_22605.htm?guide=1"], ["Présent : verbes à particules", "https://www.nlfacile.com/present-verbes-a-particules-neerlandais_2_22606.htm?guide=1"]]}, {"d": "30/10", "t": "Questions, impératif, futur", "n": "", "l": [["Phrases interrogatives", "https://www.nlfacile.com/phrases-interrogatives-neerlandais_2_23896.htm?guide=1"], ["Impératif", "https://www.nlfacile.com/imperatif-neerlandais_2_24170.htm?guide=1"], ["Futur simple", "https://www.nlfacile.com/futur-simple-neerlandais_2_23836.htm?guide=1"]]}, {"d": "31/10", "t": "Pronoms et possessifs", "n": "", "l": [["Pronoms personnels compléments", "https://www.nlfacile.com/pronoms-personnels-complements-neerlandais_2_23870.htm?guide=1"], ["Pronoms personnels, formes accentuées", "https://www.nlfacile.com/pronoms-personnels-formes-accentuees-neerlandais_2_26222.htm?guide=2"], ["Adjectifs possessifs", "https://www.nlfacile.com/adjectifs-possessifs-neerlandais_2_24126.htm?guide=1"], ["Adjectifs démonstratifs", "https://www.nlfacile.com/adjectifs-demonstratifs-neerlandais_2_21684.htm?guide=1"]]}, {"d": "01/11", "t": "Adjectifs et adverbes", "n": "", "l": [["Adjectif qualificatif : accord", "https://www.nlfacile.com/adjectif-qualificatif-accord-regles-neerlandais_2_22312.htm?guide=1"], ["Adjectif : degrés de comparaison", "https://www.nlfacile.com/adjectif-qualificatif-degres-de-comparaison-neerlandais_2_24784.htm?guide=2"], ["Adverbes", "https://www.nlfacile.com/adverbes-neerlandais_2_25992.htm?guide=2"]]}, {"d": "02/11", "t": "Lieu et prépositions", "n": "", "l": [["Prépositions de position", "https://www.nlfacile.com/prepositions-de-position-neerlandais_2_24033.htm?guide=1"], ["Verbes de position", "https://www.nlfacile.com/verbes-de-position-neerlandais_2_24024.htm?guide=1"], ["Il y a (verbe impersonnel)", "https://www.nlfacile.com/verbe-impersonnel-il-y-a-neerlandais_2_24120.htm?guide=1"], ["Prépositions", "https://www.nlfacile.com/prepositions-neerlandais_2_28499.htm?guide=2"]]}, {"d": "03/11", "t": "Infinitif, phrases complexes", "n": "", "l": [["Infinitif : (te) + verbe", "https://www.nlfacile.com/infinitif-mode-infinitif-te-verbe-neerlandais_2_24660.htm?guide=2"], ["Pour + infinitif, pour + nom", "https://www.nlfacile.com/pour-infinitif-pour-nom-neerlandais_2_23309.htm?guide=1"], ["Phrases complexes (1)", "https://www.nlfacile.com/phrases-complexes-1-neerlandais_2_25080.htm?guide=2"]]}, {"d": "04/11", "t": "Réflexifs, temps, partitifs, pluriels", "n": "", "l": [["Verbes pronominaux : pronoms", "https://www.nlfacile.com/verbes-pronominaux-pronoms-neerlandais_2_26389.htm?guide=2"], ["Temps (qui passe)", "https://www.nlfacile.com/temps-qui-passe-neerlandais_2_24163.htm?guide=1"], ["Articles partitifs", "https://www.nlfacile.com/articles-partitifs-neerlandais_2_22654.htm?guide=1"], ["Nom : pluriel (terminaison en -s)", "https://www.nlfacile.com/nom-pluriel-2-terminaison-en-s-neerlandais_2_23129.htm?guide=1"]]}, {"d": "05/11", "t": "Contrôle final", "n": "Refais les révisions où tu étais faible. Veille du jour J : pas de nouveau contenu.", "l": [["Révision cours intermédiaire (1)", "https://www.nlfacile.com/revision-cours-intermediaire-1ere-partie-neerlandais_2_46479.htm?guide=2"], ["Révision cours débutants (1)", "https://www.nlfacile.com/revision-cours-debutants-1ere-partie-neerlandais_2_43925.htm?guide=1"], ["Révision cours débutants (2)", "https://www.nlfacile.com/revision-cours-debutants-2eme-partie-neerlandais_2_44138.htm?guide=1"], ["Révision cours débutants (3)", "https://www.nlfacile.com/revision-cours-debutants-3eme-partie-neerlandais_2_44199.htm?guide=1"]]}],KEY='defprep-nl-v1',st={};
+  try{st=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}}
+  var box=document.getElementById('nllist');
+  function esc(x){return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  function draw(){
+    var done=0;
+    box.innerHTML=NL.map(function(S,i){
+      var ok=!!st[i];if(ok)done++;
+      return '<div class="nls'+(ok?' ok':'')+'"><label class="nlh"><input type="checkbox" data-i="'+i+'"'+(ok?' checked':'')+'><span><span class="mono muted">'+S.d+' · séance '+(i+1)+'</span><br><b>'+esc(S.t)+'</b></span></label><ul class="l">'+
+        S.l.map(function(x){return '<li><a href="'+x[1]+'" target="_blank" rel="noopener">'+esc(x[0])+'</a></li>';}).join('')+'</ul>'+(S.n?'<p class="muted">'+esc(S.n)+'</p>':'')+'</div>';
+    }).join('');
+    document.getElementById('nlbar').style.width=(100*done/NL.length)+'%';
+    document.getElementById('nlcnt').textContent=done+' / '+NL.length;
+  }
+  box.addEventListener('change',function(e){var i=e.target.getAttribute('data-i');if(i===null)return;st[i]=e.target.checked;save();draw();});
+  draw();
+})();
+
+/* quiz néerlandais */
+(function(){
+  var Q=[{"t": "Articles : de / het", "r": "« de » pour le masculin et le féminin, ainsi qu'au pluriel. « het » pour le neutre et tous les diminutifs en -je. Il n'y a pas de règle sûre : apprends chaque nom avec son article.", "q": [{"q": "___ huis", "a": "het", "w": ["de", "een", "dit"]}, {"q": "___ tafel", "a": "de", "w": ["het", "een", "dat"]}, {"q": "___ meisje", "a": "het", "w": ["de", "een", "dit"]}, {"q": "___ kinderen", "a": "de", "w": ["het", "een", "dat"]}, {"q": "___ boek", "a": "het", "w": ["de", "een", "die"]}, {"q": "___ auto", "a": "de", "w": ["het", "een", "dat"]}]}, {"t": "Zijn et hebben (présent)", "r": "zijn : ik ben, jij bent, hij is, wij/jullie/zij zijn. hebben : ik heb, jij hebt, hij heeft, wij/jullie/zij hebben. Avec inversion, jij perd son -t : « Heb jij…? », « Ben jij…? ».", "q": [{"q": "Ik ___ student.", "a": "ben", "w": ["is", "bent", "zijn"]}, {"q": "Jij ___ een auto.", "a": "hebt", "w": ["heb", "heeft", "hebben"]}, {"q": "Hij ___ moe.", "a": "is", "w": ["ben", "bent", "zijn"]}, {"q": "Wij ___ thuis.", "a": "zijn", "w": ["is", "ben", "bent"]}, {"q": "___ jij honger ?", "a": "Heb", "w": ["Hebt", "Heeft", "Hebben"]}, {"q": "Zij (elles) ___ twee katten.", "a": "hebben", "w": ["heeft", "hebt", "heb"]}]}, {"t": "Présent des verbes réguliers", "r": "Radical = infinitif sans -en. ik : radical. jij/hij : radical + t. wij/jullie/zij : infinitif. Avec inversion, jij : radical sans t.", "q": [{"q": "werken : ik ___", "a": "werk", "w": ["werkt", "werken", "werke"]}, {"q": "werken : hij ___", "a": "werkt", "w": ["werk", "werken", "werkte"]}, {"q": "wonen : wij ___", "a": "wonen", "w": ["woon", "woont", "woonden"]}, {"q": "leren : jij ___", "a": "leert", "w": ["leer", "leren", "leerde"]}, {"q": "Waar ___ jij ? (wonen)", "a": "woon", "w": ["woont", "wonen", "woonde"]}, {"q": "Zij (elles) ___ in Mons. (wonen)", "a": "wonen", "w": ["woont", "woon", "woonde"]}]}, {"t": "Ordre des mots", "r": "Le verbe conjugué est toujours en deuxième position dans la principale : si un complément ouvre la phrase, le sujet passe après. Dans la subordonnée, le verbe conjugué part en fin de phrase. L'infinitif se met à la fin.", "q": [{"q": "Quelle phrase est correcte ?", "a": "Morgen ga ik naar school.", "w": ["Morgen ik ga naar school.", "Morgen naar school ga ik.", "Morgen ga naar school ik."]}, {"q": "Quelle phrase est correcte ?", "a": "Vandaag werk ik thuis.", "w": ["Vandaag ik werk thuis.", "Vandaag thuis ik werk.", "Vandaag werk thuis ik."]}, {"q": "Quelle phrase est correcte ?", "a": "Waar woon je ?", "w": ["Waar je woont ?", "Waar je woon ?", "Waar woont je ?"]}, {"q": "Quelle phrase est correcte ?", "a": "Ik weet dat hij morgen komt.", "w": ["Ik weet dat hij komt morgen.", "Ik weet dat komt hij morgen.", "Ik weet hij dat morgen komt."]}, {"q": "Quelle phrase est correcte ?", "a": "Ik wil koffie drinken.", "w": ["Ik wil drinken koffie.", "Ik drinken wil koffie.", "Ik wil koffie drink."]}, {"q": "Quelle phrase est correcte ?", "a": "Ik kan morgen niet komen.", "w": ["Ik kan niet komen morgen.", "Ik kan komen niet morgen.", "Ik niet kan morgen komen."]}]}, {"t": "Négation : geen / niet", "r": "geen remplace « een » ou l'absence d'article devant un nom (pas de, aucun). niet nie : il porte sur le verbe, l'adjectif, l'adverbe, ou un nom précédé de l'article défini ou d'un possessif.", "q": [{"q": "Ik heb ___ auto.", "a": "geen", "w": ["niet", "nooit", "niks"]}, {"q": "Ik ben ___ moe.", "a": "niet", "w": ["geen", "nooit", "niks"]}, {"q": "Ik heb ___ tijd.", "a": "geen", "w": ["niet", "nooit", "niks"]}, {"q": "Hij werkt ___.", "a": "niet", "w": ["geen", "nooit", "niks"]}, {"q": "Dit is ___ mijn boek.", "a": "niet", "w": ["geen", "nooit", "niks"]}, {"q": "Ik wil ___ koffie.", "a": "geen", "w": ["niet", "nooit", "niks"]}]}, {"t": "Nombres et heure", "r": "Unités avant dizaines : 21 = eenentwintig. 13 = dertien, 14 = veertien, 30 = dertig, 40 = veertig. Heure : half drie = 2 h 30 (la demi-heure se compte vers l'heure suivante). kwart over vier = 4 h 15, kwart voor acht = 7 h 45.", "q": [{"q": "14", "a": "veertien", "w": ["veertig", "vierentwintig", "vierde"]}, {"q": "40", "a": "veertig", "w": ["veertien", "vierentig", "viertig"]}, {"q": "21", "a": "eenentwintig", "w": ["twintigeen", "eenentwintigste", "tweeëntwintig"]}, {"q": "Het is half drie.", "a": "2 h 30", "w": ["3 h 30", "2 h 45", "3 h 15"]}, {"q": "Het is kwart over vier.", "a": "4 h 15", "w": ["3 h 45", "4 h 45", "5 h 15"]}, {"q": "Het is kwart voor acht.", "a": "7 h 45", "w": ["8 h 15", "7 h 15", "8 h 45"]}, {"q": "30", "a": "dertig", "w": ["dertien", "drieëntwintig", "derde"]}]}, {"t": "Passé composé et imparfait", "r": "Passé composé : hebben ou zijn + participe passé (ge- + radical + t/d pour les réguliers). zijn avec les verbes de mouvement ou de changement d'état (gaan, komen, worden) et avec zijn. Pas de ge- si le verbe commence par be-, ge-, ver-, ont-, her-. Imparfait de zijn : ik was, wij waren.", "q": [{"q": "Ik ___ gisteren naar Brussel gegaan.", "a": "ben", "w": ["heb", "was", "ga"]}, {"q": "Ik ___ een boek gelezen.", "a": "heb", "w": ["ben", "was", "hebt"]}, {"q": "Participe passé de werken", "a": "gewerkt", "w": ["gewerk", "gewerkte", "geworken"]}, {"q": "Participe passé de wonen", "a": "gewoond", "w": ["gewoont", "gewoon", "gewonen"]}, {"q": "Participe passé de komen", "a": "gekomen", "w": ["gekomt", "gekomd", "gekomn"]}, {"q": "Participe passé de beginnen", "a": "begonnen", "w": ["gebegonnen", "gebeginnen", "begint"]}, {"q": "Gisteren ___ ik thuis.", "a": "was", "w": ["ben", "is", "waren"]}, {"q": "Wij ___ in Parijs geweest.", "a": "zijn", "w": ["hebben", "is", "waren"]}, {"q": "Ik ___ gisteren een film gezien.", "a": "heb", "w": ["ben", "was", "zie"]}]}, {"t": "Verbes de modalité", "r": "kunnen (pouvoir) : ik kan. moeten (devoir) : ik moet. willen (vouloir) : ik wil. mogen (avoir le droit) : ik mag. Le verbe de modalité est conjugué en 2e position, le verbe principal à l'infinitif en fin de phrase.", "q": [{"q": "Ik ___ zwemmen. (pouvoir)", "a": "kan", "w": ["moet", "wil", "mag"]}, {"q": "Hij ___ naar huis gaan. (devoir)", "a": "moet", "w": ["kan", "wil", "mag"]}, {"q": "Wij ___ koffie. (vouloir)", "a": "willen", "w": ["kunnen", "moeten", "mogen"]}, {"q": "Jij ___ hier niet roken. (avoir le droit)", "a": "mag", "w": ["kan", "moet", "wil"]}, {"q": "Que signifie « Ik mag niet » ?", "a": "Je n'ai pas le droit.", "w": ["Je ne peux pas.", "Je ne veux pas.", "Je ne dois pas."]}, {"q": "Que signifie « moeten » ?", "a": "devoir", "w": ["pouvoir", "vouloir", "savoir"]}]}, {"t": "Verbes à particules", "r": "La particule se sépare et part en fin de phrase à l'indicatif présent (ik sta op). À l'infinitif ou en subordonnée elle reste collée (opstaan). Participe passé : particule + ge + radical (opgebeld).", "q": [{"q": "Quelle phrase est correcte ?", "a": "Ik sta om zeven uur op.", "w": ["Ik opsta om zeven uur.", "Ik sta op om zeven uur.", "Ik op sta om zeven uur."]}, {"q": "Hij belt me ___. (opbellen)", "a": "op", "w": ["af", "aan", "mee"]}, {"q": "Ik moet vroeg ___.", "a": "opstaan", "w": ["op staan", "staan op", "opgestaan"]}, {"q": "Kom je ___ ? (meekomen)", "a": "mee", "w": ["op", "aan", "uit"]}, {"q": "De trein komt om tien uur ___. (aankomen)", "a": "aan", "w": ["op", "mee", "uit"]}, {"q": "Participe passé de opbellen", "a": "opgebeld", "w": ["geopbeld", "gebeld op", "opbeld"]}]}, {"t": "Pronoms et possessifs", "r": "Possessifs : mijn, jouw/je, zijn, haar, ons/onze, jullie, hun, uw (vouvoiement). ons devant un het-woord singulier, onze devant un de-woord. Pronoms complément : mij/me, jou/je, hem, haar, ons, hen/hun.", "q": [{"q": "Geef het aan ___. (à lui)", "a": "hem", "w": ["hij", "zijn", "haar"]}, {"q": "Dit is ___ boek. (mon)", "a": "mijn", "w": ["mij", "mine", "me"]}, {"q": "Dat is ___ huis. (leur)", "a": "hun", "w": ["hen", "zij", "hem"]}, {"q": "Is dit ___ tas ? (la vôtre, vouvoiement)", "a": "uw", "w": ["jouw", "jullie", "zijn"]}, {"q": "___ huis (notre)", "a": "ons", "w": ["onze", "onse", "wij"]}, {"q": "Zij heeft ___ sleutels. (ses)", "a": "haar", "w": ["zijn", "hun", "hij"]}, {"q": "___ auto is nieuw. (notre)", "a": "Onze", "w": ["Ons", "Wij", "Onzen"]}]}, {"t": "Comparatif et superlatif", "r": "Comparatif : adjectif + -er (groter). Avec « dan » (que). Égalité : zo … als. Superlatif : de/het + -ste (de snelste). Irréguliers : goed – beter – best, veel – meer – meest.", "q": [{"q": "groot (comparatif)", "a": "groter", "w": ["groot er", "grootste", "meer groot"]}, {"q": "goed (comparatif)", "a": "beter", "w": ["gooder", "meer goed", "best"]}, {"q": "Dit boek is ___ dan dat boek. (interessant)", "a": "interessanter", "w": ["interessantst", "meer interessant er", "interessant"]}, {"q": "Hij is de ___. (snel)", "a": "snelste", "w": ["sneller", "snelst er", "meest snel"]}, {"q": "veel (comparatif)", "a": "meer", "w": ["veler", "meest", "veel"]}, {"q": "Hij is zo groot ___ ik.", "a": "als", "w": ["dan", "want", "of"]}, {"q": "Hij is groter ___ ik.", "a": "dan", "w": ["als", "want", "of"]}]}, {"t": "Lieu, prépositions, il y a", "r": "« Il y a » = er + verbe de position : er ligt (couché), er staat (debout), er zit, er hangt. Prépositions : in (dans/à + ville), op (sur), onder (sous), bij (chez, auprès de), naar (vers), uit (de, hors), om (à + heure).", "q": [{"q": "Ik woon ___ Charleroi.", "a": "in", "w": ["op", "bij", "naar"]}, {"q": "Ik werk ___ een bedrijf.", "a": "bij", "w": ["in", "op", "om"]}, {"q": "Hij gaat ___ school.", "a": "naar", "w": ["in", "bij", "uit"]}, {"q": "De kat zit ___ de tafel. (sous)", "a": "onder", "w": ["op", "naast", "over"]}, {"q": "We komen ___ België.", "a": "uit", "w": ["in", "naar", "bij"]}, {"q": "Er ___ twee stoelen in de kamer.", "a": "staan", "w": ["ligt", "staat", "liggen"]}, {"q": "Er ___ een boek op tafel.", "a": "ligt", "w": ["staat", "zit", "liggen"]}, {"q": "Ik ben ___ zeven uur thuis.", "a": "om", "w": ["in", "op", "bij"]}]}, {"t": "Mots interrogatifs", "r": "wie (qui), wat (quoi), waar (où), wanneer (quand), waarom (pourquoi), hoe (comment), hoeveel (combien), welk/welke (quel). Après le mot interrogatif, le verbe conjugué vient en 2e position.", "q": [{"q": "wie", "a": "qui", "w": ["quand", "où", "pourquoi"]}, {"q": "waar", "a": "où", "w": ["quand", "comment", "combien"]}, {"q": "wanneer", "a": "quand", "w": ["où", "pourquoi", "comment"]}, {"q": "waarom", "a": "pourquoi", "w": ["quand", "combien", "comment"]}, {"q": "hoeveel", "a": "combien", "w": ["comment", "quand", "où"]}, {"q": "___ heet jij ?", "a": "Hoe", "w": ["Wat", "Wie", "Waar"]}, {"q": "___ laat is het ?", "a": "Hoe", "w": ["Wat", "Wie", "Wanneer"]}]}],KEY='defprep-nlq-v1',best={};
+  try{best=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(best));}catch(e){}}
+  function esc(x){return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  var home=document.getElementById('nqhome'),run=document.getElementById('nqrun');
+  function drawHome(){
+    var h='<div class="nqg">'+Q.map(function(T,i){var b=best['t'+i];return '<button class="nqb" data-k="'+i+'"><b>'+esc(T.t)+'</b><span class="mono muted">'+T.q.length+' questions'+(b!=null?' · meilleur '+b+'%':'')+'</span></button>';}).join('')+
+      '<button class="nqb" data-k="mix"><b>Mélange</b><span class="mono muted">20 questions'+(best.mix!=null?' · meilleur '+best.mix+'%':'')+'</span></button></div>';
+    home.innerHTML=h;
+  }
+  function start(k){
+    var qs,rule,title;
+    if(k==='mix'){qs=[];Q.forEach(function(T){T.q.forEach(function(x){qs.push(x);});});qs=shuf(qs).slice(0,20);title='Mélange';rule='';}
+    else{var T=Q[+k];qs=shuf(T.q);title=T.t;rule=T.r;}
+    var i=0,ok=0;
+    home.hidden=true;run.hidden=false;
+    function q(){
+      var x=qs[i],opts=shuf([x.a].concat(x.w));
+      run.innerHTML='<div class="card"><p class="kicker">'+esc(title)+' · '+(i+1)+' / '+qs.length+'</p>'+(i===0&&rule?'<p class="muted">'+esc(rule)+'</p>':'')+
+        '<p class="nqq">'+esc(x.q)+'</p><div class="nqo">'+opts.map(function(o){return '<button class="nqb nqopt" data-o="'+esc(o)+'">'+esc(o)+'</button>';}).join('')+'</div><p id="nqfb" class="nqfb"></p></div>';
+      run.querySelectorAll('.nqopt').forEach(function(b){b.onclick=function(){
+        var good=b.getAttribute('data-o')===x.a;if(good)ok++;
+        run.querySelectorAll('.nqopt').forEach(function(c){c.disabled=true;if(c.getAttribute('data-o')===x.a)c.classList.add('good');});
+        if(!good)b.classList.add('bad');
+        var fb=document.getElementById('nqfb');fb.textContent=good?'Correct.':'Réponse : '+x.a;
+        var n=document.createElement('button');n.className='nqb nqnext';n.textContent=i+1<qs.length?'Suivant':'Voir le score';
+        n.onclick=function(){i++;if(i<qs.length)q();else end();};fb.parentNode.appendChild(n);n.focus();
+      };});
+    }
+    function end(){
+      var pc=Math.round(100*ok/qs.length),key=(k==='mix'?'mix':'t'+k),nb=best[key]==null||pc>best[key];
+      if(nb){best[key]=pc;save();}
+      run.innerHTML='<div class="card"><h3>'+ok+' / '+qs.length+' ('+pc+' %)</h3><p>'+(pc>=80?'Au-dessus de 80 % : le thème est acquis.':'Sous 80 % : relis le rappel et refais le thème.')+(nb?' Nouveau meilleur résultat.':'')+'</p><button class="nqb nqnext" id="nqagain">Refaire</button> <button class="nqb nqnext" id="nqback">Retour aux thèmes</button></div>';
+      document.getElementById('nqagain').onclick=function(){start(k);};
+      document.getElementById('nqback').onclick=function(){run.hidden=true;home.hidden=false;drawHome();};
+    }
+    q();
+  }
+  home.addEventListener('click',function(e){var b=e.target.closest('[data-k]');if(b)start(b.getAttribute('data-k'));});
+  drawHome();
+})();
+
+/* tabs */
+var names=['planning','fiches','epreuves','neerlandais','entrainer','resume','entretien','sport','liens'];
+function show(){
+  var h=(location.hash||'').replace('#','');if(names.indexOf(h)<0)h='planning';
+  names.forEach(function(n){
+    document.getElementById(n).hidden=(n!==h);
+    var a=document.querySelector('[data-tab="'+n+'"]');a.setAttribute('aria-selected',n===h?'true':'false');
+  });
+}
+window.addEventListener('hashchange',function(){show();window.scrollTo(0,0);});
+show();
+
+/* résumé */
+var cur=0, PH=[{n:'Lecture sans notes',s:900},{n:'Mots-clés',s:300},{n:'Rédaction',s:5400}];
+var ph=0, remain=PH[0].s, running=false, last=0, tick=null;
+function wc(s){return (s.match(/\S+/g)||[]).filter(function(t){return /[\p{L}\p{N}]/u.test(t);}).length;}
+function fmt(s){s=Math.max(0,Math.ceil(s));var m=Math.floor(s/60),r=s%60;return (m<10?'0':'')+m+':'+(r<10?'0':'')+r;}
+function renderTimer(){
+  var h='';PH.forEach(function(p,i){h+='<div class="step'+(i===ph?' on':'')+(i<ph?' past':'')+'"><b>'+(p.s/60)+' min</b>'+p.n+'</div>';});
+  document.getElementById('steps').innerHTML=h;
+  var c=document.getElementById('clock');c.textContent=fmt(remain);c.classList.toggle('end',remain<=0);
+  document.getElementById('tgo').textContent=running?'Pause':'Démarrer';
+}
+function stopT(){running=false;if(tick){clearInterval(tick);tick=null;}}
+function goPhase(i){stopT();ph=Math.min(i,PH.length-1);remain=PH[ph].s;renderTimer();}
+document.getElementById('tgo').addEventListener('click',function(){
+  if(running){stopT();renderTimer();return;}
+  if(remain<=0){return;}
+  running=true;last=Date.now();
+  tick=setInterval(function(){
+    var now=Date.now();remain-=(now-last)/1000;last=now;
+    if(remain<=0){remain=0;stopT();}
+    renderTimer();
+  },250);
+  renderTimer();
+});
+document.getElementById('tnext').addEventListener('click',function(){goPhase(ph+1);});
+document.getElementById('treset').addEventListener('click',function(){goPhase(0);});
+renderTimer();
+
+var selEl=document.getElementById('textsel');
+function lsGet(k){try{return localStorage.getItem(k)||'';}catch(e){return '';}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+function renderText(){
+  var T=TEXTS[cur];
+  var b='';TEXTS.forEach(function(t,i){b+='<button type="button" class="btn '+(i===cur?'sel':'alt')+'" data-i="'+i+'">Texte '+t.id+' · '+wc(t.body)+' mots</button>';});
+  selEl.innerHTML=b;
+  var ps=T.body.split(/\n\s*\n/).map(function(p){return '<p>'+esc(p)+'</p>';}).join('');
+  document.getElementById('article').innerHTML='<h3>'+esc(T.title)+'</h3>'+ps;
+  document.getElementById('corr').innerHTML=T.corr.split(/\n\s*\n/).map(function(p){return '<p>'+esc(p)+'</p>';}).join('');
+  document.getElementById('corrwc').textContent='Corrigé : '+wc(T.corr)+' mots.';
+  document.getElementById('notes').value=lsGet('defprep-notes-'+T.id);
+  document.getElementById('draft').value=lsGet('defprep-draft-'+T.id);
+  count();
+}
+selEl.addEventListener('click',function(e){var b=e.target.closest('[data-i]');if(!b)return;cur=+b.getAttribute('data-i');renderText();});
+function count(){
+  var n=wc(document.getElementById('draft').value), p=document.getElementById('wcp');
+  document.getElementById('wc').textContent=n+(n>1?' mots':' mot');
+  p.className='pill';
+  if(n===0){p.textContent='cible 315 à 385';}
+  else if(n<315){p.textContent='trop court de '+(315-n);p.classList.add('bad');}
+  else if(n>385){p.textContent='trop long de '+(n-385);p.classList.add('bad');}
+  else{p.textContent='dans la cible';p.classList.add('ok');}
+}
+document.getElementById('draft').addEventListener('input',function(e){lsSet('defprep-draft-'+TEXTS[cur].id,e.target.value);count();});
+document.getElementById('notes').addEventListener('input',function(e){lsSet('defprep-notes-'+TEXTS[cur].id,e.target.value);});
+renderText();
+
+/* entretien */
+var QS=[
+ 'Présentez-vous en une minute.',
+ 'Pourquoi voulez-vous rejoindre la Défense ?',
+ 'Pourquoi officier, et pas ingénieur dans le civil ?',
+ 'Pourquoi la Composante Air et ce poste en particulier ?',
+ 'Quelles sont vos trois principales qualités ? Donnez un exemple pour chacune.',
+ 'Quels sont vos trois principaux défauts ? Que faites-vous pour les corriger ?',
+ 'Citez les 6 valeurs de la Défense et illustrez-en deux avec une situation vécue.',
+ 'Décrivez une situation où vous avez dirigé un groupe.',
+ 'Racontez un échec et ce que vous en avez appris.',
+ 'Votre supérieur donne un ordre que vous jugez mauvais. Que faites-vous ?',
+ 'Êtes-vous prêt à partir en mission à l\'étranger plusieurs mois ?',
+ 'Que savez-vous du métier d\'ingénieur technicien avion à la Défense ?',
+ 'Citez une mission actuelle de la Défense belge et expliquez son but.',
+ 'Quels avions la Composante Air exploite-t-elle, et où sont-ils basés ?',
+ 'Qu\'est-ce qu\'une QRA ?',
+ 'Comment gérez-vous la fatigue et le stress ?',
+ 'Pourquoi devrions-nous vous choisir plutôt qu\'un autre candidat ?',
+ 'Où vous voyez-vous dans cinq ans ?',
+ 'Parlez-nous de votre projet de drone ou de carte électronique, et de votre rôle précis.',
+ 'Qu\'avez-vous retenu du Job Day ou de la séance d\'information ?'
+];
+var lastQ=-1;
+document.getElementById('qgo').addEventListener('click',function(){
+  var i;do{i=Math.floor(Math.random()*QS.length);}while(i===lastQ&&QS.length>1);
+  lastQ=i;document.getElementById('qtext').textContent=QS[i];
+});
+/* ---------- entraîneur : 5 modules du test de base ---------- */
+function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1));}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+/* 1. aisance numérique */
+function expr(){
+  var k=rnd(0,3),a,b;
+  if(k===0){a=rnd(11,69);b=rnd(11,59);return {txt:a+' + '+b,val:a+b};}
+  if(k===1){a=rnd(30,99);b=rnd(11,a-5);return {txt:a+' − '+b,val:a-b};}
+  if(k===2){a=rnd(3,12);b=rnd(3,12);return {txt:a+' × '+b,val:a*b};}
+  b=rnd(3,9);var q=rnd(3,12);return {txt:(b*q)+' ÷ '+b,val:q};
+}
+function exprTo(v){
+  var k=rnd(0,2),a,b;
+  if(k===0&&v>14){a=rnd(5,v-5);return {txt:a+' + '+(v-a),val:v};}
+  if(k===1){b=rnd(5,40);return {txt:(v+b)+' − '+b,val:v};}
+  for(var d=2;d<=9;d++){if(v%d===0&&v/d>=3){return {txt:v+' ÷ '+d,val:v/d};}}
+  b=rnd(5,40);return {txt:(v+b)+' − '+b,val:v};
+}
+function genNum(){
+  var A=expr(),B;
+  if(Math.random()<0.25){B=exprTo(A.val);}else{B=expr();}
+  var cmp=A.val>B.val?'H':(A.val<B.val?'B':'E');
+  return {meta:{a:A,b:B},correct:cmp,
+    show:function(st,ready){st.innerHTML='<div class="expr"><small>Haut</small>'+A.txt+'</div><div class="expr"><small>Bas</small>'+B.txt+'</div>';ready();},
+    opts:[{v:'H',l:'Haut plus grand'},{v:'B',l:'Bas plus grand'},{v:'E',l:'Égaux'}]};
+}
+
+/* 2. orientation spatiale */
+var DIRS=['haut','haut-droite','droite','bas-droite','bas','bas-gauche','gauche','haut-gauche'];
+var RELS={above:'au-dessus de',below:'en dessous de',left:'à gauche de',right:'à droite de'};
+function arrowSvg(a,fill){return '<svg viewBox="-20 -20 40 40" width="40" height="40" aria-hidden="true"><g transform="rotate('+(a*45)+')"><polygon points="0,-16 11,-2 4,-2 4,16 -4,16 -4,-2 -11,-2" fill="'+fill+'" stroke="#8a93a6" stroke-width="1"/></g></svg>';}
+function figHtml(f){
+  var B=arrowSvg(f.aB,'#000'),Y=arrowSvg(f.aY,'#F2C200');
+  var col=(f.rel==='above'||f.rel==='below');
+  var first=(f.rel==='above'||f.rel==='left')?B+Y:Y+B;
+  return '<span class="fig'+(col?' col':'')+'">'+first+'</span>';
+}
+function figKey(f){return f.rel+'|'+f.aB+'|'+f.aY;}
+function genSpa(){
+  var rels=Object.keys(RELS), good={rel:pick(rels),aB:rnd(0,7),aY:rnd(0,7)};
+  while(good.aY===good.aB){good.aY=rnd(0,7);}
+  var seen={},list=[good];seen[figKey(good)]=1;
+  var guard=0;
+  while(list.length<6&&guard++<200){
+    var f={rel:good.rel,aB:good.aB,aY:good.aY},m=rnd(0,3);
+    if(m===0){f.rel=pick(rels);}
+    else if(m===1){f.aB=rnd(0,7);}
+    else if(m===2){f.aY=rnd(0,7);}
+    else{f.aB=good.aY;f.aY=good.aB;}
+    if(f.aB===f.aY)continue;
+    if(seen[figKey(f)])continue;
+    seen[figKey(f)]=1;list.push(f);
+  }
+  var order=shuffle(list),ci=order.indexOf(good);
+  var rule1='La flèche noire est '+RELS[good.rel]+' la flèche jaune.';
+  var rule2='La flèche noire pointe vers '+DIRS[good.aB]+', la flèche jaune vers '+DIRS[good.aY]+'.';
+  return {meta:{good:good,figs:order},correct:ci,
+    show:function(st,ready){
+      st.innerHTML='<div class="mem" style="font-size:20px">'+rule1+'<br>'+rule2+'</div><div class="hl2" id="cd">Retiens les règles : 6 s</div>';
+      var n=6,iv=setInterval(function(){n--;var c=document.getElementById('cd');if(c)c.textContent='Retiens les règles : '+n+' s';if(n<=0){clearInterval(iv);st.innerHTML='<div class="muted">Règles masquées. Choisis la figure qui les respecte.</div>';ready();}},1000);
+      st._iv=iv;
+    },
+    opts:order.map(function(f,i){return {v:i,h:figHtml(f)};})};
+}
+
+/* 3. mémoire des mots */
+var CATS={
+ 'Pays':['Belgique','Espagne','Japon','Brésil','Norvège','Kenya','Chili','Canada'],
+ 'Vêtement':['chaussette','manteau','écharpe','pantalon','chemise','gant','veste','bonnet'],
+ 'Animal':['renard','cheval','dauphin','lapin','girafe','corbeau','chèvre','lion'],
+ 'Fruit':['poire','cerise','citron','abricot','banane','prune','ananas','fraise'],
+ 'Métier':['boulanger','pilote','dentiste','plombier','juge','pompier','maçon','notaire'],
+ 'Outil':['marteau','tournevis','pince','scie','perceuse','clé','rabot','truelle'],
+ 'Ville':['Mons','Namur','Liège','Gand','Ostende','Anvers','Bruges','Arlon']
+};
+function genMem(){
+  var names=Object.keys(CATS),rules=[],words=[],cnt=0,i;
+  for(i=0;i<3;i++){rules.push(pick(names));}
+  for(i=0;i<3;i++){
+    if(Math.random()<0.5){words.push(pick(CATS[rules[i]]));cnt++;}
+    else{var others=names.filter(function(n){return n!==rules[i];});words.push(pick(CATS[pick(others)]));}
+  }
+  return {meta:{rules:rules,words:words},correct:cnt,
+    show:function(st,ready){
+      st.innerHTML='<div class="mem">1. '+rules[0]+'<br>2. '+rules[1]+'<br>3. '+rules[2]+'</div><div class="hl2" id="cd">Retiens les règles : 5 s</div>';
+      var n=5,iv=setInterval(function(){n--;var c=document.getElementById('cd');if(c)c.textContent='Retiens les règles : '+n+' s';if(n<=0){clearInterval(iv);st.innerHTML='<div class="mem">1. '+words[0]+'<br>2. '+words[1]+'<br>3. '+words[2]+'</div><div class="hl2">Combien de mots respectent la règle de même numéro ?</div>';ready();}},1000);
+      st._iv=iv;
+    },
+    opts:[0,1,2,3].map(function(n){return {v:n,l:String(n)};})};
+}
+
+/* 4. raisonnement */
+var ATTR=[
+ {more:'plus grand',less:'moins grand',sup:'le plus grand',inf:'le moins grand'},
+ {more:'plus rapide',less:'moins rapide',sup:'le plus rapide',inf:'le moins rapide'},
+ {more:'plus lourd',less:'moins lourd',sup:'le plus lourd',inf:'le moins lourd'},
+ {more:'plus âgé',less:'moins âgé',sup:'le plus âgé',inf:'le moins âgé'},
+ {more:'plus éloigné',less:'moins éloigné',sup:'le plus éloigné',inf:'le moins éloigné'}
+];
+var NAMES=['Didier','Christophe','Yves','Marc','Luc','Paul','Hugo','Louis','Karim','Sofia','Nina','Léa','Julie','Camille','Tom','Sarah'];
+function genRea(){
+  var at=pick(ATTR),n=shuffle(NAMES).slice(0,3); /* n[0] > n[1] > n[2] */
+  function st(hi,lo){return Math.random()<0.5?hi+' est '+at.more+' que '+lo+'.':lo+' est '+at.less+' que '+hi+'.';}
+  var s=[{hi:n[0],lo:n[1],txt:st(n[0],n[1])},{hi:n[1],lo:n[2],txt:st(n[1],n[2])}];
+  s=shuffle(s);
+  var top=Math.random()<0.5;
+  var q='Qui est '+(top?at.sup:at.inf)+' ?';
+  return {meta:{s:s,top:top,names:n},correct:top?n[0]:n[2],
+    show:function(stg,ready){stg.innerHTML='<div class="expr" style="font-size:19px;font-family:var(--f-body)">'+s[0].txt+'<br>'+s[1].txt+'</div><div class="mem" style="font-size:24px">'+q+'</div>';ready();},
+    opts:shuffle(n).map(function(x){return {v:x,l:x};})};
+}
+
+/* 5. détection d'erreurs */
+function genErr(){
+  var k=rnd(0,4),kind=rnd(0,3),s,L='ABCDEFGHJKLMNPRSTUVWXYZ',D='0123456789',lw='abcdefghijklmnoprstuvwxyz',i;
+  function rs(n,set){var o='';for(var j=0;j<n;j++)o+=set.charAt(rnd(0,set.length-1));return o;}
+  if(kind===0){s=rs(3,L)+' '+rs(3,D);}
+  else if(kind===1){s=rnd(1,2)+'-'+rs(3,L)+'-'+rs(3,D);}
+  else if(kind===2){s=rs(5,lw)+'.'+rs(6,lw)+'@'+rs(5,lw)+'.be';}
+  else{s='www.'+rs(6,lw)+'.be/'+rs(1,lw)+rs(2,D);}
+  var pos=[];for(i=0;i<s.length;i++){if(/[A-Za-z0-9]/.test(s.charAt(i)))pos.push(i);}
+  pos=shuffle(pos).slice(0,k);
+  var c=s.split('');
+  pos.forEach(function(p){
+    var ch=s.charAt(p),r;
+    do{r=/[0-9]/.test(ch)?rs(1,D):(/[A-Z]/.test(ch)?rs(1,L):rs(1,lw));}while(r===ch);
+    c[p]=r;
+  });
+  var copy=c.join('');
+  return {meta:{a:s,b:copy,k:k},correct:k,
+    show:function(st,ready){st.innerHTML='<div class="expr"><small>Original</small>'+esc(s)+'</div><div class="expr"><small>Copie</small>'+esc(copy)+'</div><div class="hl2">Combien de caractères diffèrent ?</div>';ready();},
+    opts:[0,1,2,3,4].map(function(n){return {v:n,l:String(n)};})};
+}
+
+var MODS={
+ num:{name:'Aisance numérique',n:12,gen:genNum},
+ spa:{name:'Orientation spatiale',n:6,gen:genSpa},
+ mem:{name:'Mémoire des mots',n:8,gen:genMem},
+ rea:{name:'Raisonnement',n:8,gen:genRea},
+ err:{name:'Détection d\'erreurs',n:8,gen:genErr}
+};
+window.__defprep={MODS:MODS};
+var tcur=null,ti=0,tscore=0,ttimes=[],tit=null,tt0=0,tlock=true;
+var stage=document.getElementById('tstage'),topts=document.getElementById('topts'),tfb=document.getElementById('tfb');
+function bestGet(){try{return JSON.parse(localStorage.getItem('defprep-best')||'{}')||{};}catch(e){return {};}}
+function bestSet(o){try{localStorage.setItem('defprep-best',JSON.stringify(o));}catch(e){}}
+function renderModSel(){
+  var b='';Object.keys(MODS).forEach(function(k){b+='<button type="button" class="btn '+(tcur===k?'sel':'alt')+'" data-m="'+k+'">'+MODS[k].name+'</button>';});
+  document.getElementById('modsel').innerHTML=b;
+}
+document.getElementById('modsel').addEventListener('click',function(e){var b=e.target.closest('[data-m]');if(!b)return;startMod(b.getAttribute('data-m'));});
+function clearIv(){if(stage._iv){clearInterval(stage._iv);stage._iv=null;}}
+function startMod(k){
+  clearIv();tcur=k;ti=0;tscore=0;ttimes=[];
+  document.getElementById('tres').hidden=true;
+  renderModSel();nextItem();
+}
+function nextItem(){
+  var M=MODS[tcur];
+  if(ti>=M.n){return finishMod();}
+  tit=M.gen();tlock=true;tfb.textContent='';topts.innerHTML='';
+  document.getElementById('hmod').textContent=M.name;
+  document.getElementById('hprog').textContent='Item '+(ti+1)+' / '+M.n+' · score '+tscore;
+  tit.show(stage,function(){
+    var h='';
+    tit.opts.forEach(function(o,idx){h+='<button type="button" class="opt" data-i="'+idx+'">'+(o.h||esc(o.l))+'</button>';});
+    topts.innerHTML=h;tlock=false;tt0=Date.now();
+  });
+}
+topts.addEventListener('click',function(e){
+  var b=e.target.closest('[data-i]');if(!b||tlock)return;
+  tlock=true;
+  var idx=+b.getAttribute('data-i'),o=tit.opts[idx],ok=(o.v===tit.correct),dt=(Date.now()-tt0)/1000;
+  ttimes.push(dt);if(ok)tscore++;
+  var bs=topts.querySelectorAll('.opt');
+  bs.forEach(function(x,j){x.disabled=true;if(tit.opts[j].v===tit.correct)x.classList.add('ok');});
+  if(!ok)b.classList.add('no');
+  tfb.textContent=(ok?'Correct':'Faux')+' · '+dt.toFixed(1)+' s';
+  ti++;
+  setTimeout(nextItem,ok?650:1300);
+});
+function finishMod(){
+  var M=MODS[tcur],avg=ttimes.reduce(function(a,b){return a+b;},0)/Math.max(1,ttimes.length);
+  var best=bestGet(),prev=best[tcur],txt='';
+  if(prev){txt='<p class="muted">Meilleur score précédent : '+prev.s+' / '+M.n+' en '+prev.t.toFixed(1)+' s par item.</p>';}
+  if(!prev||tscore>prev.s||(tscore===prev.s&&avg<prev.t)){best[tcur]={s:tscore,t:avg};bestSet(best);txt+='<p><b>Nouveau meilleur résultat.</b></p>';}
+  stage.innerHTML='<div class="mem">'+tscore+' / '+M.n+'</div><div class="hl2">'+avg.toFixed(1)+' s par item en moyenne</div>';
+  topts.innerHTML='';tfb.textContent='';
+  document.getElementById('hprog').textContent='Terminé';
+  var r=document.getElementById('tres');
+  r.innerHTML='<h3>'+M.name+'</h3><p>Score : <b>'+tscore+' / '+M.n+'</b>, temps moyen <b>'+avg.toFixed(1)+' s</b> par item.</p>'+txt+'<div class="row"><button class="btn" type="button" id="again">Refaire une série</button></div>';
+  r.hidden=false;
+  document.getElementById('again').addEventListener('click',function(){startMod(tcur);});
+}
+renderModSel();
+
+})();
+</script>
