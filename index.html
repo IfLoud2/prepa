@@ -767,6 +767,21 @@ details[open] summary{margin-bottom:10px}
       <li>Si tu cours 5 km sans t'arrêter, la base est solide. Sinon, la brochure renvoie à un plan d'entraînement via le centre d'information.</li>
     </ul></div>
   </div>
+
+  <div class="sec" id="syncbox">
+    <h2>Synchronisation (Mac, mobile)</h2>
+    <div class="card">
+      <p>Les cases cochées, scores et brouillons sont copiés dans un <b>gist secret</b> de ton compte GitHub, puis fusionnés entre tes appareils. Rien ne passe par un autre serveur.</p>
+      <ol class="l">
+        <li>Crée un <a href="https://github.com/settings/tokens/new?scopes=gist&description=prepa-sync" target="_blank" rel="noopener">token classique avec le seul droit « gist »</a> (durée 30 jours conseillée).</li>
+        <li>Colle-le ci-dessous, sur chaque appareil. Il reste dans ce navigateur uniquement.</li>
+      </ol>
+      <p><input id="syncTok" type="password" autocomplete="off" placeholder="ghp_…" style="width:100%;max-width:420px;min-height:44px;padding:8px 12px;font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px"></p>
+      <p><button type="button" class="nqb nqnext" id="syncOn">Activer</button> <button type="button" class="nqb nqnext" id="syncNow" hidden>Synchroniser</button> <button type="button" class="nqb nqnext" id="syncOff" hidden>Désactiver</button></p>
+      <p class="mono muted" id="syncSt">Synchronisation désactivée.</p>
+      <p class="muted">Limite : une case décochée sur un appareil peut revenir cochée si l'autre l'avait cochée. Le token donne accès à tes gists : ne le colle que sur tes appareils.</p>
+    </div>
+  </div>
 </section>
 </main>
 </div>
@@ -923,6 +938,73 @@ refresh();
   }
   home.addEventListener('click',function(e){var b=e.target.closest('[data-k]');if(b)start(b.getAttribute('data-k'));});
   drawHome();
+})();
+
+/* synchro gist */
+(function(){
+  var P='defprep-',TK=P+'sync-token',GK=P+'sync-gist',MK=P+'sync-meta',LK=P+'sync-last',DESC='defprep-sync',FN='defprep.json';
+  function g(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+  function w(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+  function isData(k){return k.indexOf(P)===0&&k.indexOf(P+'sync-')!==0;}
+  function snap(){var o={};try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(isData(k))o[k]=localStorage.getItem(k);}}catch(e){}return o;}
+  function pj(v){try{var x=JSON.parse(v);return x&&typeof x==='object'&&!Array.isArray(x)?x:null;}catch(e){return null;}}
+  function jp(k,d){try{return JSON.parse(g(k)||'')||d;}catch(e){return d;}}
+  function mv(lv,lt,rv,rt){
+    if(lv==null)return [rv,rt];if(rv==null)return [lv,lt];if(lv===rv)return [lv,Math.max(lt,rt)];
+    var a=pj(lv),b=pj(rv);
+    if(a&&b){var o={};Object.keys(a).concat(Object.keys(b)).forEach(function(f){var x=a[f],y=b[f];
+      if(!(f in a))o[f]=y;else if(!(f in b))o[f]=x;
+      else if(typeof x==='boolean'&&typeof y==='boolean')o[f]=x||y;
+      else if(typeof x==='number'&&typeof y==='number')o[f]=Math.max(x,y);
+      else o[f]=lt>=rt?x:y;});
+      return [JSON.stringify(o),Math.max(lt,rt)];}
+    return lt>=rt?[lv,lt]:[rv,rt];
+  }
+  var $=function(i){return document.getElementById(i);},busy=false;
+  function st(t){var e=$('syncSt');if(e)e.textContent=t;}
+  function api(path,opt){
+    opt=opt||{};opt.headers=Object.assign({Accept:'application/vnd.github+json',Authorization:'Bearer '+g(TK)},opt.headers||{});
+    return fetch('https://api.github.com'+path,opt).then(function(r){if(!r.ok)throw new Error('GitHub '+r.status);return r.json();});
+  }
+  function findGist(){
+    var id=g(GK);if(id)return Promise.resolve(id);
+    return api('/gists?per_page=100').then(function(l){
+      var f=l.filter(function(x){return x.description===DESC&&x.files&&x.files[FN];})[0];
+      if(f){w(GK,f.id);return f.id;}return null;});
+  }
+  function sync(allowReload){
+    if(busy||!g(TK))return Promise.resolve();busy=true;st('Synchronisation…');
+    var local=snap(),last=jp(LK,{}),meta=jp(MK,{}),now=Date.now();
+    Object.keys(local).forEach(function(k){if(local[k]!==last[k])meta[k]=now;});
+    var gid;
+    return findGist().then(function(id){gid=id;return id?api('/gists/'+id):null;}).then(function(gist){
+      var rem={data:{},ts:{}};
+      if(gist&&gist.files&&gist.files[FN]){try{rem=JSON.parse(gist.files[FN].content);}catch(e){}}
+      var rd=rem.data||{},rt=rem.ts||{},md={},mt={},chLocal=false,chRem=false;
+      Object.keys(local).concat(Object.keys(rd)).forEach(function(k){
+        if(k in md)return;var r=mv(local[k],meta[k]||0,rd[k],rt[k]||0);md[k]=r[0];mt[k]=r[1];
+        if(md[k]!==local[k]){w(k,md[k]);chLocal=true;}
+        if(md[k]!==rd[k])chRem=true;
+      });
+      w(MK,JSON.stringify(mt));w(LK,JSON.stringify(snap()));
+      var body=JSON.stringify({description:DESC,public:false,files:{[FN]:{content:JSON.stringify({data:md,ts:mt})}}});
+      var p=Promise.resolve();
+      if(!gid)p=api('/gists',{method:'POST',body:body}).then(function(x){w(GK,x.id);});
+      else if(chRem)p=api('/gists/'+gid,{method:'PATCH',body:body});
+      return p.then(function(){
+        var d=new Date();st('Synchronisé à '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)+(chLocal&&!allowReload?'. Recharge la page pour voir les changements.':'.'));
+        if(chLocal&&allowReload)location.reload();
+      });
+    }).catch(function(e){st('Échec : '+e.message+(String(e.message).indexOf('401')>-1?' (token invalide ou expiré)':''));}).then(function(){busy=false;});
+  }
+  function ui(){var on=!!g(TK);$('syncNow').hidden=!on;$('syncOff').hidden=!on;$('syncOn').hidden=on;$('syncTok').hidden=on;if(!on)st('Synchronisation désactivée.');}
+  $('syncOn').onclick=function(){var t=$('syncTok').value.trim();if(!t)return;w(TK,t);$('syncTok').value='';ui();sync(true);};
+  $('syncNow').onclick=function(){sync(true);};
+  $('syncOff').onclick=function(){try{localStorage.removeItem(TK);localStorage.removeItem(GK);}catch(e){}ui();};
+  ui();
+  if(g(TK)){sync(true);
+    setInterval(function(){var l=snap(),last=jp(LK,{}),k;for(k in l)if(l[k]!==last[k]){sync(false);return;}},4000);
+    document.addEventListener('visibilitychange',function(){if(!document.hidden)sync(true);});}
 })();
 
 /* tabs */
