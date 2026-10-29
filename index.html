@@ -404,7 +404,8 @@ details[open] summary{margin-bottom:10px}
 
     <details class="ep"><summary>BTCA / GCTB (aptitudes cognitives) <span class="bd s">Séance</span> <span class="bd u">Non officiel</span></summary><div class="card">
       <ul class="l"><li><b>50 min</b> au total, 5 modules : aisance numérique (12 items), orientation spatiale (6), mémoire des mots (8), raisonnement (8), détection d'erreurs (8).</li>
-      <li>Sur écran, ni stylo, ni papier, ni calculatrice.</li>
+      <li>Sur écran, ni stylo, ni papier, ni calculatrice. Les écrans s'enchaînent et les informations disparaissent : tu dois retenir (livret officiel mil.be, 18 pages).</li>
+      <li><b>Numérique :</b> deux opérations simples successives (+, −, ×, ÷, petits nombres), puis Haut, Bas ou Égal. <b>Spatial :</b> une règle de couleur et une règle de direction (4 diagonales), puis la figure à deux flèches parmi 6. <b>Mémoire :</b> 3 catégories, puis 3 mots, combien correspondent. <b>Raisonnement :</b> 2 phrases de comparaison, 3 réponses. <b>Erreurs :</b> original et copie, 0 à 4 différences.</li>
       <li>Notation sur précision et vitesse, scores étalonnés (non officiel).</li>
       <li>Aucun seuil publié. Un résultat insuffisant peut interrompre le parcours, et les scores influencent les spécialités accessibles (non officiel).</li>
       <li>Durée par module et barème : non publiés.</li>
@@ -504,7 +505,7 @@ details[open] summary{margin-bottom:10px}
 <section id="entrainer" class="panel" data-panel="entrainer" hidden>
   <div class="card">
     <h3>Test de base : les 5 modules</h3>
-    <p>Format repris des livrets officiels : aisance numérique (12 paires), orientation spatiale (6), mémoire des mots (8), raisonnement (8), détection d'erreurs (8). Ici, les items sont générés au hasard : même mécanique que les exemples officiels, ce ne sont pas les vrais items. Vise la précision d'abord, puis la vitesse. Pas de stylo, de papier ni de calculatrice.</p>
+    <p>Même déroulé que le livret officiel du test de base : aisance numérique (12 items), orientation spatiale (6), mémoire des mots (8), raisonnement (8), détection d'erreurs (8). Les écrans s'enchaînent avec « Étape suivante », comme dans le livret. Les items sont générés au hasard, ce ne sont pas les vrais items. Le temps affiché court de l'écran 1 à ta réponse. Vise la précision d'abord, puis la vitesse. Pas de stylo, de papier ni de calculatrice.</p>
     <p class="muted" style="margin:0">Le livret officiel complet est dans l'onglet Liens. Fais-en une lecture avant la première série.</p>
   </div>
   <div class="row" id="modsel"></div>
@@ -1120,134 +1121,153 @@ function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1));}
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
 function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
 
-/* 1. aisance numérique */
-function expr(){
-  var k=rnd(0,3),a,b;
-  if(k===0){a=rnd(11,69);b=rnd(11,59);return {txt:a+' + '+b,val:a+b};}
-  if(k===1){a=rnd(30,99);b=rnd(11,a-5);return {txt:a+' − '+b,val:a-b};}
-  if(k===2){a=rnd(3,12);b=rnd(3,12);return {txt:a+' × '+b,val:a*b};}
-  b=rnd(3,9);var q=rnd(3,12);return {txt:(b*q)+' ÷ '+b,val:q};
-}
-function exprTo(v){
-  var k=rnd(0,2),a,b;
-  if(k===0&&v>14){a=rnd(5,v-5);return {txt:a+' + '+(v-a),val:v};}
-  if(k===1){b=rnd(5,40);return {txt:(v+b)+' − '+b,val:v};}
-  for(var d=2;d<=9;d++){if(v%d===0&&v/d>=3){return {txt:v+' ÷ '+d,val:v/d};}}
-  b=rnd(5,40);return {txt:(v+b)+' − '+b,val:v};
+function stepBtn(st,label,fn){var w=document.createElement('div'),b=document.createElement('button');b.type='button';b.className='btn';b.textContent=label;b.style.marginTop='16px';b.onclick=function(){b.disabled=true;fn();};w.appendChild(b);st.appendChild(w);try{b.focus();}catch(e){}}
+function elide(w){return /^[AEIOUÉÈÊÂÎÔÛH]/.test(w);}
+function qu(w){return elide(w)?'qu’'+w:'que '+w;}
+function de(w){return elide(w)?'d’'+w:'de '+w;}
+
+/* 1. aisance numérique : deux opérations successives, puis Haut / Bas / Égal */
+function exprFor(v){
+  var c=[],a,b,i;
+  a=v>=8?rnd(3,v-3):rnd(1,v-1);c.push({txt:a+' + '+(v-a),val:v});
+  b=rnd(2,30);if(v+b<=99)c.push({txt:(v+b)+' − '+b,val:v});
+  for(i=2;i<=14;i++){if(v%i===0&&v/i>=2&&v/i<=14)c.push({txt:(v/i)+' × '+i,val:v});}
+  [2,3,4,5,7,10].forEach(function(d){if(v*d<=160&&v>=2)c.push({txt:(v*d)+' ÷ '+d,val:v});});
+  return pick(c);
 }
 function genNum(){
-  var A=expr(),B;
-  if(Math.random()<0.25){B=exprTo(A.val);}else{B=expr();}
+  var v=rnd(8,90),A=exprFor(v),B,t=0;
+  var dv=Math.random()<0.25?0:(Math.random()<0.5?-1:1)*rnd(1,5);
+  do{B=exprFor(Math.max(4,v+dv));t++;}while(B.txt===A.txt&&t<10);
   var cmp=A.val>B.val?'H':(A.val<B.val?'B':'E');
-  return {meta:{a:A,b:B},correct:cmp,
-    show:function(st,ready){st.innerHTML='<div class="expr"><small>Haut</small>'+A.txt+'</div><div class="expr"><small>Bas</small>'+B.txt+'</div>';ready();},
-    opts:[{v:'H',l:'Haut plus grand'},{v:'B',l:'Bas plus grand'},{v:'E',l:'Égaux'}]};
+  return {full:true,meta:{a:A,b:B},correct:cmp,
+    show:function(st,ready){
+      function s1(){st.innerHTML='<div class="hl2">Écran 1 · ligne du haut : calcule et retiens</div><div class="mem">'+A.txt+'</div>';stepBtn(st,'Étape suivante',s2);}
+      function s2(){st.innerHTML='<div class="hl2">Écran 2 · ligne du bas : calcule et retiens</div><div class="mem">'+B.txt+'</div>';stepBtn(st,'Étape suivante',s3);}
+      function s3(){st.innerHTML='<div class="hl2">Écran 3 · quelle solution est la plus grande ?</div>';ready();}
+      s1();},
+    opts:[{v:'H',l:'Haut'},{v:'B',l:'Bas'},{v:'E',l:'Égal'}]};
 }
 
-/* 2. orientation spatiale */
-var DIRS=['haut','haut-droite','droite','bas-droite','bas','bas-gauche','gauche','haut-gauche'];
-var RELS={above:'au-dessus de',below:'en dessous de',left:'à gauche de',right:'à droite de'};
+/* 2. orientation spatiale : règle de couleur + règle de direction, figures de deux flèches superposées */
+var D4=[{n:'Droite Haut',a:1},{n:'Gauche Haut',a:7},{n:'Droite Bas',a:3},{n:'Gauche Bas',a:5}];
+var COL={N:{n:'Noir',f:'#000'},J:{n:'Jaune',f:'#F2C200'}};
 function arrowSvg(a,fill){return '<svg viewBox="-20 -20 40 40" width="40" height="40" aria-hidden="true"><g transform="rotate('+(a*45)+')"><polygon points="0,-16 11,-2 4,-2 4,16 -4,16 -4,-2 -11,-2" fill="'+fill+'" stroke="#8a93a6" stroke-width="1"/></g></svg>';}
-function figHtml(f){
-  var B=arrowSvg(f.aB,'#000'),Y=arrowSvg(f.aY,'#F2C200');
-  var col=(f.rel==='above'||f.rel==='below');
-  var first=(f.rel==='above'||f.rel==='left')?B+Y:Y+B;
-  return '<span class="fig'+(col?' col':'')+'">'+first+'</span>';
-}
-function figKey(f){return f.rel+'|'+f.aB+'|'+f.aY;}
+function oth(c){return c==='N'?'J':'N';}
+function figHtml(f){return '<span class="fig col">'+arrowSvg(D4[f.dT].a,COL[f.cT].f)+arrowSvg(D4[f.dB].a,COL[oth(f.cT)].f)+'</span>';}
+function figKey(f){return f.cT+f.dT+f.dB;}
 function genSpa(){
-  var rels=Object.keys(RELS), good={rel:pick(rels),aB:rnd(0,7),aY:rnd(0,7)};
-  while(good.aY===good.aB){good.aY=rnd(0,7);}
-  var seen={},list=[good];seen[figKey(good)]=1;
-  var guard=0;
-  while(list.length<6&&guard++<200){
-    var f={rel:good.rel,aB:good.aB,aY:good.aY},m=rnd(0,3);
-    if(m===0){f.rel=pick(rels);}
-    else if(m===1){f.aB=rnd(0,7);}
-    else if(m===2){f.aY=rnd(0,7);}
-    else{f.aB=good.aY;f.aY=good.aB;}
-    if(f.aB===f.aY)continue;
+  var good={cT:pick(['N','J']),dT:rnd(0,3),dB:rnd(0,3)},seen={},list=[good],g=0;
+  seen[figKey(good)]=1;
+  while(list.length<6&&g++<300){
+    var f={cT:good.cT,dT:good.dT,dB:good.dB},m=rnd(0,4);
+    if(m===0)f.cT=oth(f.cT);
+    else if(m===1)f.dT=rnd(0,3);
+    else if(m===2)f.dB=rnd(0,3);
+    else if(m===3){f.dT=good.dB;f.dB=good.dT;}
+    else{f.cT=oth(f.cT);f.dT=rnd(0,3);}
     if(seen[figKey(f)])continue;
     seen[figKey(f)]=1;list.push(f);
   }
   var order=shuffle(list),ci=order.indexOf(good);
-  var rule1='La flèche noire est '+RELS[good.rel]+' la flèche jaune.';
-  var rule2='La flèche noire pointe vers '+DIRS[good.aB]+', la flèche jaune vers '+DIRS[good.aY]+'.';
-  return {meta:{good:good,figs:order},correct:ci,
+  var rc=COL[good.cT].n+' AU-DESSUS '+COL[oth(good.cT)].n,rd=D4[good.dT].n+' AU-DESSUS '+D4[good.dB].n;
+  var rules=Math.random()<0.5?[rc,rd]:[rd,rc];
+  return {full:true,meta:{good:good,figs:order,rules:rules},correct:ci,
     show:function(st,ready){
-      st.innerHTML='<div class="mem" style="font-size:20px">'+rule1+'<br>'+rule2+'</div><div class="hl2" id="cd">Retiens les règles : 6 s</div>';
-      var n=6,iv=setInterval(function(){n--;var c=document.getElementById('cd');if(c)c.textContent='Retiens les règles : '+n+' s';if(n<=0){clearInterval(iv);st.innerHTML='<div class="muted">Règles masquées. Choisis la figure qui les respecte.</div>';ready();}},1000);
-      st._iv=iv;
+      st.innerHTML='<div class="hl2">Écran 1 · retiens les deux règles</div><div class="mem" style="font-size:24px">'+rules[0]+'<br>'+rules[1]+'</div>';
+      stepBtn(st,'Étape suivante',function(){st.innerHTML='<div class="hl2">Écran 2 · quelle figure respecte les deux règles ?</div>';ready();});
     },
     opts:order.map(function(f,i){return {v:i,h:figHtml(f)};})};
 }
 
-/* 3. mémoire des mots */
+/* 3. mémoire des mots : trois règles (catégories), trois mots, combien correspondent */
 var CATS={
- 'Pays':['Belgique','Espagne','Japon','Brésil','Norvège','Kenya','Chili','Canada'],
- 'Vêtement':['chaussette','manteau','écharpe','pantalon','chemise','gant','veste','bonnet'],
- 'Animal':['renard','cheval','dauphin','lapin','girafe','corbeau','chèvre','lion'],
- 'Fruit':['poire','cerise','citron','abricot','banane','prune','ananas','fraise'],
- 'Métier':['boulanger','pilote','dentiste','plombier','juge','pompier','maçon','notaire'],
- 'Outil':['marteau','tournevis','pince','scie','perceuse','clé','rabot','truelle'],
- 'Ville':['Mons','Namur','Liège','Gand','Ostende','Anvers','Bruges','Arlon']
+ 'Outil':['Tenailles','Clef','Scie','Marteau','Tournevis','Pince','Rabot','Perceuse'],
+ 'Poisson':['Cabillaud','Sardine','Hareng','Saumon','Thon','Truite','Sole','Merlan'],
+ 'Arbre':['Sapin','Chêne','Bouleau','Hêtre','Érable','Peuplier','Saule','Orme'],
+ 'Métal':['Bronze','Fer','Cuivre','Zinc','Acier','Plomb','Étain','Argent'],
+ 'Liquide':['Diesel','Jus','Eau','Lait','Huile','Vinaigre','Essence','Sirop'],
+ 'Pays':['Inde','Belgique','Japon','Chili','Kenya','Norvège','Brésil','Espagne'],
+ 'Vêtements':['Veste','Gants','Chaussette','Manteau','Écharpe','Pantalon','Bonnet','Chemise'],
+ 'Véhicule':['Vélo','Carrosse','Tram','Camion','Moto','Fourgon','Charrette','Tracteur'],
+ 'Oiseau':['Mouette','Corbeau','Hibou','Aigle','Moineau','Pigeon','Faucon','Cigogne'],
+ 'Insecte':['Scarabée','Moustique','Fourmi','Abeille','Guêpe','Mouche','Criquet','Libellule'],
+ 'Bâtiment':['Magasin','École','Église','Hangar','Usine','Gare','Hôpital','Mairie']
 };
+var NEI={'Outil':['Métal','Véhicule','Bâtiment'],'Poisson':['Liquide','Oiseau','Insecte'],'Arbre':['Métal','Bâtiment','Insecte'],'Métal':['Outil','Arbre','Liquide'],'Liquide':['Poisson','Métal','Vêtements'],'Pays':['Vêtements','Liquide','Bâtiment'],'Vêtements':['Pays','Outil','Métal'],'Véhicule':['Outil','Oiseau','Bâtiment'],'Oiseau':['Insecte','Véhicule','Poisson'],'Insecte':['Oiseau','Poisson','Arbre'],'Bâtiment':['Véhicule','Pays','Outil']};
 function genMem(){
-  var names=Object.keys(CATS),rules=[],words=[],cnt=0,i;
+  var names=Object.keys(CATS),rules=[],words=[],cnt=0,i,w,t;
   for(i=0;i<3;i++){rules.push(pick(names));}
   for(i=0;i<3;i++){
-    if(Math.random()<0.5){words.push(pick(CATS[rules[i]]));cnt++;}
-    else{var others=names.filter(function(n){return n!==rules[i];});words.push(pick(CATS[pick(others)]));}
+    t=0;
+    do{
+      if(Math.random()<0.5){w=pick(CATS[rules[i]]);}
+      else{var c=Math.random()<0.7?pick(NEI[rules[i]]):pick(names.filter(function(n){return n!==rules[i];}));w=pick(CATS[c]);}
+      t++;
+    }while(words.indexOf(w)>=0&&t<20);
+    words.push(w);
+    if(CATS[rules[i]].indexOf(w)>=0)cnt++;
   }
-  return {meta:{rules:rules,words:words},correct:cnt,
+  return {full:true,meta:{rules:rules,words:words},correct:cnt,
     show:function(st,ready){
-      st.innerHTML='<div class="mem">1. '+rules[0]+'<br>2. '+rules[1]+'<br>3. '+rules[2]+'</div><div class="hl2" id="cd">Retiens les règles : 5 s</div>';
-      var n=5,iv=setInterval(function(){n--;var c=document.getElementById('cd');if(c)c.textContent='Retiens les règles : '+n+' s';if(n<=0){clearInterval(iv);st.innerHTML='<div class="mem">1. '+words[0]+'<br>2. '+words[1]+'<br>3. '+words[2]+'</div><div class="hl2">Combien de mots respectent la règle de même numéro ?</div>';ready();}},1000);
-      st._iv=iv;
+      st.innerHTML='<div class="hl2">Écran 1 · retiens les règles, dans l’ordre</div><div class="mem" style="font-size:26px">'+rules.join(' · ')+'</div>';
+      stepBtn(st,'Étape suivante',function(){
+        st.innerHTML='<div class="hl2">Écran 2 · combien de mots respectent la règle de même position ?</div><div class="mem" style="font-size:26px">'+words.join(' · ')+'</div>';ready();});
     },
     opts:[0,1,2,3].map(function(n){return {v:n,l:String(n)};})};
 }
 
-/* 4. raisonnement */
-var ATTR=[
- {more:'plus grand',less:'moins grand',sup:'le plus grand',inf:'le moins grand'},
- {more:'plus rapide',less:'moins rapide',sup:'le plus rapide',inf:'le moins rapide'},
- {more:'plus lourd',less:'moins lourd',sup:'le plus lourd',inf:'le moins lourd'},
- {more:'plus âgé',less:'moins âgé',sup:'le plus âgé',inf:'le moins âgé'},
- {more:'plus éloigné',less:'moins éloigné',sup:'le plus éloigné',inf:'le moins éloigné'}
+/* 4. raisonnement : deux phrases avec un élément commun, question sur l'extrême */
+var REL=[
+ {items:['Hélicoptère','Ferry','Tram','Camion','Vélo','Train','Avion','Bateau'],hi:'plus rapide',lo:'plus lent',qh:'le plus rapide',ql:'le plus lent'},
+ {items:['Lac','Montagne','Bois','Rivière','Village','Ville','Gare','Forêt'],hi:'plus loin',lo:'plus près',qh:'le plus loin',ql:'le plus près'},
+ {items:['Policier','Pompier','Pilote','Médecin','Boulanger','Juge'],hi:'plus grand',lo:'plus petit',qh:'le plus grand',ql:'le plus petit',person:true},
+ {items:['Pont','Église','Arbre','Tour','Mur','Maison'],hi:'plus haut',lo:'plus bas',qh:'le plus haut',ql:'le plus bas'},
+ {items:['Casque','Baïonnette','Fusil','Sac','Gilet','Botte'],hi:'plus lourd',lo:'plus léger',qh:'le plus lourd',ql:'le plus léger'},
+ {items:['Patrouille','Compagnie','Régiment','Section','Peloton','Bataillon'],hi:'à droite',lo:'à gauche',qh:'le plus à droite',ql:'le plus à gauche',pos:true}
 ];
-var NAMES=['Didier','Christophe','Yves','Marc','Luc','Paul','Hugo','Louis','Karim','Sofia','Nina','Léa','Julie','Camille','Tom','Sarah'];
 function genRea(){
-  var at=pick(ATTR),n=shuffle(NAMES).slice(0,3); /* n[0] > n[1] > n[2] */
-  function st(hi,lo){return Math.random()<0.5?hi+' est '+at.more+' que '+lo+'.':lo+' est '+at.less+' que '+hi+'.';}
-  var s=[{hi:n[0],lo:n[1],txt:st(n[0],n[1])},{hi:n[1],lo:n[2],txt:st(n[1],n[2])}];
-  s=shuffle(s);
+  var R=pick(REL),n=shuffle(R.items).slice(0,3);
+  function st(a,b){
+    if(R.pos)return a+' '+R.hi+' '+de(b);
+    return a+' '+R.hi+' '+qu(b);
+  }
+  function st2(a,b){
+    if(R.pos)return a+' '+R.lo+' '+de(b);
+    return a+' '+R.lo+' '+qu(b);
+  }
+  function sent(hi,lo){return Math.random()<0.5?st(hi,lo):st2(lo,hi);}
+  var s=shuffle([{hi:n[0],lo:n[1],txt:sent(n[0],n[1])},{hi:n[1],lo:n[2],txt:sent(n[1],n[2])}]);
   var top=Math.random()<0.5;
-  var q='Qui est '+(top?at.sup:at.inf)+' ?';
-  return {meta:{s:s,top:top,names:n},correct:top?n[0]:n[2],
-    show:function(stg,ready){stg.innerHTML='<div class="expr" style="font-size:19px;font-family:var(--f-body)">'+s[0].txt+'<br>'+s[1].txt+'</div><div class="mem" style="font-size:24px">'+q+'</div>';ready();},
+  var q=(R.person?'Qui':'Quel')+' est '+(top?R.qh:R.ql)+' ?';
+  return {full:true,meta:{s:s,top:top,names:n},correct:top?n[0]:n[2],
+    show:function(stg,ready){stg.innerHTML='<div class="mem" style="font-size:22px">'+s[0].txt+'<br>'+s[1].txt+'</div><div class="mem" style="font-size:22px;margin-top:14px">'+q+'</div>';ready();},
     opts:shuffle(n).map(function(x){return {v:x,l:x};})};
 }
 
-/* 5. détection d'erreurs */
+/* 5. détection d'erreurs : original et copie, nombre de différences */
 function genErr(){
-  var k=rnd(0,4),kind=rnd(0,3),s,L='ABCDEFGHJKLMNPRSTUVWXYZ',D='0123456789',lw='abcdefghijklmnoprstuvwxyz',i;
+  var k=rnd(0,4),kind=rnd(0,4),s,LU='ABCDEFGHJKLMNPRSTUVWXYZ',D='0123456789',lw='abcdefghijklmnoprstuvwxyz',i;
   function rs(n,set){var o='';for(var j=0;j<n;j++)o+=set.charAt(rnd(0,set.length-1));return o;}
-  if(kind===0){s=rs(3,L)+' '+rs(3,D);}
-  else if(kind===1){s=rnd(1,2)+'-'+rs(3,L)+'-'+rs(3,D);}
-  else if(kind===2){s=rs(5,lw)+'.'+rs(6,lw)+'@'+rs(5,lw)+'.be';}
-  else{s='www.'+rs(6,lw)+'.be/'+rs(1,lw)+rs(2,D);}
+  if(kind===0){s=rs(2,LU)+' '+rs(5,D);}
+  else if(kind===1){s=rs(1,LU)+' '+rs(3,D)+' '+rs(3,LU);}
+  else if(kind===2){s='http://www.'+rs(6,lw)+'.com';}
+  else if(kind===3){s=Math.random()<0.5?rs(3,lw)+rs(3,D)+'@'+rs(3,lw)+'.com':rs(7,lw)+'@'+rs(6,lw)+'.net';}
+  else{var wd=rs(9,lw);s=wd.charAt(0).toUpperCase()+wd.slice(1)+' '+rs(2,D);}
   var pos=[];for(i=0;i<s.length;i++){if(/[A-Za-z0-9]/.test(s.charAt(i)))pos.push(i);}
   pos=shuffle(pos).slice(0,k);
   var c=s.split('');
   pos.forEach(function(p){
     var ch=s.charAt(p),r;
-    do{r=/[0-9]/.test(ch)?rs(1,D):(/[A-Z]/.test(ch)?rs(1,L):rs(1,lw));}while(r===ch);
+    do{r=/[0-9]/.test(ch)?rs(1,D):(/[A-Z]/.test(ch)?rs(1,LU):rs(1,lw));}while(r===ch);
     c[p]=r;
   });
   var copy=c.join('');
-  return {meta:{a:s,b:copy,k:k},correct:k,
-    show:function(st,ready){st.innerHTML='<div class="expr"><small>Original</small>'+esc(s)+'</div><div class="expr"><small>Copie</small>'+esc(copy)+'</div><div class="hl2">Combien de caractères diffèrent ?</div>';ready();},
+  return {full:true,meta:{a:s,b:copy,k:k},correct:k,
+    show:function(st,ready){
+      st.innerHTML='<div class="hl2">Écran 1 · compare caractère par caractère</div><div class="expr"><small>Originale</small>'+esc(s)+'</div><div class="expr"><small>Copie</small>'+esc(copy)+'</div>';
+      stepBtn(st,'Étape suivante',function(){st.innerHTML='<div class="hl2">Écran 2 · combien d’erreurs dans la copie ?</div>';ready();});
+    },
     opts:[0,1,2,3,4].map(function(n){return {v:n,l:String(n)};})};
 }
 
@@ -1261,8 +1281,8 @@ var MODS={
 window.__defprep={MODS:MODS};
 var tcur=null,ti=0,tscore=0,ttimes=[],tit=null,tt0=0,tlock=true;
 var stage=document.getElementById('tstage'),topts=document.getElementById('topts'),tfb=document.getElementById('tfb');
-function bestGet(){try{return JSON.parse(localStorage.getItem('defprep-best')||'{}')||{};}catch(e){return {};}}
-function bestSet(o){try{localStorage.setItem('defprep-best',JSON.stringify(o));}catch(e){}}
+function bestGet(){try{return JSON.parse(localStorage.getItem('defprep-best2')||'{}')||{};}catch(e){return {};}}
+function bestSet(o){try{localStorage.setItem('defprep-best2',JSON.stringify(o));}catch(e){}}
 function renderModSel(){
   var b='';Object.keys(MODS).forEach(function(k){b+='<button type="button" class="btn '+(tcur===k?'sel':'alt')+'" data-m="'+k+'">'+MODS[k].name+'</button>';});
   document.getElementById('modsel').innerHTML=b;
@@ -1277,13 +1297,13 @@ function startMod(k){
 function nextItem(){
   var M=MODS[tcur];
   if(ti>=M.n){return finishMod();}
-  tit=M.gen();tlock=true;tfb.textContent='';topts.innerHTML='';
+  tit=M.gen();tlock=true;tt0=Date.now();tfb.textContent='';topts.innerHTML='';
   document.getElementById('hmod').textContent=M.name;
   document.getElementById('hprog').textContent='Item '+(ti+1)+' / '+M.n+' · score '+tscore;
   tit.show(stage,function(){
     var h='';
     tit.opts.forEach(function(o,idx){h+='<button type="button" class="opt" data-i="'+idx+'">'+(o.h||esc(o.l))+'</button>';});
-    topts.innerHTML=h;tlock=false;tt0=Date.now();
+    topts.innerHTML=h;tlock=false;if(!tit.full)tt0=Date.now();
   });
 }
 topts.addEventListener('click',function(e){
