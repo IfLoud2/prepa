@@ -193,6 +193,25 @@ details.past[open]{display:grid;gap:12px}details.past[open]>summary{margin-botto
 .fig.col{flex-direction:column}
 .ul{margin:0;padding-left:20px}
 .hl2{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+/* affinage : moins de capitales et de monospace, moins de boîtes imbriquées */
+.mono{font-family:var(--f-body);font-variant-numeric:tabular-nums}
+.kicker{font-family:var(--f-body);font-size:14px;letter-spacing:0;text-transform:none}
+.badge{font-family:var(--f-body);font-size:12.5px;font-weight:600;text-transform:none;letter-spacing:0;padding:2px 9px}
+.task .tg{font-family:var(--f-body);font-size:13px;font-weight:600;text-transform:none;letter-spacing:0}
+.task .tm,.dh .j,.dh .tot{font-family:var(--f-body);font-variant-numeric:tabular-nums;font-size:13px}
+.cal .h{font-family:var(--f-body);text-transform:none;font-size:12.5px}
+.cell .n{font-family:var(--f-body);font-variant-numeric:tabular-nums;font-size:14px}
+.cell .flag{font-family:var(--f-body);text-transform:none;letter-spacing:0;font-size:11.5px;font-weight:600}
+thead th{font-family:var(--f-body);text-transform:none;letter-spacing:0;font-size:13px;font-weight:600}
+.v{font-family:var(--f-body);text-transform:none;letter-spacing:0;font-size:12px}
+.bd{font-family:var(--f-body);font-size:12.5px;font-weight:600}
+.hud,.hl2,.nqfb{font-family:var(--f-body);text-transform:none;letter-spacing:0}
+.hud,.hl2{font-size:14px}
+.expr small{font-family:var(--f-body);text-transform:none;letter-spacing:0;font-size:13px}
+.cell .flag{white-space:nowrap}
+@media (max-width:480px){.cell .flag{font-size:10px}}
+details.ep,details.past{background:none;border:0;padding:0;border-radius:0}
+details.ep[open]>summary,details.past[open]>summary{margin-bottom:0}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -201,7 +220,7 @@ details.past[open]{display:grid;gap:12px}details.past[open]>summary{margin-botto
 
 <div class="wrap">
 <header class="top">
-  <p class="kicker">Officier · ingénieur technicien avion · Composante Air</p>
+  <p class="kicker">Officier ingénieur technicien avion, composante Air</p>
   <h1>Préparation sélection Défense</h1>
   <div class="count"><span id="dn" class="big">J-16</span><span class="t" id="dtxt">avant le jour 1, vendredi 6 novembre à 7h30</span></div>
   <div class="prog"><div class="bar" aria-hidden="true"><i id="fill"></i></div><span class="mono" id="progtxt">0 / 0 tâches</span></div>
@@ -910,7 +929,7 @@ function refresh(){
   });
   var pt=0,pdn=0,ps=document.getElementById('pastsum');
   PLAN.forEach(function(D){if(dd(pd(D.d),today)<0){D.tasks.forEach(function(t,i){pt++;if(state[D.d+'#'+i])pdn++;});}});
-  if(ps)ps.textContent='Jours passés · '+pdn+' / '+pt+' tâches faites'+(pt>pdn?' · '+(pt-pdn)+' à rattraper':'');
+  if(ps)ps.textContent='Jours passés : '+pdn+' sur '+pt+' tâches faites'+(pt>pdn?', '+(pt-pdn)+' à rattraper':'');
   document.getElementById('fill').style.width=(total?100*done/total:0)+'%';
   document.getElementById('progtxt').textContent=done+' / '+total+' tâches';
 }
@@ -932,7 +951,7 @@ refresh();
     var done=0;
     box.innerHTML=NL.map(function(S,i){
       var ok=!!st[i];if(ok)done++;
-      return '<div class="nls'+(ok?' ok':'')+'"><label class="nlh"><input type="checkbox" data-i="'+i+'"'+(ok?' checked':'')+'><span><span class="mono muted">'+S.d+' · séance '+(i+1)+'</span><br><b>'+esc(S.t)+'</b></span></label><ul class="l">'+
+      return '<div class="nls'+(ok?' ok':'')+'"><label class="nlh"><input type="checkbox" data-i="'+i+'"'+(ok?' checked':'')+'><span><span class="mono muted">'+'Séance '+(i+1)+', '+S.d+'</span><br><b>'+esc(S.t)+'</b></span></label><ul class="l">'+
         S.l.map(function(x){return '<li><a href="'+x[1]+'" target="_blank" rel="noopener">'+esc(x[0])+'</a></li>';}).join('')+'</ul>'+(S.n?'<p class="muted">'+esc(S.n)+'</p>':'')+'</div>';
     }).join('');
     document.getElementById('nlbar').style.width=(100*done/NL.length)+'%';
@@ -963,7 +982,7 @@ refresh();
     home.hidden=true;run.hidden=false;
     function q(){
       var x=qs[i],opts=shuf([x.a].concat(x.w));
-      run.innerHTML='<div class="card"><p class="kicker">'+esc(title)+' · '+(i+1)+' / '+qs.length+'</p>'+(i===0&&rule?'<p class="muted">'+esc(rule)+'</p>':'')+
+      run.innerHTML='<div class="card"><p class="kicker">'+esc(title)+', question '+(i+1)+' sur '+qs.length+'</p>'+(i===0&&rule?'<p class="muted">'+esc(rule)+'</p>':'')+
         '<p class="nqq">'+esc(x.q)+'</p><div class="nqo">'+opts.map(function(o){return '<button class="nqb nqopt" data-o="'+esc(o)+'">'+esc(o)+'</button>';}).join('')+'</div><p id="nqfb" class="nqfb"></p></div>';
       run.querySelectorAll('.nqopt').forEach(function(b){b.onclick=function(){
         var good=b.getAttribute('data-o')===x.a;if(good)ok++;
@@ -1177,9 +1196,9 @@ function genNum(){
   var cmp=A.val>B.val?'H':(A.val<B.val?'B':'E');
   return {full:true,guide:'Haut : '+A.txt+'<br>Bas : '+B.txt,meta:{a:A,b:B},correct:cmp,
     show:function(st,ready){
-      function s1(){st.innerHTML='<div class="hl2">Écran 1 · ligne du haut : calcule et retiens</div><div class="mem">'+A.txt+'</div>';stepBtn(st,'Étape suivante',s2);}
-      function s2(){st.innerHTML='<div class="hl2">Écran 2 · ligne du bas : calcule et retiens</div><div class="mem">'+B.txt+'</div>';stepBtn(st,'Étape suivante',s3);}
-      function s3(){st.innerHTML='<div class="hl2">Écran 3 · quelle solution est la plus grande ?</div>';ready();}
+      function s1(){st.innerHTML='<div class="hl2">Écran 1 : ligne du haut : calcule et retiens</div><div class="mem">'+A.txt+'</div>';stepBtn(st,'Étape suivante',s2);}
+      function s2(){st.innerHTML='<div class="hl2">Écran 2 : ligne du bas : calcule et retiens</div><div class="mem">'+B.txt+'</div>';stepBtn(st,'Étape suivante',s3);}
+      function s3(){st.innerHTML='<div class="hl2">Écran 3 : quelle solution est la plus grande ?</div>';ready();}
       s1();},
     opts:[{v:'H',l:'Haut'},{v:'B',l:'Bas'},{v:'E',l:'Égal'}]};
 }
@@ -1209,8 +1228,8 @@ function genSpa(){
   var rules=Math.random()<0.5?[rc,rd]:[rd,rc];
   return {full:true,guide:rules[0]+'<br>'+rules[1],meta:{good:good,figs:order,rules:rules},correct:ci,
     show:function(st,ready){
-      st.innerHTML='<div class="hl2">Écran 1 · retiens les deux règles</div><div class="mem" style="font-size:24px">'+rules[0]+'<br>'+rules[1]+'</div>';
-      stepBtn(st,'Étape suivante',function(){st.innerHTML='<div class="hl2">Écran 2 · quelle figure respecte les deux règles ?</div>';ready();});
+      st.innerHTML='<div class="hl2">Écran 1 : retiens les deux règles</div><div class="mem" style="font-size:24px">'+rules[0]+'<br>'+rules[1]+'</div>';
+      stepBtn(st,'Étape suivante',function(){st.innerHTML='<div class="hl2">Écran 2 : quelle figure respecte les deux règles ?</div>';ready();});
     },
     opts:order.map(function(f,i){return {v:i,h:figHtml(f)};})};
 }
@@ -1243,11 +1262,11 @@ function genMem(){
     words.push(w);
     if(CATS[rules[i]].indexOf(w)>=0)cnt++;
   }
-  return {full:true,guide:rules.join(' · '),meta:{rules:rules,words:words},correct:cnt,
+  return {full:true,guide:rules.join(', '),meta:{rules:rules,words:words},correct:cnt,
     show:function(st,ready){
-      st.innerHTML='<div class="hl2">Écran 1 · retiens les règles, dans l’ordre</div><div class="mem" style="font-size:26px">'+rules.join(' · ')+'</div>';
+      st.innerHTML='<div class="hl2">Écran 1 : retiens les règles, dans l’ordre</div><div class="mem" style="font-size:26px">'+rules.join('&emsp;')+'</div>';
       stepBtn(st,'Étape suivante',function(){
-        st.innerHTML='<div class="hl2">Écran 2 · combien de mots respectent la règle de même position ?</div><div class="mem" style="font-size:26px">'+words.join(' · ')+'</div>';ready();});
+        st.innerHTML='<div class="hl2">Écran 2 : combien de mots respectent la règle de même position ?</div><div class="mem" style="font-size:26px">'+words.join('&emsp;')+'</div>';ready();});
     },
     opts:[0,1,2,3].map(function(n){return {v:n,l:String(n)};})};
 }
@@ -1300,8 +1319,8 @@ function genErr(){
   var copy=c.join('');
   return {full:true,guide:'Originale : '+esc(s)+'<br>Copie : '+esc(copy),meta:{a:s,b:copy,k:k},correct:k,
     show:function(st,ready){
-      st.innerHTML='<div class="hl2">Écran 1 · compare caractère par caractère</div><div class="expr"><small>Originale</small>'+esc(s)+'</div><div class="expr"><small>Copie</small>'+esc(copy)+'</div>';
-      stepBtn(st,'Étape suivante',function(){st.innerHTML='<div class="hl2">Écran 2 · combien d’erreurs dans la copie ?</div>';ready();});
+      st.innerHTML='<div class="hl2">Écran 1 : compare caractère par caractère</div><div class="expr"><small>Originale</small>'+esc(s)+'</div><div class="expr"><small>Copie</small>'+esc(copy)+'</div>';
+      stepBtn(st,'Étape suivante',function(){st.innerHTML='<div class="hl2">Écran 2 : combien d’erreurs dans la copie ?</div>';ready();});
     },
     opts:[0,1,2,3,4].map(function(n){return {v:n,l:String(n)};})};
 }
@@ -1337,7 +1356,7 @@ function nextItem(){
   if(ti>=M.n){return finishMod();}
   tit=M.gen();tlock=true;tt0=Date.now();topts.className='opts'+(tcur==='spa'?' g3':'');tinst.textContent=(tcur==='rea')?'Écran unique · lis les deux phrases, puis réponds à la question.':'';tguide.innerHTML=(gmode.checked&&tit.guide)?'<div class="hl2">À retenir (mode guidé)</div>'+tit.guide:'';tfb.textContent='';topts.innerHTML='';
   document.getElementById('hmod').textContent=M.name;
-  document.getElementById('hprog').textContent='Item '+(ti+1)+' / '+M.n+' · score '+tscore;
+  document.getElementById('hprog').textContent='Item '+(ti+1)+' sur '+M.n+', score '+tscore;
   tit.show(stage,function(){
     var h='';
     tit.opts.forEach(function(o,idx){h+='<button type="button" class="opt" data-i="'+idx+'">'+(o.h||esc(o.l))+'</button>';});
