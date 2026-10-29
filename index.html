@@ -43,7 +43,7 @@ html{-webkit-text-size-adjust:100%}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 56px}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
-.wrap{max-width:900px;margin:0 auto}
+.wrap{max-width:1100px;margin:0 auto}
 h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.05;margin:0;text-wrap:balance;letter-spacing:.01em}
 h1{font-size:clamp(34px,7vw,52px)}
 h2{font-size:28px;margin-bottom:12px}
@@ -167,12 +167,22 @@ details[open] summary{margin-bottom:10px}
 .lk{display:block;margin-top:4px;font-size:13px}
 .lk a{margin-right:14px;display:inline-block}
 .hud{display:flex;justify-content:space-between;gap:10px;font-family:var(--f-mono);font-size:12.5px;color:var(--muted);margin-bottom:10px}
-.stage{min-height:170px;display:grid;place-items:center;align-content:center;text-align:center;gap:8px;background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:12px}
-.expr{font-family:var(--f-mono);font-size:26px;line-height:1.35}
+.trn{display:grid;grid-template-columns:270px 1fr;gap:20px;align-items:start}
+.tleft{position:sticky;top:70px;display:grid;gap:12px}
+.tleft .hud{flex-direction:column;gap:2px;margin:0}
+.tinst{font-size:17px;font-weight:600;line-height:1.35;min-height:48px}
+.tguide{font-family:var(--f-mono);font-size:14px;background:var(--soft);border:1px dashed var(--line);border-radius:8px;padding:10px}
+.tguide:empty{display:none}
+.gt{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted);cursor:pointer}.gt input{width:20px;height:20px;flex:none;accent-color:var(--accent)}
+@media (max-width:760px){.trn{grid-template-columns:1fr}.tleft{position:static}.stage{min-height:260px}.mem{font-size:34px}.expr{font-size:28px}}
+.stage:empty{display:none}
+.opts.g3{grid-template-columns:repeat(3,1fr)}
+.stage{min-height:360px;display:grid;place-items:center;align-content:center;text-align:center;gap:8px;background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:12px}
+.expr{font-family:var(--f-mono);font-size:34px;line-height:1.35}
 .expr small{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.mem{font-family:var(--f-display);font-weight:600;font-size:32px;line-height:1.2}
-.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
-.opt{appearance:none;font:inherit;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 8px;cursor:pointer;display:flex;align-items:center;justify-content:center;min-height:52px}
+.mem{font-family:var(--f-display);font-weight:600;font-size:44px;line-height:1.2}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.opt{appearance:none;font:inherit;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 8px;cursor:pointer;display:flex;align-items:center;justify-content:center;min-height:92px;font-size:24px}
 .opt:disabled{cursor:default}
 .opt.ok{background:var(--ok);border-color:var(--ok);color:#fff}
 .opt.no{background:var(--bad);border-color:var(--bad);color:#fff}
@@ -509,11 +519,18 @@ details[open] summary{margin-bottom:10px}
     <p class="muted" style="margin:0">Le livret officiel complet est dans l'onglet Liens. Fais-en une lecture avant la première série.</p>
   </div>
   <div class="row" id="modsel"></div>
-  <div class="card">
-    <div class="hud"><span id="hmod">Choisis un module</span><span id="hprog"></span></div>
-    <div class="stage" id="tstage"><div class="muted">Les consignes s'affichent ici.</div></div>
-    <div class="opts" id="topts"></div>
-    <p id="tfb" class="muted" style="margin:10px 0 0;min-height:22px"></p>
+  <div class="card trn">
+    <aside class="tleft">
+      <div class="hud"><span id="hmod">Choisis un module</span><span id="hprog"></span></div>
+      <div class="tinst" id="tinst">Les consignes s'affichent ici.</div>
+      <div class="tguide" id="tguide"></div>
+      <label class="gt"><input type="checkbox" id="gmode"><span>Mode guidé : garder visible ce qu'il faut retenir. Plus facile que l'examen, où ces informations disparaissent.</span></label>
+    </aside>
+    <div class="tright">
+      <div class="stage" id="tstage"><div class="muted">Choisis un module ci-dessus.</div></div>
+      <div class="opts" id="topts"></div>
+      <p id="tfb" class="muted" style="margin:10px 0 0;min-height:22px"></p>
+    </div>
   </div>
   <div class="card" id="tres" hidden></div>
   <div class="card">
@@ -1140,7 +1157,7 @@ function genNum(){
   var dv=Math.random()<0.25?0:(Math.random()<0.5?-1:1)*rnd(1,5);
   do{B=exprFor(Math.max(4,v+dv));t++;}while(B.txt===A.txt&&t<10);
   var cmp=A.val>B.val?'H':(A.val<B.val?'B':'E');
-  return {full:true,meta:{a:A,b:B},correct:cmp,
+  return {full:true,guide:'Haut : '+A.txt+'<br>Bas : '+B.txt,meta:{a:A,b:B},correct:cmp,
     show:function(st,ready){
       function s1(){st.innerHTML='<div class="hl2">Écran 1 · ligne du haut : calcule et retiens</div><div class="mem">'+A.txt+'</div>';stepBtn(st,'Étape suivante',s2);}
       function s2(){st.innerHTML='<div class="hl2">Écran 2 · ligne du bas : calcule et retiens</div><div class="mem">'+B.txt+'</div>';stepBtn(st,'Étape suivante',s3);}
@@ -1152,7 +1169,7 @@ function genNum(){
 /* 2. orientation spatiale : règle de couleur + règle de direction, figures de deux flèches superposées */
 var D4=[{n:'Droite Haut',a:1},{n:'Gauche Haut',a:7},{n:'Droite Bas',a:3},{n:'Gauche Bas',a:5}];
 var COL={N:{n:'Noir',f:'#000'},J:{n:'Jaune',f:'#F2C200'}};
-function arrowSvg(a,fill){return '<svg viewBox="-20 -20 40 40" width="40" height="40" aria-hidden="true"><g transform="rotate('+(a*45)+')"><polygon points="0,-16 11,-2 4,-2 4,16 -4,16 -4,-2 -11,-2" fill="'+fill+'" stroke="#8a93a6" stroke-width="1"/></g></svg>';}
+function arrowSvg(a,fill){return '<svg viewBox="-20 -20 40 40" width="64" height="64" aria-hidden="true"><g transform="rotate('+(a*45)+')"><polygon points="0,-16 11,-2 4,-2 4,16 -4,16 -4,-2 -11,-2" fill="'+fill+'" stroke="#8a93a6" stroke-width="1"/></g></svg>';}
 function oth(c){return c==='N'?'J':'N';}
 function figHtml(f){return '<span class="fig col">'+arrowSvg(D4[f.dT].a,COL[f.cT].f)+arrowSvg(D4[f.dB].a,COL[oth(f.cT)].f)+'</span>';}
 function figKey(f){return f.cT+f.dT+f.dB;}
@@ -1172,7 +1189,7 @@ function genSpa(){
   var order=shuffle(list),ci=order.indexOf(good);
   var rc=COL[good.cT].n+' AU-DESSUS '+COL[oth(good.cT)].n,rd=D4[good.dT].n+' AU-DESSUS '+D4[good.dB].n;
   var rules=Math.random()<0.5?[rc,rd]:[rd,rc];
-  return {full:true,meta:{good:good,figs:order,rules:rules},correct:ci,
+  return {full:true,guide:rules[0]+'<br>'+rules[1],meta:{good:good,figs:order,rules:rules},correct:ci,
     show:function(st,ready){
       st.innerHTML='<div class="hl2">Écran 1 · retiens les deux règles</div><div class="mem" style="font-size:24px">'+rules[0]+'<br>'+rules[1]+'</div>';
       stepBtn(st,'Étape suivante',function(){st.innerHTML='<div class="hl2">Écran 2 · quelle figure respecte les deux règles ?</div>';ready();});
@@ -1208,7 +1225,7 @@ function genMem(){
     words.push(w);
     if(CATS[rules[i]].indexOf(w)>=0)cnt++;
   }
-  return {full:true,meta:{rules:rules,words:words},correct:cnt,
+  return {full:true,guide:rules.join(' · '),meta:{rules:rules,words:words},correct:cnt,
     show:function(st,ready){
       st.innerHTML='<div class="hl2">Écran 1 · retiens les règles, dans l’ordre</div><div class="mem" style="font-size:26px">'+rules.join(' · ')+'</div>';
       stepBtn(st,'Étape suivante',function(){
@@ -1263,7 +1280,7 @@ function genErr(){
     c[p]=r;
   });
   var copy=c.join('');
-  return {full:true,meta:{a:s,b:copy,k:k},correct:k,
+  return {full:true,guide:'Originale : '+esc(s)+'<br>Copie : '+esc(copy),meta:{a:s,b:copy,k:k},correct:k,
     show:function(st,ready){
       st.innerHTML='<div class="hl2">Écran 1 · compare caractère par caractère</div><div class="expr"><small>Originale</small>'+esc(s)+'</div><div class="expr"><small>Copie</small>'+esc(copy)+'</div>';
       stepBtn(st,'Étape suivante',function(){st.innerHTML='<div class="hl2">Écran 2 · combien d’erreurs dans la copie ?</div>';ready();});
@@ -1288,6 +1305,9 @@ function renderModSel(){
   document.getElementById('modsel').innerHTML=b;
 }
 document.getElementById('modsel').addEventListener('click',function(e){var b=e.target.closest('[data-m]');if(!b)return;startMod(b.getAttribute('data-m'));});
+var tinst=document.getElementById('tinst'),tguide=document.getElementById('tguide'),gmode=document.getElementById('gmode');
+new MutationObserver(function(){var h=stage.querySelector(':scope > .hl2');if(h){tinst.textContent=h.textContent;h.remove();}}).observe(stage,{childList:true});
+gmode.addEventListener('change',function(){tguide.innerHTML=(gmode.checked&&tit&&tit.guide)?'<div class="hl2">À retenir (mode guidé)</div>'+tit.guide:'';});
 function clearIv(){if(stage._iv){clearInterval(stage._iv);stage._iv=null;}}
 function startMod(k){
   clearIv();tcur=k;ti=0;tscore=0;ttimes=[];
@@ -1297,7 +1317,7 @@ function startMod(k){
 function nextItem(){
   var M=MODS[tcur];
   if(ti>=M.n){return finishMod();}
-  tit=M.gen();tlock=true;tt0=Date.now();tfb.textContent='';topts.innerHTML='';
+  tit=M.gen();tlock=true;tt0=Date.now();topts.className='opts'+(tcur==='spa'?' g3':'');tinst.textContent=(tcur==='rea')?'Écran unique · lis les deux phrases, puis réponds à la question.':'';tguide.innerHTML=(gmode.checked&&tit.guide)?'<div class="hl2">À retenir (mode guidé)</div>'+tit.guide:'';tfb.textContent='';topts.innerHTML='';
   document.getElementById('hmod').textContent=M.name;
   document.getElementById('hprog').textContent='Item '+(ti+1)+' / '+M.n+' · score '+tscore;
   tit.show(stage,function(){
