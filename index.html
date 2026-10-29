@@ -175,6 +175,9 @@ details[open] summary{margin-bottom:10px}
 .tguide:empty{display:none}
 .gt{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted);cursor:pointer}.gt input{width:20px;height:20px;flex:none;accent-color:var(--accent)}
 @media (max-width:760px){.trn{grid-template-columns:1fr}.tleft{position:static}.stage{min-height:260px}.mem{font-size:34px}.expr{font-size:28px}}
+.day.tdy{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+details.past>summary{cursor:pointer;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:8px;font-weight:600;min-height:44px;margin-bottom:12px}
+details.past[open]{display:grid;gap:12px}details.past[open]>summary{margin-bottom:0}
 .stage:empty{display:none}
 .opts.g3{grid-template-columns:repeat(3,1fr)}
 .stage{min-height:360px;display:grid;place-items:center;align-content:center;text-align:center;gap:8px;background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:12px}
@@ -863,6 +866,18 @@ PLAN.forEach(function(D){
   html+='<article class="day" id="d-'+D.d+'"><div class="dh"><h3>'+DN[d.getDay()]+' '+d.getDate()+' '+MN[d.getMonth()]+'</h3><span class="j">'+(n>0?'J-'+n:'Jour 1')+'</span>'+(D.badge?'<span class="badge">'+esc(D.badge)+'</span>':'')+'<span class="tot">'+(tot?hm(tot):'')+'</span></div>'+rows+'</article>';
 });
 daysEl.innerHTML=html;
+(function(){
+  var past=[];
+  PLAN.forEach(function(D){if(dd(pd(D.d),today)<0){var e=document.getElementById('d-'+D.d);if(e)past.push(e);}});
+  if(past.length){
+    var det=document.createElement('details');det.className='past';det.id='past';
+    var sm=document.createElement('summary');sm.id='pastsum';det.appendChild(sm);
+    daysEl.insertBefore(det,daysEl.firstChild);
+    past.forEach(function(e){det.appendChild(e);});
+  }
+  var te=document.getElementById('d-'+iso(today));
+  if(te){te.classList.add('tdy');var h=te.querySelector('.dh');if(h){var b=document.createElement('span');b.className='badge';b.textContent="Aujourd'hui";h.appendChild(b);}}
+})();
 
 /* calendar */
 var cal=document.getElementById('cal'), ch='';
@@ -882,7 +897,7 @@ cal.innerHTML=ch;
 cal.addEventListener('click',function(e){
   var b=e.target.closest('[data-go]');if(!b)return;
   var el=document.getElementById('d-'+b.getAttribute('data-go'));if(!el)return;
-  el.scrollIntoView({behavior:'smooth',block:'start'});el.classList.add('hl');setTimeout(function(){el.classList.remove('hl');},1600);
+  var dt=el.closest('details');if(dt)dt.open=true;el.scrollIntoView({behavior:'smooth',block:'start'});el.classList.add('hl');setTimeout(function(){el.classList.remove('hl');},1600);
 });
 
 /* progress */
@@ -893,6 +908,9 @@ function refresh(){
     D.tasks.forEach(function(t,i){total++;if(state[D.d+'#'+i])done++;else all=false;});
     var c=document.getElementById('cell-'+D.d);if(c&&D.d!=='2026-11-06')c.classList.toggle('done',all);
   });
+  var pt=0,pdn=0,ps=document.getElementById('pastsum');
+  PLAN.forEach(function(D){if(dd(pd(D.d),today)<0){D.tasks.forEach(function(t,i){pt++;if(state[D.d+'#'+i])pdn++;});}});
+  if(ps)ps.textContent='Jours passés · '+pdn+' / '+pt+' tâches faites'+(pt>pdn?' · '+(pt-pdn)+' à rattraper':'');
   document.getElementById('fill').style.width=(total?100*done/total:0)+'%';
   document.getElementById('progtxt').textContent=done+' / '+total+' tâches';
 }
