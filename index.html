@@ -223,6 +223,38 @@ details.ep[open]>summary,details.past[open]>summary{margin-bottom:0}
 .tqitem:first-child{border-top:0}
 .tqitem b{display:block;margin-bottom:4px}
 .srcl{font-size:.85rem;color:var(--muted)}
+.cfl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.car{margin:8px 0}
+.ctrack{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px}
+.ctrack::-webkit-scrollbar{display:none}
+.cs{flex:0 0 100%;scroll-snap-align:center;min-height:min(80vh,600px);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 20px 14px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
+.ctag{align-self:flex-start;font-family:var(--f-display);text-transform:uppercase;letter-spacing:.06em;font-weight:700;font-size:14px;background:var(--ink);color:var(--bg);padding:4px 10px;border-radius:4px}
+.cs.cov .ctag{background:var(--accent);color:var(--accent-ink)}
+.ch{font-family:var(--f-display);text-transform:uppercase;font-weight:800;line-height:.98;font-size:clamp(34px,10vw,56px);margin:2px 0 0}
+.ch span{display:block;color:var(--accent)}
+.cs.cov .ch{font-size:clamp(44px,14vw,76px)}
+.cb{font-size:16px;line-height:1.45}
+.ci{display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start;padding:10px 0;border-top:1px solid var(--line)}
+.ci:first-of-type{border-top:0}
+.ci i{font-style:normal;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:700;font-family:var(--f-display);font-size:18px}
+.ci b{display:block;font-family:var(--f-display);text-transform:uppercase;font-size:20px;line-height:1.1}
+.ci p{margin:3px 0 0;font-size:15px;line-height:1.4;color:var(--muted)}
+.cn{display:grid;gap:4px;padding:10px 0;border-top:1px solid var(--line)}
+.cn:first-of-type{border-top:0}
+.cn b{font-family:var(--f-display);font-weight:800;font-size:clamp(32px,9vw,46px);line-height:1;color:var(--accent)}
+.cn p{margin:0;font-size:15px;line-height:1.4}
+.cc{display:grid;gap:6px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--soft)}
+.cc s{opacity:.7;font-size:14px;line-height:1.35}
+.cc div{font-weight:600;font-size:15px;line-height:1.35}
+.cc div:before{content:"✓ ";color:var(--ok)}
+.cq{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--soft)}
+.cq summary{font-weight:600;cursor:pointer;line-height:1.35}
+.cq p{margin:8px 0 0;font-size:15px;line-height:1.4}
+.cf{margin-top:auto;padding-top:8px}
+.cf .bar{height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.cf .bar i{display:block;height:100%;background:var(--accent)}
+.cf .ft{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:12px;color:var(--muted);margin-top:6px}
+.cnav{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:8px}
 .btn.ok{background:var(--ok);color:#fff}.btn.rv{background:var(--warn);color:#fff}
 </style>
 </head>
@@ -240,6 +272,7 @@ details.ep[open]>summary,details.past[open]>summary{margin-bottom:0}
 <nav class="tabs" role="tablist" aria-label="Sections">
   <a href="#planning" role="tab" data-tab="planning">Planning</a>
   <a href="#technique" role="tab" data-tab="technique">Technique</a>
+  <a href="#cours" role="tab" data-tab="cours">Cours</a>
   <a href="#pannes" role="tab" data-tab="pannes">Pannes</a>
   <a href="#entretien" role="tab" data-tab="entretien">Entretien</a>
   <a href="#resume" role="tab" data-tab="resume">Résumé</a>
@@ -521,6 +554,16 @@ details.ep[open]>summary,details.past[open]>summary{margin-bottom:0}
   <div class="sec"><h2>Par appareil</h2><div id="pnac"></div></div>
   <div class="sec"><h2>Par système (connaissances générales)</h2><div class="tw"><table><thead><tr><th>Système</th><th>Pannes classiques</th></tr></thead><tbody id="pngen"></tbody></table></div></div>
   <div class="card"><h3>Comment en parler à l'entretien</h3><ul class="l" id="pnsay"></ul></div>
+</section>
+<section id="cours" class="panel" data-panel="cours" hidden>
+  <div class="card">
+    <h3>Fiches pour comprendre</h3>
+    <p style="margin:0">Une fiche par grand thème, en diapos : fais glisser ou utilise les flèches. Chaque fiche va de l'idée aux chiffres, puis à l'avion et aux pièges, avec 3 questions pour vérifier.</p>
+  </div>
+  <div class="cfl" id="cfl"></div>
+  <div class="car"><div class="ctrack" id="ctrack"></div>
+    <div class="cnav"><button class="btn alt" id="cprev" type="button" aria-label="Diapo précédente">←</button><button class="btn alt" id="cnext" type="button" aria-label="Diapo suivante">→</button></div>
+  </div>
 </section>
 
 <section id="entretien" class="panel" data-panel="entretien" hidden>
@@ -830,7 +873,7 @@ refresh();
 })();
 
 /* tabs */
-var names=['planning','technique','pannes','entretien','resume','fiches','liens'];
+var names=['planning','technique','cours','pannes','entretien','resume','fiches','liens'];
 function show(){
   var h=(location.hash||'').replace('#','');if(names.indexOf(h)<0)h='planning';
   names.forEach(function(n){
@@ -1014,6 +1057,37 @@ g('pnnote').innerHTML='<h3>À lire d\'abord</h3><p style="margin:0">'+esc(PN.not
   g('pngen').innerHTML=r;
   g('pnsay').innerHTML=PN.say.map(function(x){return '<li>'+esc(x)+'</li>';}).join('');
 })();
+})();
+</script>
+
+<script type="application/json" id="co-data">[{"id": "portance", "t": "Portance et Bernoulli", "slides": [{"k": "cover", "tag": "Fiche d'étude", "t": ["PORTANCE", "POURQUOI UN AVION VOLE"], "sub": "7 diapos : l'idée, le schéma, les formules chiffrées, le décrochage, l'avion réel, les pièges. Fais glisser."}, {"k": "text", "tag": "L'idée", "t": ["UNE AILE", "DÉVIE L'AIR"], "items": [{"h": "Vu par les forces", "p": "L'aile pousse l'air vers le bas. Par réaction (3e loi de Newton), l'air pousse l'aile vers le haut."}, {"h": "Vu par les pressions", "p": "La pression est plus basse sur l'extrados, plus haute sur l'intrados. La différence, sur toute la surface, donne la portance."}, {"h": "Même phénomène, deux langages", "p": "Les deux descriptions sont équivalentes. L'écoulement dévié vers le bas EST le champ de pression."}]}, {"k": "svg", "tag": "Le schéma", "t": ["L'AILE", "DANS LE VENT"], "svg": "<svg viewBox=\"0 0 320 190\" role=\"img\" aria-label=\"Profil d'aile avec filets d'air, portance et traînée\" style=\"width:100%;height:auto;color:var(--ink)\">\n<defs><marker id=\"ah\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" fill=\"currentColor\"/><\/marker>\n<marker id=\"ahr\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" fill=\"var(--accent)\"/><\/marker><\/defs>\n<g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" opacity=\".55\">\n<path d=\"M0,52 C85,52 112,40 160,44 S262,72 320,88\"/>\n<path d=\"M0,70 C85,70 108,60 160,64 S262,86 320,98\"/>\n<path d=\"M0,88 C80,88 104,80 150,82 S262,100 320,108\"/>\n<path d=\"M0,122 C85,122 115,134 160,138 S262,138 320,140\"/>\n<path d=\"M0,140 C85,140 118,152 160,156 S262,154 320,156\"/>\n<\/g>\n<g transform=\"rotate(8 160 100)\"><path d=\"M100,100 C108,84 160,78 222,100 C160,106 112,114 100,100 Z\" fill=\"var(--surface)\" stroke=\"currentColor\" stroke-width=\"2\"/><\/g>\n<line x1=\"160\" y1=\"98\" x2=\"160\" y2=\"22\" stroke=\"var(--accent)\" stroke-width=\"3.5\" marker-end=\"url(#ahr)\"/>\n<line x1=\"165\" y1=\"104\" x2=\"236\" y2=\"104\" stroke=\"currentColor\" stroke-width=\"2.5\" marker-end=\"url(#ah)\"/>\n<line x1=\"8\" y1=\"170\" x2=\"60\" y2=\"170\" stroke=\"currentColor\" stroke-width=\"2\" marker-end=\"url(#ah)\"/>\n<g font-family=\"var(--f-body)\" font-size=\"12\" fill=\"currentColor\"><text x=\"168\" y=\"30\" fill=\"var(--accent)\" font-weight=\"700\">L portance<\/text><text x=\"242\" y=\"108\">D traînée<\/text><text x=\"66\" y=\"174\">V (vent relatif)<\/text><text x=\"88\" y=\"38\" opacity=\".8\">dépression<\/text><text x=\"196\" y=\"176\" opacity=\".8\">surpression<\/text><text x=\"72\" y=\"118\">α<\/text><\/g>\n<\/svg>", "cap": "α : angle d'attaque, entre la corde du profil et le vent relatif. La portance L est perpendiculaire à V, la traînée D est parallèle. Les filets d'air sont déviés vers le bas derrière l'aile : c'est la déviation."}, {"k": "num", "tag": "Les formules", "t": ["DES CHIFFRES,", "PAS DES MOTS"], "rows": [{"big": "½ρV²", "txt": "Pression dynamique q. À 100 m/s au niveau de la mer (ρ = 1,225) : q = 6 125 Pa, soit environ 61 hPa."}, {"big": "L = q·S·CL", "txt": "Exemple : S = 28 m² (ordre de grandeur d'un chasseur léger), CL = 0,5, V = 100 m/s. L = 6 125 × 28 × 0,5 ≈ 85 750 N, soit environ 8,7 tonnes-force."}, {"big": "V × 2", "txt": "Vitesse doublée : portance × 4, car L est proportionnelle à V². Densité divisée par 2 en altitude : il faut V × √2 pour la même portance."}], "note": "Bernoulli : p + ½ρV² = constante le long d'une ligne de courant, pour un fluide incompressible, sans frottement. Il sert au tube de Pitot et au Venturi."}, {"k": "num", "tag": "Le décrochage", "t": ["PAS SEULEMENT", "UNE VITESSE"], "rows": [{"big": "≈ 15°", "txt": "Ordre de grandeur de l'angle d'attaque critique des profils classiques. Au-delà, la couche limite se décolle de l'extrados : la portance chute, la traînée explose."}, {"big": "Vs ∝ √n", "txt": "La vitesse de décrochage augmente avec la charge. En virage en palier à 60° d'inclinaison, le facteur de charge vaut n = 2 : Vs est multipliée par √2, soit environ 1,41."}, {"big": "CL max", "txt": "Volets et becs augmentent CL max : on décroche plus lentement, utile à l'atterrissage."}], "note": "Le décrochage dépend de l'angle d'attaque, jamais de la seule vitesse."}, {"k": "cmp", "tag": "Sur l'avion, et les pièges", "t": ["CE QUI COMPTE", "À LA MAINTENANCE"], "rows": [{"no": "« L'air du dessus va plus vite parce que son chemin est plus long, et il rejoint celui du dessous. »", "yes": "Faux : l'air du dessus arrive avant celui du dessous. Retiens la déviation de l'écoulement et le champ de pression."}, {"no": "« Moins de vitesse, donc décrochage. »", "yes": "Pas seulement : angle d'attaque, charge et état de surface comptent."}, {"no": "Givre, saleté ou dommage au bord d'attaque : sans importance.", "yes": "Ils dégradent le profil et abaissent CL max : décrochage plus tôt."}, {"no": "Pitot ou sonde d'incidence bouchés : simple lecture fausse.", "yes": "Vitesse ou incidence faussées : risque de décrochage non détecté. D'où le réchauffage, le contrôle avant vol et la redondance."}]}, {"k": "quiz", "tag": "Vérifie-toi", "t": ["TU AS", "COMPRIS ?"], "qs": [{"q": "Pourquoi l'explication « chemin plus long, mêmes temps de parcours » est-elle fausse ?", "a": "Rien n'oblige les deux filets à se retrouver au bord de fuite, et l'air du dessus y arrive avant. La portance vient de la déviation de l'écoulement vers le bas, équivalente au champ de pression."}, {"q": "La vitesse double : que devient la portance, à CL constant ?", "a": "Elle est multipliée par 4, car L = ½ρV²·S·CL."}, {"q": "Virage en palier à 60° d'inclinaison : que devient la vitesse de décrochage ?", "a": "Elle est multipliée par √2, environ 1,41, car n = 1 / cos 60° = 2."}]}]}]</script>
+<script>
+(function(){
+'use strict';
+function g(id){return document.getElementById(id);}
+function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+var CO=JSON.parse(g('co-data').textContent), cur=0, track=g('ctrack');
+function p2(n){return (n<10?'0':'')+n;}
+function ttl(t){return '<h3 class="ch">'+esc(t[0])+(t[1]?'<span>'+esc(t[1])+'</span>':'')+'</h3>';}
+function slide(s,i,n,name){
+  var h='<article class="cs'+(s.k==='cover'?' cov':'')+'"><span class="ctag">'+esc(s.tag)+'</span>'+ttl(s.t);
+  if(s.k==='cover'){h+='<p class="cb">'+esc(s.sub)+'</p>';}
+  else if(s.k==='text'){s.items.forEach(function(it,j){h+='<div class="ci"><i>'+(j+1)+'</i><div><b>'+esc(it.h)+'</b><p>'+esc(it.p)+'</p></div></div>';});}
+  else if(s.k==='svg'){h+=s.svg+'<p class="cb">'+esc(s.cap)+'</p>';}
+  else if(s.k==='num'){s.rows.forEach(function(r){h+='<div class="cn"><b>'+esc(r.big)+'</b><p>'+esc(r.txt)+'</p></div>';});if(s.note)h+='<p class="cb" style="color:var(--muted)">'+esc(s.note)+'</p>';}
+  else if(s.k==='cmp'){s.rows.forEach(function(r){h+='<div class="cc"><s>'+esc(r.no)+'</s><div>'+esc(r.yes)+'</div></div>';});}
+  else if(s.k==='quiz'){s.qs.forEach(function(q){h+='<details class="cq"><summary>'+esc(q.q)+'</summary><p>'+esc(q.a)+'</p></details>';});}
+  h+='<div class="cf"><div class="bar"><i style="width:'+(100*(i+1)/n)+'%"></i></div><div class="ft"><span>'+esc(name)+'</span><span>'+p2(i+1)+' / '+p2(n)+'</span></div></div></article>';
+  return h;
+}
+function fl(){var b='';CO.forEach(function(c,i){b+='<button type="button" class="btn '+(i===cur?'sel':'alt')+'" data-c="'+i+'">'+esc(c.t)+'</button>';});g('cfl').innerHTML=b;}
+function show(i){cur=i;var c=CO[i],n=c.slides.length;track.innerHTML=c.slides.map(function(s,j){return slide(s,j,n,c.t);}).join('');track.scrollLeft=0;fl();}
+g('cfl').addEventListener('click',function(e){var b=e.target.closest('[data-c]');if(!b)return;show(+b.getAttribute('data-c'));});
+function go(d){var w=track.clientWidth+12;track.scrollBy({left:d*w,behavior:'smooth'});}
+g('cprev').addEventListener('click',function(){go(-1);});
+g('cnext').addEventListener('click',function(){go(1);});
+document.addEventListener('keydown',function(e){if(location.hash!=='#cours')return;if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1);});
+show(0);
 })();
 </script>
 </body>
