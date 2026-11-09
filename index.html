@@ -225,7 +225,9 @@ details.ep[open]>summary,details.past[open]>summary{margin-bottom:0}
 .tqitem b{display:block;margin-bottom:4px}
 .srcl{font-size:.85rem;color:var(--muted)}
 .cfl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
-.car{margin:8px 0}
+.car{margin:8px auto;max-width:540px}
+.cim{flex:0 0 100%;scroll-snap-align:center;width:100%;aspect-ratio:4/5;object-fit:contain;border-radius:14px;background:#e4e1dc;display:block}
+.ccnt{font-variant-numeric:tabular-nums;font-size:14px;color:var(--muted);min-width:56px;text-align:center}
 .ctrack{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px}
 .ctrack::-webkit-scrollbar{display:none}
 .cs{flex:0 0 100%;scroll-snap-align:center;min-height:min(80vh,600px);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 20px 14px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
@@ -559,11 +561,11 @@ details.ep[open]>summary,details.past[open]>summary{margin-bottom:0}
 <section id="cours" class="panel" data-panel="cours" hidden>
   <div class="card">
     <h3>Fiches pour comprendre</h3>
-    <p style="margin:0">Une fiche par grand thème, en diapos : fais glisser ou utilise les flèches. Chaque fiche va de l'idée aux chiffres, puis à l'avion et aux pièges, avec 3 questions pour vérifier.</p>
+    <p style="margin:0">Une affiche par page, comme un post : fais glisser ou utilise les flèches. Chaque fiche va de l'idée aux chiffres, puis à l'avion et aux pièges, avec 3 questions pour vérifier. Les images se téléchargent plus bas.</p>
   </div>
   <div class="cfl" id="cfl"></div>
   <div class="car"><div class="ctrack" id="ctrack"></div>
-    <div class="cnav"><button class="btn alt" id="cprev" type="button" aria-label="Diapo précédente">←</button><button class="btn alt" id="cnext" type="button" aria-label="Diapo suivante">→</button></div>
+    <div class="cnav"><button class="btn alt" id="cprev" type="button" aria-label="Diapo précédente">←</button><span class="ccnt" id="ccnt"></span><button class="btn alt" id="cnext" type="button" aria-label="Diapo suivante">→</button></div>
   </div>
   <div class="card" id="cdl"></div>
 </section>
@@ -1083,7 +1085,9 @@ function slide(s,i,n,name){
   return h;
 }
 function fl(){var b='';CO.forEach(function(c,i){b+='<button type="button" class="btn '+(i===cur?'sel':'alt')+'" data-c="'+i+'">'+esc(c.t)+'</button>';});g('cfl').innerHTML=b;}
-function show(i){cur=i;var c=CO[i],n=c.slides.length;track.innerHTML=c.slides.map(function(s,j){return slide(s,j,n,c.t);}).join('');track.scrollLeft=0;fl();dl(c,n);}
+function cnt(){var n=track.children.length,w=track.clientWidth+12,k=Math.min(n,Math.max(1,Math.round(track.scrollLeft/w)+1));g('ccnt').textContent=p2(k)+' / '+p2(n);}
+function show(i){cur=i;var c=CO[i],n=c.slides.length,h='';for(var j=1;j<=n;j++){h+='<img class="cim" loading="'+(j<3?'eager':'lazy')+'" src="fiches/'+c.id+'_'+p2(j)+'.png" alt="'+esc(c.t)+', affiche '+j+' sur '+n+'">';}track.innerHTML=h;track.scrollLeft=0;fl();dl(c,n);cnt();}
+track.addEventListener('scroll',cnt,{passive:true});
 function dl(c,n){var h='<h3>Télécharger cette fiche</h3><p style="margin:0 0 10px">Images verticales 1080×1350 (pour le téléphone) ou PDF complet.</p><div class="cfl"><a class="btn sel" href="fiches/'+c.id+'_fiche.pdf" download>PDF complet</a>';for(var i=1;i<=n;i++){h+='<a class="btn alt" href="fiches/'+c.id+'_'+p2(i)+'.png" download>Image '+i+'</a>';}g('cdl').innerHTML=h+'</div>';}
 g('cfl').addEventListener('click',function(e){var b=e.target.closest('[data-c]');if(!b)return;show(+b.getAttribute('data-c'));});
 function go(d){var w=track.clientWidth+12;track.scrollBy({left:d*w,behavior:'smooth'});}
