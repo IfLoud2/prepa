@@ -259,6 +259,10 @@ details.ep[open]>summary,details.past[open]>summary{margin-bottom:0}
 .cf .ft{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:12px;color:var(--muted);margin-top:6px}
 .cnav{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:8px}
 .btn.ok{background:var(--ok);color:#fff}.btn.rv{background:var(--warn);color:#fff}
+
+.fcf{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}.fcf button{font:inherit;font-size:14px;min-height:40px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);cursor:pointer}.fcf button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.fc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 18px;min-height:220px;display:flex;flex-direction:column;justify-content:center;gap:10px;cursor:pointer}.fct{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}.fcq{font-family:var(--f-display);font-size:28px;line-height:1.1;font-weight:700}.fca{font-size:18px;line-height:1.45;border-top:1px solid var(--line);padding-top:12px}
+.fcb{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 0}.fcb .btn{min-height:48px;flex:1 1 140px}
 </style>
 </head>
 <body>
@@ -273,6 +277,7 @@ details.ep[open]>summary,details.past[open]>summary{margin-bottom:0}
 <nav class="tabs" role="tablist" aria-label="Sections">
   <a href="#demain" role="tab" data-tab="demain">Demain</a>
   <a href="#defense" role="tab" data-tab="defense">Défense</a>
+  <a href="#cartes" role="tab" data-tab="cartes">Cartes</a>
   <a href="#moi" role="tab" data-tab="moi">Moi</a>
 </nav>
 
@@ -307,7 +312,7 @@ details.ep[open]>summary,details.past[open]>summary{margin-bottom:0}
       <li><b>5 forces</b> : Terre, Air, Marine, Médicale, Cyber.</li>
       <li>Ministre : <b>Theo Francken</b>. Chef de la Défense : <b>général Frederik Vansina</b> (aviateur).</li>
       <li>Force Aérienne : Florennes, Kleine-Brogel, Melsbroek, Beauvechain, Koksijde. F-35 : <b>16 livrés, 8 en Belgique</b>.</li>
-      <li>Tu entres <b>sous-lieutenant</b>. Femmes : environ <b>11 %</b> des militaires.</li>
+      <li>Tu entres <b>officier</b> (grade : sous-lieutenant). Femmes : environ <b>11 %</b> des militaires.</li>
       <li><b>6 valeurs</b> : loyauté, intégrité, flexibilité, courage, collaboration, respect de tous.</li>
       <li>Autour d'un pilote 30 métiers, autour d'un avion 70 métiers.</li>
     </ul></div>
@@ -486,6 +491,16 @@ details.ep[open]>summary,details.past[open]>summary{margin-bottom:0}
     <p class="muted">Sources : mil.be (brochures Air 2026, salaires 2026, formation), loi du 28/02/2007, VRT, La Libre, Brussels Times, DH, Belga, ONU, OTAN. Vérifié le 22/11/2026.</p>
   </div>
 </section>
+<section id="cartes" class="panel" data-panel="cartes" hidden>
+  <div class="sec">
+    <h2>Cartes</h2>
+    <p class="muted" id="fcinfo"></p>
+    <div class="fcf" id="fcf"></div>
+    <div class="fc" id="fc" role="button" tabindex="0" aria-live="polite"><div class="fct" id="fct"></div><div class="fcq" id="fcq"></div><div class="fca" id="fca" hidden></div></div>
+    <div class="fcb"><button class="btn" id="fcshow" type="button">Voir la réponse</button><button class="btn alt" id="fcno" type="button" hidden>À revoir</button><button class="btn" id="fcyes" type="button" hidden>Je savais</button></div>
+    <div class="fcb"><button class="btn alt" id="fcreset" type="button">Tout remettre à zéro</button></div>
+  </div>
+</section>
 <section id="moi" class="panel" data-panel="moi" hidden>
   <div class="card">
     <h3>Deux entretiens possibles, deux préparations</h3>
@@ -588,7 +603,7 @@ details.ep[open]>summary,details.past[open]>summary{margin-bottom:0}
 
 
 
-<script>var names=['demain','defense','moi'];
+<script>var names=['demain','defense','cartes','moi'];
 function show(){
   var h=(location.hash||'').replace('#','');if(names.indexOf(h)<0)h='demain';
   names.forEach(function(n){
@@ -598,6 +613,31 @@ function show(){
 }
 window.addEventListener('hashchange',function(){show();window.scrollTo(0,0);});
 show();
+
+(function(){
+var D=[["Pouvoir", "Quelles sont les 5 forces de la Défense belge ?", "Terre, Air, Marine, Médicale, Cyber (Belgian Cyber Force depuis juillet 2025)."], ["Pouvoir", "Qui est le ministre de la Défense ?", "Theo Francken (N-VA), depuis le gouvernement De Wever du 3 février 2025."], ["Pouvoir", "Qui est le chef de la Défense (CHOD) ?", "Général aviateur Frederik Vansina, depuis le 4 juillet 2024 (a remplacé l'amiral Michel Hofman)."], ["Pouvoir", "Quel est le rôle du Roi sur l'armée ?", "Commandant en titre (art. 167), il confère les grades (art. 107). Ses actes sont contresignés par un ministre : commandement formel, pas opérationnel."], ["Pouvoir", "Qui détient le pouvoir politique sur l'armée ?", "Le gouvernement, donc le ministre de la Défense. Le chef de la Défense exerce le commandement militaire."], ["Pouvoir", "Où se trouve le SHAPE et qui le dirige ?", "À Mons. Dirigé par le SACEUR, le général américain Alexus Grynkewich (depuis juillet 2025)."], ["Pouvoir", "Où est le siège politique de l'OTAN ?", "À Bruxelles."], ["Pouvoir", "Qui commande le Service médical ?", "La générale An Van Rompay, depuis le 30 juin 2026."], ["Pouvoir", "Vice-chef de la Défense : que dire ?", "Probablement le lieutenant-général Michel Van Strythem, non confirmé. Nuance."], ["Grades", "Ton grade d'entrée ?", "Sous-lieutenant : tu entres officier."], ["Grades", "Grades d'officiers subalternes ?", "Sous-lieutenant, lieutenant, capitaine, capitaine-commandant."], ["Grades", "Grades d'officiers supérieurs ?", "Major, lieutenant-colonel, colonel."], ["Grades", "Grades de généraux ?", "Général-major, lieutenant général, puis général (chef de la Défense)."], ["Grades", "Les 3 catégories de personnel militaire ?", "Officiers, sous-officiers, volontaires."], ["Grades", "Grades de sous-officiers (du plus bas au plus haut) ?", "Sergent, premier sergent, premier sergent-chef, premier sergent-major, adjudant, adjudant-chef, adjudant-major."], ["Grades", "Grades de volontaires ?", "Soldat, premier soldat, caporal, caporal-chef, premier caporal-chef."], ["Grades", "Ancienneté minimale pour major ?", "Au moins 11 ans d'ancienneté d'officier (loi du 28/02/2007)."], ["Grades", "Délai minimal pour lieutenant-colonel, colonel, général ?", "Au moins 2 ans dans le grade immédiatement inférieur."], ["Grades", "Congés et âge maximum pour un officier master ?", "45 jours de congé. Âge maximum 33 ans pour un master."], ["Air", "Les 5 bases principales de la Force Aérienne ?", "Florennes, Kleine-Brogel, Melsbroek, Beauvechain, Koksijde."], ["Air", "Que trouve-t-on à Florennes ?", "2e Wing tactique : F-35A, F-16, drones MQ-9B."], ["Air", "Que trouve-t-on à Kleine-Brogel ?", "10e Wing tactique : F-16, F-35A prévus en 2027. Armes nucléaires de l'OTAN sous contrôle américain."], ["Air", "Que trouve-t-on à Melsbroek ?", "15e Wing de transport : A400M (unité binationale avec le Luxembourg), Falcon 7X."], ["Air", "Que trouve-t-on à Beauvechain ?", "1er Wing : hélicoptères H145M, école de pilotage de base (SF-260), CRC, Meteo Wing, 51e escadrille (sol-air)."], ["Air", "Que trouve-t-on à Koksijde ?", "40e escadrille : NH90 NFH, sauvetage en mer (100 à 150 sauvetages par an)."], ["Air", "Où est le commandement de la Force Aérienne ?", "À Evere (Bruxelles)."], ["Air", "Combien de F-35 ?", "16 livrés au 27/10/2026 (8 en Belgique, 8 à Luke AFB pour la formation). 34 commandés, 11 de plus prévus : 45 visés."], ["Air", "Quand les F-35 sont-ils arrivés ?", "Les 3 premiers le 13/10/2025 à Florennes. Le 8e en Belgique le 26/10/2026. Kleine-Brogel en 2027."], ["Air", "Que devient le F-16 ?", "Environ 50 encore en service. Transfert vers l'Ukraine prévu jusqu'en 2029 (53 appareils)."], ["Air", "Combien d'A400M ?", "8 : 7 belges et 1 luxembourgeois. Basés à Melsbroek."], ["Air", "MQ-9B : combien et où ?", "3 reçus, 6 commandés. Basés à Florennes. Drone de renseignement (ISR)."], ["Air", "H145M : quoi et où ?", "15 commandés, premier livré à Beauvechain le 11/06/2026. Remplace l'A109."], ["Air", "Hélicoptère de sauvetage en mer ?", "NH90 NFH à Koksijde. Les NH90 TTH sont retirés depuis septembre 2025."], ["Air", "Avion d'entraînement actuel et futur ?", "SF-260 (Marchetti) aujourd'hui, remplacé par le Pilatus PC-7 MKX vers 2028 (18 prévus)."], ["Air", "Qu'est-ce que la QRA ?", "Quick Reaction Alert : alerte permanente 24h/24 de chasseurs pour intercepter un aéronef suspect. Le CRC de Beauvechain la dirige."], ["Air", "Missions de la Force Aérienne ?", "QRA, transport stratégique, ravitaillement, sauvetage, évacuations, surveillance par drones."], ["Air", "Effectifs de la Force Aérienne ?", "Environ 5 700 personnes en 2026, 10 200 prévues en 2035."], ["Air", "Combien de métiers autour d'un pilote, d'un avion ?", "30 autour d'un pilote, 70 autour d'un avion (la brochure parle de plus de 80 fonctions)."], ["Air", "Qu'est-ce que Blue Dome ?", "Bouclier sol-air présenté le 9/11/2026 : 10 batteries NASAMS, 20 Skyranger, 14 radars, environ 3,1 milliards d'euros. Livraisons à partir de fin 2027."], ["Air", "Que fait ton poste ?", "Maintenance, fiabilité et performance des aéronefs (F-35, A400M, hélicoptères), encadrement d'une équipe de techniciens, déploiements comme officier en charge."], ["Chiffres", "Part de femmes parmi les militaires ?", "Environ 11 % (2024). 10,8 % en 2022, 7,9 % cinq ans plus tôt. Civils : 46 %."], ["Chiffres", "Part de femmes dans la Force Aérienne ?", "Environ 10 % (2022, dernier chiffre trouvé). Dis « environ 10 à 11 % »."], ["Chiffres", "Part de femmes dans le recrutement 2025 ?", "Environ 14 %. Recrutement d'officières en hausse d'environ 58 % entre 2021 et 2025."], ["Chiffres", "Effectif actuel de la Défense ?", "28 485 personnes en 2024 : 26 105 militaires et 2 380 civils."], ["Chiffres", "Objectif d'effectifs 2035 ?", "34 500 militaires, 12 800 réservistes, 8 500 civils."], ["Chiffres", "Budget de la Défense ?", "Environ 2 % du PIB en 2025 et 2026, maintenu jusqu'en 2029. Objectif OTAN : 3,5 % en 2035 (5 % avec la résilience)."], ["Chiffres", "Service militaire volontaire ?", "500 places en 2026, toutes pourvues (80 femmes). Jeunes de 18 à 25 ans, environ 2 000 € nets par mois."], ["Plan", "Que signifie STAR ?", "Security & Service, Technology, Ambition, Resilience. Approuvé le 17 juin 2022, plus de 10 milliards d'euros."], ["Plan", "Vision stratégique 2025 ?", "34 milliards d'euros d'investissements, 2 % du PIB jusqu'en 2033 puis 2,5 %."], ["Plan", "Les 6 valeurs de la Défense ?", "Loyauté, intégrité, flexibilité, courage, collaboration, respect de tous."], ["Missions", "Exemple OTAN pour l'Air ?", "F-16 à Šiauliai en Lituanie (6 appareils, environ 100 militaires, nov. 2026). Islande en 2025 : 4 F-16 à Keflavik."], ["Missions", "Exemples OTAN pour la Terre ?", "Roumanie : infanterie, génie, sous commandement français. Lituanie : reconnaissance et mortiers, sous commandement allemand."], ["Missions", "Exemple OTAN pour la Marine ?", "Chasseurs de mines en mer du Nord et Baltique, Baltic Sentry."], ["Missions", "Exemple UE ?", "Opération Aspides en mer Rouge : frégate belge, environ 180 marins, environ 2 mois."], ["Missions", "Où en est la Belgique à l'ONU ?", "Presque absente : 1 expert à l'UNTSO (Proche-Orient), 116e rang (nov. 2025). Pas de casques bleus belges au Liban."], ["Missions", "Passé belge à l'ONU ?", "Corée 1950. Rwanda : 10 casques bleus belges tués le 7 avril 1994."], ["Missions", "Exemples de missions nationales ?", "QRA, Vigilant Protector (sites nucléaires de Doel et Tihange), sauvetage en mer, cyber, soutien à la Nation."], ["Missions", "Soutien à l'Ukraine ?", "Formation, soutien et transfert de F-16."], ["Entretien", "Combien de qualités et de défauts préparer ?", "3 qualités et 3 défauts, chacun avec un exemple vécu. Un défaut vient avec sa correction."], ["Entretien", "Que faire si tu ne connais pas la réponse ?", "« Je ne connais pas le détail, je me renseigne. » Ne devine jamais un chiffre."], ["Entretien", "Que dire sur la guerre en Ukraine ?", "Reste factuel : flanc est de l'OTAN, 2 % du PIB, formation et F-16 pour l'Ukraine. Pas d'opinion politique."]],K='defcards-v1',all=D.map(function(c,i){return i;}),f='Toutes',known={},q=[],cur=-1,shown=false;
+try{known=JSON.parse(localStorage.getItem(K)||'{}')||{};}catch(e){known={};}
+function save(){try{localStorage.setItem(K,JSON.stringify(known));}catch(e){}}
+var cats=['Toutes'];D.forEach(function(c){if(cats.indexOf(c[0])<0)cats.push(c[0]);});
+var $=function(i){return document.getElementById(i);};
+function pool(){return all.filter(function(i){return (f==='Toutes'||D[i][0]===f)&&!known[i];});}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function filters(){var h='';cats.forEach(function(c){h+='<button type="button" aria-pressed="'+(c===f)+'" data-c="'+c+'">'+c+'</button>';});$('fcf').innerHTML=h;Array.prototype.forEach.call($('fcf').children,function(b){b.onclick=function(){f=b.getAttribute('data-c');q=[];next();filters();};});}
+function info(){var t=f==='Toutes'?all:all.filter(function(i){return D[i][0]===f;});var k=t.filter(function(i){return known[i];}).length;$('fcinfo').textContent=k+' / '+t.length+' cartes sues';}
+function next(){
+  if(!q.length)q=shuffle(pool());
+  shown=false;$('fca').hidden=true;$('fcshow').hidden=false;$('fcno').hidden=true;$('fcyes').hidden=true;
+  if(!q.length){cur=-1;$('fct').textContent='Terminé';$('fcq').textContent='Tout est su dans cette catégorie.';info();return;}
+  cur=q.shift();$('fct').textContent=D[cur][0];$('fcq').textContent=D[cur][1];$('fca').textContent=D[cur][2];info();
+}
+function reveal(){if(cur<0||shown)return;shown=true;$('fca').hidden=false;$('fcshow').hidden=true;$('fcno').hidden=false;$('fcyes').hidden=false;}
+$('fcshow').onclick=reveal;$('fc').onclick=reveal;
+$('fc').onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();reveal();}};
+$('fcyes').onclick=function(){if(cur>=0){known[cur]=1;save();}next();};
+$('fcno').onclick=function(){if(cur>=0){q.push(cur);}next();};
+$('fcreset').onclick=function(){known={};save();q=[];next();};
+filters();next();
+})();
 </script>
 
 
